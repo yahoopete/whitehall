@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 source 'https://gems.gemfury.com/vo6ZrmjBQu5szyywDszE/'
 
-gem 'rails', '3.1.7'
+gem 'rails', '3.2.8'
 gem 'mysql2'
 gem 'jquery-rails'
 gem 'transitions', require: ['transitions', 'active_record/transitions']
@@ -29,7 +29,7 @@ gem 'exception_notification', require: 'exception_notifier'
 gem 'rabl'
 gem "paper_trail"
 gem 'aws-ses', require: 'aws/ses'
-gem 'draper'
+gem 'draper', '0.17.0'
 gem 'newrelic_rpm'
 gem 'lograge'
 gem 'unicorn'
@@ -38,7 +38,7 @@ gem 'bootstrap-kaminari-views'
 
 group :assets do
   gem 'sass', '3.2.1'
-  gem 'sass-rails', '3.1.4'
+  gem 'sass-rails', '3.2.5'
   gem 'uglifier'
 end
 
@@ -58,7 +58,7 @@ group :test do
   gem 'launchy', '~> 2.0.5'
   gem 'hash_syntax'
   gem 'mocha', '0.10.0', require: false
-  gem 'test_track'
+  gem 'test_track', path: '../test_track'
   gem 'timecop'
   gem 'webmock', require: false
   gem 'capybara-webkit'
