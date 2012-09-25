@@ -42,6 +42,8 @@ class SpecialistGuide < Edition
 
   validates_with HeadingHierarchyValidator
 
+  validates :topics, length: {minimum: 1, too_short: "must be in at least one topic",}
+
   def related_specialist_guides
     (latest_outbound_related_specialist_guides + latest_inbound_related_specialist_guides).uniq
   end

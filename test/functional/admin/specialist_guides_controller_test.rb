@@ -93,4 +93,10 @@ class Admin::SpecialistGuidesControllerTest < ActionController::TestCase
       assert_select 'a', soul.title
     end
   end
+
+  private
+
+  def controller_attributes_for(edition_type, attributes = {})
+    super.merge(topic_ids: [create(:topic).id])
+  end
 end

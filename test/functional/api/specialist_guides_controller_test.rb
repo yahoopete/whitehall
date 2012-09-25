@@ -5,7 +5,7 @@ class Api::SpecialistGuidesControllerTest < ActionController::TestCase
   should_be_a_public_facing_controller
 
   test "show responds with JSON representation of found guide" do
-    specialist_guide = stub_edition(:specialist_guide)
+    specialist_guide = stub_edition(:specialist_guide, topics: [])
     SpecialistGuide.stubs(:published_as).with(specialist_guide.slug).returns(specialist_guide)
     presenter = Api::SpecialistGuidePresenter.decorate(specialist_guide)
     presenter.stubs(:as_json).returns(guide: :representation)
@@ -16,7 +16,7 @@ class Api::SpecialistGuidesControllerTest < ActionController::TestCase
   end
 
   test "show includes _response_info in response" do
-    specialist_guide = stub_edition(:specialist_guide)
+    specialist_guide = stub_edition(:specialist_guide, topics: [])
     SpecialistGuide.stubs(:published_as).with(specialist_guide.slug).returns(specialist_guide)
     presenter = Api::SpecialistGuidePresenter.decorate(specialist_guide)
     presenter.stubs(:as_json).returns(json: :representation)

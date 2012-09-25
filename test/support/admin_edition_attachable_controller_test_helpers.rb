@@ -199,7 +199,7 @@ module AdminEditionAttachableControllerTestHelpers
         greenpaper_pdf = fixture_file_upload('greenpaper.pdf', 'application/pdf')
         edition = create(edition_type, :with_alternative_format_provider)
 
-        put :update, id: edition, edition_base_class_name => edition.attributes.merge(
+        put :update, id: edition, edition_base_class_name => controller_attributes_for(edition_type, edition.attributes).merge(
           attachment_join_attributes => {
             "0" => { attachment_attributes: attributes_for(:attachment, title: "attachment-title", file: greenpaper_pdf) }
           }
@@ -219,7 +219,7 @@ module AdminEditionAttachableControllerTestHelpers
         csv_file = fixture_file_upload('sample-from-excel.csv', 'text/csv')
         edition = create(edition_type, :with_alternative_format_provider)
 
-        put :update, id: edition, edition_base_class_name => edition.attributes.merge(
+        put :update, id: edition, edition_base_class_name => controller_attributes_for(edition_type, edition.attributes).merge(
           attachment_join_attributes => {
             "0" => { attachment_attributes: attributes_for(:attachment, title: "attachment-1-title", file: greenpaper_pdf) },
             "1" => { attachment_attributes: attributes_for(:attachment, title: "attachment-2-title", file: csv_file) }
@@ -319,7 +319,7 @@ module AdminEditionAttachableControllerTestHelpers
         edition_attachment_1 = create("#{edition_base_class_name}_attachment", edition_base_class_name => edition, attachment: attachment_1)
         edition_attachment_2 = create("#{edition_base_class_name}_attachment", edition_base_class_name => edition, attachment: attachment_2)
 
-        put :update, id: edition, edition_base_class_name => edition.attributes.merge(
+        put :update, id: edition, edition_base_class_name => controller_attributes_for(edition_type, edition.attributes).merge(
           attachment_join_attributes => {
             "0" => { id: edition_attachment_1.id.to_s, _destroy: "1" },
             "1" => { id: edition_attachment_2.id.to_s, _destroy: "0" },

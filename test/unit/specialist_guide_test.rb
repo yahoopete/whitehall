@@ -94,4 +94,17 @@ class SpecialistGuideTest < EditionTestCase
     refute specialist_guide.valid?
     assert_equal ["must have a level-2 heading (h2 - ##) before level-3 heading (h3 - ###): 'Orphan'"], specialist_guide.errors[:body]
   end
+
+  test "should not be valid if not in any topics" do
+    specialist_guide = build(:specialist_guide)
+    specialist_guide.topics = []
+    refute specialist_guide.valid?
+    assert specialist_guide.errors[:topics].include?("must be in at least one topic")
+  end
+
+  test "should allow overriding of factory topics" do
+    topic = build(:topic)
+    specialist_guide = build(:specialist_guide, topics: [topic])
+    assert_equal [topic], specialist_guide.topics
+  end
 end

@@ -15,7 +15,8 @@ Given /^(\d+) published specialist guides for the organisation "([^"]*)"$/ do |c
 end
 
 When /^I draft a new specialist guide "([^"]*)"$/ do |title|
-  begin_drafting_document type: 'specialist_guide', title: title
+  topic = create(:topic)
+  begin_drafting_document type: 'specialist_guide', title: title, topic: topic
   click_button "Save"
 end
 
@@ -28,7 +29,8 @@ end
 
 When /^I draft a new specialist guide "([^"]*)" related to the specialist guide "([^"]*)"$/ do |title, related_title|
   related_guide = SpecialistGuide.find_by_title!(related_title)
-  begin_drafting_document type: 'specialist_guide', title: title
+  topic = create(:topic)
+  begin_drafting_document type: 'specialist_guide', title: title, topic: topic
   select related_title, from: "Related guides"
   click_button "Save"
 end

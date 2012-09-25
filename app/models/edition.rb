@@ -184,6 +184,7 @@ class Edition < ActiveRecord::Base
       if draft.valid? || !draft.errors.keys.include?(:base)
         if draft.save(validate: false)
           traits.each { |t| t.process_associations_after_save(draft) }
+          draft.reload
         end
       end
     end

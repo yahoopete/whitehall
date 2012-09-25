@@ -17,6 +17,9 @@ module DocumentHelper
     if options[:alternative_format_provider]
       select options[:alternative_format_provider].name, from: "edition_alternative_format_provider_id"
     end
+    if options[:topic]
+      select options[:topic].name, from: "Topics"
+    end
   end
 
   def begin_drafting_policy(options)

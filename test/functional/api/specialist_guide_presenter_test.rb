@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Api::SpecialistGuidePresenterTest < PresenterTestCase
   setup do
-    @guide = stub_edition(:specialist_guide)
+    @guide = stub_edition(:specialist_guide, topics: [])
     @guide.stubs(:organisations).returns([])
     @guide.stubs(:published_related_specialist_guides).returns([])
     @presenter = Api::SpecialistGuidePresenter.decorate(@guide)
@@ -40,7 +40,7 @@ class Api::SpecialistGuidePresenterTest < PresenterTestCase
 
   test "json includes related specialist guides as related" do
     Whitehall.stubs(:public_host_for).returns('govuk.example.com')
-    related_guide = stub_edition(:specialist_guide)
+    related_guide = stub_edition(:specialist_guide, topics: [])
     @guide.stubs(:published_related_specialist_guides).returns([related_guide])
     guide_json = {
       id: api_specialist_guide_url(related_guide.document, host: 'govuk.example.com'),

@@ -38,14 +38,14 @@ class TopicTest < ActiveSupport::TestCase
     policy = create(:draft_policy)
     topic = create(:topic, policies: [policy])
 
-    assert_equal [topic], policy.reload.topics
+    assert policy.topics.reload.include?(topic)
   end
 
   test "should allow association with specialist guides" do
     specialist_guide = create(:draft_specialist_guide)
     topic = create(:topic, specialist_guides: [specialist_guide])
 
-    assert_equal [topic], specialist_guide.reload.topics
+    assert specialist_guide.topics.reload.include?(topic)
   end
 
   test "should set a slug from the topic name" do

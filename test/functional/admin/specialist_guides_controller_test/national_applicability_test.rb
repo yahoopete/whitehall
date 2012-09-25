@@ -15,5 +15,9 @@ class Admin::SpecialistGuidesControllerTest < ActionController::TestCase
     def edition_class
       SpecialistGuide
     end
+
+    def attributes_for_edition(attributes = {})
+      super.merge(topic_ids: [create(:topic).id])
+    end
   end
 end
