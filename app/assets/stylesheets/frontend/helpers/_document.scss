@@ -3,7 +3,7 @@
     p {
       margin-top: $gutter-one-third*-1;
       margin-bottom: $gutter-half;
-      @include core-19;
+      @include copy-19;
     }
   }
 
@@ -15,11 +15,11 @@
     padding-top: $gutter-one-third;
   
     h1 {
-      @include core-19;
+      @include copy-19;
     }
     
     li {
-      @include core-16;
+      @include copy-16;
     }
   }
 }

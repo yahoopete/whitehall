@@ -42,11 +42,11 @@
     }
 
     span {
-      @include core-19;
+      @include copy-19;
     }
 
     a {
-      @include core-27;
+      @include heading-27;
       color: white;
       text-decoration: underline;
     }

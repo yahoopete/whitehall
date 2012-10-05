@@ -51,7 +51,7 @@
 
   .meta-topic,
   .meta-context {
-    @include core-14;
+    @include copy-14;
     overflow: hidden;
     .notice {
       display: inline;
@@ -78,7 +78,7 @@
   .change-notes {
     display: inline-block;
     position: relative;
-    @include core-14;
+    @include copy-14;
     min-width: 160px;
     padding: 0;
 
@@ -181,13 +181,13 @@
       list-style: none;
 
       li {
-        @include core-16;
+        @include copy-16;
       }
     }
   }
 
   .notice p {
-    @include core-16;
+    @include copy-16;
     padding: $gutter-one-third;
     margin-bottom: $gutter;
     background: yellow;

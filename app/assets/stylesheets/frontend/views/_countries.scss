@@ -37,7 +37,7 @@
   }
   .article_section {
     h1 {
-      @include core-16;
+      @include copy-16;
     }
   }
   @media (max-width: 768px) {

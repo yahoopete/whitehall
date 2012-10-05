@@ -19,7 +19,7 @@
     padding-top: $gutter-half;
 
     h1 {
-      @include core-36;
+      @include heading-36;
     }
   }
 
@@ -29,7 +29,7 @@
     list-style: none;
 
     .guide {
-      @include core-19;
+      @include copy-19;
       margin-bottom: $gutter-half;
     }
   }

@@ -14,7 +14,7 @@
     ul li {
       color: $grey-63;
       list-style: none;
-      @include core-27;
+      @include heading-27;
     }
 
     ul li + li:before {
@@ -22,7 +22,7 @@
     }
 
     ul.single li {
-      @include core-48;
+      @include heading-48;
       margin-left: 0;
       @include media(desktop){
         margin-left: -3px;
@@ -31,7 +31,7 @@
   }
 
   .in-page-navigation {
-    @include core-14;
+    @include copy-14;
     margin-top: 0;
     padding-top: 0;
     nav, h1 {
@@ -78,7 +78,7 @@
     section {
       margin: $gutter 0 $gutter*2;
       h1 {
-        @include core-27;
+        @include heading-27;
         margin: 0;
       }
 

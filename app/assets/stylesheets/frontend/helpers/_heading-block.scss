@@ -4,7 +4,7 @@
   overflow: hidden;
 
   h1 {
-    @include core-24;
+    @include heading-24;
   }
   @include media(desktop){
     h1 {

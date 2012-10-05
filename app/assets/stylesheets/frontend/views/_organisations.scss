@@ -1,5 +1,5 @@
 h1.label {
-  @include core-27;
+  @include heading-27;
   padding-bottom: $gutter-half;
   @include ie(6) {
     margin-bottom: $gutter-one-third;
@@ -81,7 +81,7 @@ h1.label {
 
 
   .block-7 .simple_list a, .block-8 .simple_list a, .block-10 {
-    @include core-19;
+    @include copy-19;
   }
 
   .block-10, .block-11 {
@@ -105,17 +105,17 @@ h1.label {
 
     .news_body {
       h2 {
-        @include core-27;
+        @include heading-27;
         padding-top: 0;
       }
       a {
         text-decoration: none;
       }
       .summary {
-        @include core-19;
+        @include copy-19;
       }
       .meta, .document-type {
-        @include core-16;
+        @include copy-16;
         float: left;
         display: inline;
         margin: 0 $gutter-half 0 0;
@@ -145,7 +145,7 @@ h1.label {
         width: 31.3%;
       }
       h2 {
-        @include core-19;
+        @include copy-19;
         padding-top: 0;
       }
     }
@@ -160,13 +160,13 @@ h1.label {
       list-style: none;
       margin-bottom: $gutter;
       .summary, h2 {
-        @include core-19;
+        @include copy-19;
         float: none;
         display: block;
         width: 100%;
       }
       .summary {
-        @include core-16;
+        @include copy-16;
       }
         @include media(tablet) {
         float: left;
@@ -216,7 +216,7 @@ h1.label {
   .topics {
     counter-reset:li;
     .topic {
-      @include core-27;
+      @include heading-27;
       margin-bottom: $gutter-half;
       position:relative;
       list-style: none;
@@ -231,7 +231,7 @@ h1.label {
           width: 66%;
         }
         ul {
-          @include core-19;
+          @include copy-19;
           list-style: none;
           padding-top: 0;
         }
@@ -271,7 +271,7 @@ h1.label {
       .publication-count {
         padding-top: 0;
         .policies, .guides {
-          @include core-14;
+          @include copy-14;
           text-transform: capitalize;
         }
       }
@@ -413,11 +413,11 @@ h1.label {
 
 
   .current-appointee {
-    @include core-16;
+    @include copy-16;
     padding-top: 0;
   }
   .role {
-    @include core-14;
+    @include copy-14;
     padding-top: 0;
   }
 
@@ -455,7 +455,7 @@ h1.label {
       th,
       &:first-child th,
       &:nth-child(2) th {
-        @include core-14;
+        @include copy-14;
         padding-top: 0;
         padding-bottom: 0;
       }
@@ -485,7 +485,6 @@ h1.label {
         width: 33%;
       }
       .metadata {
-        @include core-16;
         padding-top: $gutter-one-third;
         clear: both;
         li {
@@ -505,7 +504,7 @@ h1.label {
       border: none;
       list-style: none;
       a {
-        @include core-24;
+        @include heading-24;
       }
     }
   }
@@ -527,10 +526,12 @@ h1.label {
     }
   }
 
+  .block-5 {
+    @include copy-19;
+  }
   @include media(tablet) {
 
     .block-5 {
-      @include core-19;
       .inner-block {
         padding-left: $gutter-one-third;
       }
@@ -758,7 +759,7 @@ h1.label {
   }
 
   h1.label {
-    @include core-19;
+    @include copy-19;
   }
 
   .information-block {
@@ -767,7 +768,7 @@ h1.label {
   }
 
   .title, .url {
-    @include core-24;
+    @include heading-24;
     margin-top: $gutter-half;
   }
 }
@@ -777,7 +778,7 @@ h1.label {
 .corporate_information_page {
 
   .summary {
-    @include core-19;
+    @include copy-19;
     margin: $gutter 0 $gutter 25%;
   }
 

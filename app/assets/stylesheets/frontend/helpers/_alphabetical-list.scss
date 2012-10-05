@@ -3,7 +3,7 @@
   clear: both;
   
   h1 {
-    @include core-16;
+    @include copy-16;
   }
   
   .alphabetical-row {
@@ -13,7 +13,7 @@
     padding-top: $gutter-two-thirds;
     
     h2 {
-      @include core-36;
+      @include heading-36;
       text-indent: $gutter-two-thirds;
       background: #eee;
     }
@@ -25,13 +25,13 @@
     
     h3 {
       position: relative;
-      @include core-16;
+      @include copy-16;
       padding-bottom: 0;
       padding-right: $gutter;
     }
     
     .role {
-      @include core-16;
+      @include copy-16;
       padding-top: 0;
       padding-right: $gutter;
     }

@@ -5,7 +5,7 @@
   background-position: 0 8px;
 
   h1 {
-    @include core-48;
+    @include heading-48;
     .label {
       color: lighten($body-text, 30%);
       display: block;
@@ -14,7 +14,7 @@
 
   h2 {
     position: relative;
-    @include core-14;
+    @include copy-14;
     margin-bottom: $gutter-two-thirds*-1;
     @media (max-width: 640px) {
       margin-bottom: 0;
@@ -23,7 +23,7 @@
 
   .explanation {
     margin-top: $gutter-two-thirds*-1;
-    @include core-19;
+    @include copy-19;
   }
 
   .ministers .minister {
@@ -41,7 +41,7 @@
       padding-left: $gutter-one-third;
       padding-right: $gutter-one-third;
       margin-left: $gutter-half;
-      @include core-14;
+      @include copy-14;
     }
   }
   .organisations-icon-list .organisation {

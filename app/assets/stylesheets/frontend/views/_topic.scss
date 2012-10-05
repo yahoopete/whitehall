@@ -16,7 +16,7 @@
       margin: 0;
     }
     .label {
-      @include core-48;;
+      @include heading-48;;
       color: lighten($body-text, 30%);
     }
     @include media(desktop){
@@ -26,12 +26,12 @@
 
   .all-topics {
     h3 {
-      @include core-19;
+      @include copy-19;
     }
     .topic  {
       list-style: none;
       border-bottom: 1px solid $light-keyline;
-      @include core-19;
+      @include copy-19;
     }
   }
 }
@@ -68,7 +68,7 @@
   .contextual {
     padding-top: $gutter-half;
     li {
-      @include core-14;
+      @include copy-14;
       padding: 0;
     }
   }
@@ -76,7 +76,7 @@
     margin-bottom: $gutter;
 
     h1 {
-      @include core-19;
+      @include copy-19;
       margin: $gutter-one-third 0;
     }
   }
@@ -85,10 +85,10 @@
       list-style: none;
       padding-bottom: $gutter-half;
       h2 {
-        @include core-24;
+        @include heading-24;
       }
       p {
-        @include core-19;
+        @include copy-19;
         padding: 0;
       }
     }
@@ -105,7 +105,7 @@
       li {
         border-top: 1px solid $white;
         list-style: none;
-        @include core-16;
+        @include copy-16;
         padding: 5px 0;
 
         &:first-child {

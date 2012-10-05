@@ -27,11 +27,11 @@
   
   .block-2 {
     .introduction {
-      @include core-24;
+      @include heading-24;
     }
     
     .beta-site {
-      @include core-16;
+      @include copy-16;
     }
   }
   

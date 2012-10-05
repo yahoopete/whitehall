@@ -56,12 +56,12 @@
 
 
   .supporting-page-title {
-    @include core-27;
+    @include heading-27;
     margin-bottom: $gutter;
   }
 
   .contextual-info {
-      @include core-14;
+      @include copy-14;
     nav {
       margin-top: 0;
     }
@@ -77,14 +77,14 @@
 
   #policy_team {
     p {
-      @include core-19;
+      @include copy-19;
     }
   }
 
   #document-ministers {
     margin-bottom: $gutter;
     overflow: hidden;
-    @include core-14;
+    @include copy-14;
     .ministers {
       p {
         a {
@@ -168,7 +168,7 @@
         width: 32%;
 
         a {
-          @include core-19;
+          @include copy-19;
           background-color: $info-background;
           color: $link-text;
           display: block;
@@ -223,7 +223,7 @@
   #case-studies {
     h1 {
       // from _document.scss h2
-      @include core-27;
+      @include heading-27;
       color: lighten($body-text, 50%);
       margin-top: $gutter;
       @media (max-width: 640px) {
@@ -233,7 +233,7 @@
     li {
       // from _document.scss li
       width: 90%;
-      @include core-19;
+      @include copy-19;
       margin-left: $gutter*1.2;
 
       li {

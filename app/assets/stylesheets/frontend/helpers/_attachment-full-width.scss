@@ -8,7 +8,7 @@
     margin: 0;
 
     h1 {
-      @include core-24;
+      @include heading-24;
       padding-left: $gutter-half;
       padding-bottom: $gutter-one-third;
     }
@@ -23,11 +23,11 @@
       padding-top: $gutter-half;
 
       .attachment .attachment-details .title {
-        @include core-16;
+        @include copy-16;
       }
       .supporting-documents-title {
         margin-left: 25%;
-        @include core-24;
+        @include heading-24;
       }
     }
   }
@@ -35,7 +35,7 @@
     clear: both;
     margin: $gutter 0;
     p {
-      @include core-19;
+      @include copy-19;
     }
   }
 }

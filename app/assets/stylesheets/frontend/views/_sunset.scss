@@ -2,7 +2,7 @@
 .inside_gov_sunset {
 
   h1 {
-    @include core-48;
+    @include heading-48;
     margin: $gutter 0 $gutter*2;
     @include media(desktop) {
       margin-top: 0;
@@ -29,7 +29,7 @@
   .block-3 {
 
     p {
-      @include core-19;
+      @include copy-19;
       margin-bottom: $gutter-half;
       &:nth-child(2) {
         margin-bottom: $gutter;
@@ -37,7 +37,7 @@
     }
 
     p.intro {
-      @include core-27;
+      @include heading-27;
     }
 
   }

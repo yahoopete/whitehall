@@ -13,14 +13,14 @@
     }
 
     th {
-      @include core-19;
+      @include copy-19;
       text-align: left;
       float: left;
       display: inline;
       width: 100%;
       margin-top: $gutter-one-sixth;
       @media (min-width: 860px) {
-        @include core-24;
+        @include heading-24;
       }
       padding-bottom: 0;
 
@@ -30,7 +30,7 @@
     }
     
     td {
-      @include core-14;
+      @include copy-14;
       text-align: left;
       float: left;
       display: inline;
@@ -42,13 +42,13 @@
   
   .document-row:first-child {
     th {
-      @include core-27;
+      @include heading-27;
       padding-bottom: 0;
     }
   }
   .document-row:nth-child(2) {
     th {
-      @include core-24;
+      @include heading-24;
       padding-bottom: 0;
     }
   }

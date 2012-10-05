@@ -10,18 +10,18 @@
     padding-bottom: $gutter;
 
     h1 {
-      @include core-16;
+      @include copy-16;
     }
 
     h2 {
       position: relative;
-      @include core-16;
+      @include copy-16;
       padding-bottom: 0;
       padding-right: $gutter;
     }
 
     .role {
-      @include core-16;
+      @include copy-16;
       padding-top: 0;
       padding-right: $gutter;
     }

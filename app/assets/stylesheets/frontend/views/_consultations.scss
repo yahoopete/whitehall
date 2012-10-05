@@ -77,12 +77,12 @@ nav.consultations_scope {
       padding: $gutter-one-third 0;
 
       h2, .jump {
-        @include core-27;
+        @include heading-27;
         padding: 0 $gutter-one-third;
       }
       abbr {
         display: block;
-        @include core-48;
+        @include heading-48;
         padding: 0;
         margin: 0;
       }
@@ -103,7 +103,6 @@ nav.consultations_scope {
         padding: 0 $gutter-half;
 
         h2, .jump {
-          @include core-19;
           padding: $gutter-half 0;
         }
         h2 {
@@ -128,10 +127,10 @@ nav.consultations_scope {
 
     &.consultation-closed {
       padding: $gutter-one-third;
-      @include core-19;
+      @include copy-19;
 
       h2 {
-        @include core-48;
+        @include heading-48;
         padding-top: 8px;
       }
 
@@ -148,7 +147,7 @@ nav.consultations_scope {
       h2 {
       }
       .run-time {
-        @include core-24;
+        @include heading-24;
         padding: $gutter-half;
         .dates {
           white-space: nowrap;
@@ -162,7 +161,7 @@ nav.consultations_scope {
   .participation {
     background: $inside-gov-brand;
     color: $white;
-    @include core-19;
+    @include copy-19;
 
     .content {
       margin: 0 $gutter-one-third $gutter-half;
@@ -175,11 +174,11 @@ nav.consultations_scope {
       text-decoration: underline;
     }
     h2, .online {
-      @include core-24;
+      @include heading-24;
     }
     dl {
       dt {
-        @include core-16;
+        @include copy-16;
       }
       dd {
         margin-bottom: $gutter-one-third;

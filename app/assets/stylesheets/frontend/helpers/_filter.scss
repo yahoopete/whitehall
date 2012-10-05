@@ -2,7 +2,7 @@
   background: $info-background;
 
   h2 {
-    @include core-19;
+    @include copy-19;
     padding: $gutter-half;
     padding-bottom: 0;
     @media (min-width: 768px) {
@@ -44,12 +44,12 @@
   }
 
   label.title {
-    @include core-14;
+    @include copy-14;
     display: block;
     padding-top: 0;
   }
   input {
-    @include core-14;
+    @include copy-14;
     background: $white;
     width: 100%;
     margin: 0;
@@ -58,7 +58,7 @@
     border: 0;
   }
   select {
-    @include core-14;
+    @include copy-14;
     background: #fff;
     line-height: 1.3;
   }
@@ -81,12 +81,12 @@
     padding-top: $gutter-one-third;
 
     h3 {
-      @include core-14;
+      @include copy-14;
       display: inline;
       padding-right: $gutter-half;
     }
     label {
-      @include core-14;
+      @include copy-14;
       padding-right: $gutter-one-third;
     }
     select {
@@ -106,7 +106,7 @@
     margin: 0 auto;
     color: $white;
     @include button($mellow-red);
-    @include core-19;
+    @include copy-19;
     padding-bottom: 7px;
     padding-bottom: 0.7rem;
   }
@@ -122,10 +122,10 @@
   .no-results {
     padding: $gutter $gutter-half;
     h2 {
-      @include core-27;
+      @include heading-27;
     }
     p {
-      @include core-19;
+      @include copy-19;
     }
   }
 }
