@@ -566,84 +566,130 @@ h1.label {
 
 
 .organisation_subpages {
+  h3 {
+    @include core-19;
+    border-bottom: 5px solid;
+    margin-bottom: $gutter-one-third;
+  }
 
-  .block-3, .block-4 {
+  .block-2, .block-3 {
     float: left;
     display: inline;
-    width: 25%;
+    width: 66%;
+    .type {
+      display: block;
+    }
   }
-
-  .block-4 {
-    width: 75%;
-  }
-
-  .sub_navigation_container {
-    top: 0;
-    margin-bottom: 0;
+  .block-3 {
+    float: right;
+    width: 34%;
     li {
       list-style: none;
     }
   }
 
-  .ministerial_role {
-    float: left;
-    display: inline;
-    overflow: hidden;
-    padding-right: 3%;
-    margin-bottom: $gutter;
-    width: 30%;
-    .role {
-      margin-left: 72px;
-    }
-  }
-
-  .ministerial_role:nth-child(3n-1) {
+  .organisation_contact {
     clear: both;
-  }
-
-  .about_page {
-    nav {
-      position: absolute;
-      right: $gutter;
-      top: 200px;
+    margin-bottom: $gutter;
+    overflow: hidden;
+    p {
+      margin-bottom: $gutter-one-third;
+    }
+    .social_media_accounts {
+      @include core-19;
       li {
-        list-style: none;
+        margin: $gutter-half 0;
+        &:first-child {
+          margin-top: 0;
+        }
+      }
+    }
+    .adr {
+      float: left;
+      display: inline;
+      width: 50%;
+      P {
+        margin: 0;
       }
     }
   }
 
-  .item, .board_member_role {
-    list-style: none;
-    margin: $gutter-half 0;
-    padding: $gutter-half $gutter-two-thirds;
-  }
-  .item:nth-child(odd), .board_member_role:nth-child(odd)  {
-    background-color: $light-warm-grey;
-  }
-
-  #permanent_secretary_board_members .board_member_role {
-    background-color: $white;
-    padding-top: 0;
-    margin-top: 0;
-  }
-
-  .organisation_contact {
-    margin-bottom: $gutter;
-  }
-      @media (max-width: 768px) {
-
-    .block-3, .block-4, .ministerial_role {
-      float: none;
-      display: block;
-      width: auto;
-    }
-
-    .about_page nav {
-      position: relative;
-      top: 0;
-      right: 0;
-    }
-  }
+// I have commented this out for now as not sure how much of this is used on other .organisation_subpages
+// may guess is very little or none, but not 100%
+//  .block-3, .block-4 {
+//    float: left;
+//    display: inline;
+//    width: 25%;
+//  }
+//
+//  .block-4 {
+//    width: 75%;
+//  }
+//
+//  .sub_navigation_container {
+//    top: 0;
+//    margin-bottom: 0;
+//    li {
+//      list-style: none;
+//    }
+//  }
+//
+//  .ministerial_role {
+//    float: left;
+//    display: inline;
+//    overflow: hidden;
+//    padding-right: 3%;
+//    margin-bottom: $gutter;
+//    width: 30%;
+//    .role {
+//      margin-left: 72px;
+//    }
+//  }
+//
+//  .ministerial_role:nth-child(3n-1) {
+//    clear: both;
+//  }
+//
+//  .about_page {
+//    nav {
+//      position: absolute;
+//      right: $gutter;
+//      top: 200px;
+//      li {
+//        list-style: none;
+//      }
+//    }
+//  }
+//
+//  .item, .board_member_role {
+//    list-style: none;
+//    margin: $gutter-half 0;
+//    padding: $gutter-half $gutter-two-thirds;
+//  }
+//  .item:nth-child(odd), .board_member_role:nth-child(odd)  {
+//    background-color: $light-warm-grey;
+//  }
+//
+//  #permanent_secretary_board_members .board_member_role {
+//    background-color: $white;
+//    padding-top: 0;
+//    margin-top: 0;
+//  }
+//
+//      @media (max-width: 768px) {
+//
+//    .block-3, .block-4, .ministerial_role {
+//      float: none;
+//      display: block;
+//      width: auto;
+//    }
+//
+//    .about_page nav {
+//      position: relative;
+//      top: 0;
+//      right: 0;
+//    }
+//  }
 }
 
 
@@ -789,7 +835,7 @@ h1.label {
 
 // Organisation colours
 .treasury  {
-  .page_title, span, .sub_navigation_container li, .secondary-featured {
+  .page_title, span, .sub_navigation_container li, .secondary-featured, .organisation_contact h3 {
     border-color: $treasury;
   }
   .slidecontrols li a {
@@ -800,7 +846,7 @@ h1.label {
   }
 }
 .cabinet-office {
-  .page_title, span, .sub_navigation_container li, .secondary-featured {
+  .page_title, span, .sub_navigation_container li, .secondary-featured, .organisation_contact h3 {
     border-color: $cabinet-office;
   }
   .slidecontrols li a {
@@ -811,7 +857,7 @@ h1.label {
   }
 }
 .department-for-education {
-  .page_title, span, .sub_navigation_container li, .secondary-featured {
+  .page_title, span, .sub_navigation_container li, .secondary-featured, .organisation_contact h3 {
     border-color: $department-for-education;
   }
   .slidecontrols li a {
@@ -822,7 +868,7 @@ h1.label {
   }
 }
 .department-of-transport {
-  .page_title, span, .sub_navigation_container li, .secondary-featured {
+  .page_title, span, .sub_navigation_container li, .secondary-featured, .organisation_contact h3 {
     border-color: $department-of-transport;
   }
   .slidecontrols li a {
@@ -833,7 +879,7 @@ h1.label {
   }
 }
 .home-office {
-  .page_title, span, .sub_navigation_container li, .secondary-featured {
+  .page_title, span, .sub_navigation_container li, .secondary-featured, .organisation_contact h3 {
     border-color: $home-office;
   }
   .slidecontrols li a {
@@ -844,7 +890,7 @@ h1.label {
   }
 }
 .department-of-health {
-  .page_title, span, .sub_navigation_container li, .secondary-featured {
+  .page_title, span, .sub_navigation_container li, .secondary-featured, .organisation_contact h3 {
     border-color: $department-of-health;
   }
   .slidecontrols li a {
@@ -855,7 +901,7 @@ h1.label {
   }
 }
 .ministry-of-justice {
-  .page_title, span, .sub_navigation_container li, .secondary-featured {
+  .page_title, span, .sub_navigation_container li, .secondary-featured, .organisation_contact h3 {
     border-color: $ministry-of-justice;
   }
   .slidecontrols li a {
@@ -866,7 +912,7 @@ h1.label {
   }
 }
 .ministry-of-defence {
-  .page_title, span, .sub_navigation_container li, .secondary-featured {
+  .page_title, span, .sub_navigation_container li, .secondary-featured, .organisation_contact h3 {
     border-color: $ministry-of-defence;
   }
   .slidecontrols li a {
@@ -877,7 +923,7 @@ h1.label {
   }
 }
 .foreign-and-commonwealth-office {
-  .page_title, span, .sub_navigation_container li, .secondary-featured {
+  .page_title, span, .sub_navigation_container li, .secondary-featured, .organisation_contact h3 {
     border-color: $foreign-and-commonwealth-office;
   }
   .slidecontrols li a {
@@ -888,7 +934,7 @@ h1.label {
   }
 }
 .department-for-communities-and-local-government {
-  .page_title, span, .sub_navigation_container li, .secondary-featured {
+  .page_title, span, .sub_navigation_container li, .secondary-featured, .organisation_contact h3 {
     border-color: $department-for-communities-and-local-government;
   }
   .slidecontrols li a {
@@ -899,7 +945,7 @@ h1.label {
   }
 }
 .department-for-energy-and-climate-change {
-  .page_title, span, .sub_navigation_container li, .secondary-featured {
+  .page_title, span, .sub_navigation_container li, .secondary-featured, .organisation_contact h3 {
     border-color: $department-for-energy-and-climate-change;
   }
   .slidecontrols li a {
@@ -910,7 +956,7 @@ h1.label {
   }
 }
 .department-for-culture-media-and-sport {
-  .page_title, span, .sub_navigation_container li, .secondary-featured {
+  .page_title, span, .sub_navigation_container li, .secondary-featured, .organisation_contact h3 {
     border-color: $department-for-culture-media-and-sport;
   }
   .slidecontrols li a {
@@ -921,7 +967,7 @@ h1.label {
   }
 }
 .department-for-environment-food-and-rural-affairs {
-  .page_title, span, .sub_navigation_container li, .secondary-featured {
+  .page_title, span, .sub_navigation_container li, .secondary-featured, .organisation_contact h3 {
     border-color: $department-for-environment-food-and-rural-affairs;
   }
   .slidecontrols li a {
@@ -932,7 +978,7 @@ h1.label {
   }
 }
 .department-for-work-and-pensions {
-  .page_title, span, .sub_navigation_container li, .secondary-featured {
+  .page_title, span, .sub_navigation_container li, .secondary-featured, .organisation_contact h3 {
     border-color: $department-for-work-and-pensions;
   }
   .slidecontrols li a {
@@ -943,7 +989,7 @@ h1.label {
   }
 }
 .department-for-business-innovation-and-skills {
-  .page_title, span, .sub_navigation_container li, .secondary-featured {
+  .page_title, span, .sub_navigation_container li, .secondary-featured, .organisation_contact h3 {
     border-color: $department-for-business-innovation-and-skills;
   }
   .slidecontrols li a {
@@ -954,7 +1000,7 @@ h1.label {
   }
 }
 .department-for-international-development {
-  .page_title, span, .secondary-featured {
+  .page_title, span, .sub_navigation_container li, .secondary-featured, .organisation_contact h3 {
     border-color: $department-for-international-development;
   }
   .slidecontrols li a {

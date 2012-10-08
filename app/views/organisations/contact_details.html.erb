@@ -5,70 +5,72 @@
   <div class="block-1">
     <div class="inner-block">
       <%= render 'header', organisation: @organisation, title: "Contacts" %>
+      <h1 class="label">Get in touch with <%= @organisation.display_name %></h1>
     </div>
   </div>
 
   <div class="block-2">
     <div class="inner-block">
-      <div class="sidebar sub_navigation_container">
-        <%= render 'sidebar', organisation: @organisation %>
-      </div>
-    </div>
-  </div>
-
-
-  <div class="block-3">
-    <div class="inner-block">
       <% addresses = @organisation.contacts.select { |c| c.address.present? } %>
       <% others = @organisation.contacts - addresses %>
 
-      <div>
-        <% addresses.each do |contact| %>
-          <div class="organisation_contact">
-            <% if contact.address.present? %>
-              <div class="adr">
+        <div>
+          <% addresses.each do |contact| %>
+            <div class="organisation_contact">
+              <% if contact.address.present? %>
                 <h3><%= contact.description %></h3>
-                <p class="fn org name"><%= @organisation.name %></p>
-                <% if @organisation.acronym.present? %>
-                  <p class="nickname"><%= @organisation.acronym %></p>
-                <% end %>
-                <p class="street-address"><%= format_with_html_line_breaks(contact.address) %></p>
-                <p class="postal-code"><%= contact.postcode %></p>
-              </div>
-            <% else %>
-              <h3><%= contact.description %></h3>
-            <% end %>
-            <% if contact.email.present? %>
-              <p class="email"><span class="type">Email</span> <%= mail_to contact.email, contact.email, :class => "email" %></p>
-            <% end %>
-            <% contact.contact_numbers.each do |number| %>
-              <p class="tel"><%= number.number %><span class="type"> <%= number.label %> </span></p>
-            <% end %>
-            <% if contact.mappable? %>
-              <p><%= link_to_google_map(contact) %></p>
-            <% end %>
-          </div>
-        <% end %>
-      </div>
+                <div class="adr">
+                  <p class="fn org name"><%= @organisation.name %></p>
+                  <% if @organisation.acronym.present? %>
+                    <p class="nickname"><%= @organisation.acronym %></p>
+                  <% end %>
+                  <p class="street-address"><%= format_with_html_line_breaks(contact.address) %></p>
+                  <p class="postal-code"><%= contact.postcode %></p>
+                </div>
+              <% else %>
+                <h3><%= contact.description %></h3>
+              <% end %>
+              <% if contact.email.present? %>
+                <p class="email"><span class="type">Email:</span> <%= mail_to contact.email, contact.email, :class => "email" %></p>
+              <% end %>
+              <% contact.contact_numbers.each do |number| %>
+                <p class="tel"><span class="type"><%= number.label %>:</span><%= number.number %></p>
+              <% end %>
+              <% if contact.mappable? %>
+                <p><%= link_to_google_map(contact) %></p>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
 
-      <div>
-        <% others.each do |contact| %>
-          <div class="organisation_contact">
-            <h3><%= contact.description %></h3>
-            <% if contact.email.present? %>
-              <p class="email"><span class="type">Email</span> <%= mail_to contact.email, contact.email, :class => "email" %></p>
-            <% end %>
-            <% contact.contact_numbers.each do |number| %>
-              <p class="tel"><%= number.number %><span class="type"> <%= number.label %> </span></p>
-            <% end %>
-            <% if contact.mappable? %>
-              <p><%= link_to_google_map(contact) %></p>
-            <% end %>
-          </div>
-        <% end %>
+        <div>
+          <% others.each do |contact| %>
+            <div class="organisation_contact">
+              <h3><%= contact.description %></h3>
+
+              <% if contact.email.present? %>
+                <p class="email"><span class="type">Email:</span> <%= mail_to contact.email, contact.email, :class => "email" %></p>
+              <% end %>
+              <% contact.contact_numbers.each do |number| %>
+                <p class="tel"><span class="type"> <%= number.label %>:</span><%= number.number %></p>
+              <% end %>
+              <% if contact.mappable? %>
+                <p><%= link_to_google_map(contact) %></p>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+
+    </div>
+  </div>
+
+  <div class="block-3">
+    <div class="inner-block">
+      <div class="organisation_contact">
+        <h3>Connect with us:</h3>
+        <%= render 'social_media_accounts_contact', organisation: @organisation %>
       </div>
     </div>
   </div>
 
-  
 <% end %>
