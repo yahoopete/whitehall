@@ -45,6 +45,7 @@ class PublicationType
   Form                   = create(id: 4, singular_name: "Form", plural_name: "Forms", prevalence: :primary)
   Statistics             = create(id: 5, singular_name: "Statistics", plural_name: "Statistics", prevalence: :primary)
   NationalStatistics     = create(id: 15, singular_name: "Statistics - national statistics", plural_name: "Statistics - national statistics", prevalence: :primary)
+  StatisticalData        = create(id: 16, singular_name: "Statistics - statistical data", plural_name: "Statistics - statistical data", prevalence: :primary)
   ResearchAndAnalysis    = create(id: 6, singular_name: "Research and analysis", plural_name: "Research and analysis", prevalence: :primary)
   CorporateReport        = create(id: 7, singular_name: "Corporate report", plural_name: "Corporate reports", prevalence: :primary)
 

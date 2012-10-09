@@ -45,6 +45,6 @@ class Publication < Publicationesque
   end
 
   def statistics?
-    [PublicationType::Statistics, PublicationType::NationalStatistics].include?(publication_type)
+    [PublicationType::Statistics, PublicationType::NationalStatistics, PublicationType::StatisticalData].include?(publication_type)
   end
 end
