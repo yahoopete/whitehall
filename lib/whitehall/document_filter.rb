@@ -38,7 +38,7 @@ class Whitehall::DocumentFilter
   end
 
   def all_publication_types
-    PublicationType.ordered_by_prevalence - [PublicationType::Unknown]
+    PublicationType.ordered_by_prevalence - [PublicationType::Unknown, PublicationType::StatisticalData, PublicationType::NationalStatistics]
   end
 
   def selected_topics
@@ -50,6 +50,8 @@ class Whitehall::DocumentFilter
   end
 
   def selected_publication_type
+    if @params[:publication_type] == 'statistics'
+    end
     PublicationType.find_by_slug(@params[:publication_type])
   end
 
