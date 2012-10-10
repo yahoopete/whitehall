@@ -7,4 +7,5 @@
  *= require ./vendor/chosen
  *= require_tree ./vendor/media-player
  *= require ./admin/base
+ *= require ./vendor/jquery.fileupload-ui
 */

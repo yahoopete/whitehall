@@ -1,3 +1,20 @@
+<h3>Bulk uploader</h3>
+<form id='fileupload' method="POST" enctype='multipart/formdata'>
+  <div class="fileupload-buttonbar">
+    <span class="btn btn-success fileinput-button">
+        <i class="icon-plus icon-white"></i>
+        <span>Add files...</span>
+        <%= file_field_tag "bulk_upload[]", "data-url" => "/foo", multiple: true %>
+    </span>
+    <button type="submit" class="btn btn-primary start">
+        <i class="icon-upload icon-white"></i>
+        <span>Start upload</span>
+    </button>
+
+    <div id="bulk-file-upload"/>
+  </div>
+</form>
+
 <%= standard_edition_form(edition) do |form| %>
   <fieldset>
     <%= form.label :publication_date %>
