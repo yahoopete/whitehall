@@ -685,6 +685,21 @@ class PublicationsControllerTest < ActionController::TestCase
     end
   end
 
+  test "statistics are rolled up into a single select" do
+    publication_1 = create(:published_publication, type: PublicationType::Statistics)
+    publication_2 = create(:published_publication, type: PublicationType::NationalStatistics)
+    publication_3 = create(:published_publication, type: PublicationType::StatisticalData)
+    publication_4 = create(:published_publication, type: PublicationType::Guidance)
+
+    get :index, publication_type: PublicationType::Statistics.slug
+
+    [publication_1, publication_2, publication_3].each do |publication|
+      assert_select_object publication
+    end
+
+    refute_select_object publication_4
+  end
+
   private
 
   def given_two_documents_in_two_organisations
