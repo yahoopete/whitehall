@@ -3,6 +3,8 @@ module Edition::ScheduledPublishing
 
   included do
     validate :scheduled_publication_is_in_the_future, if: :scheduled_publication_must_be_in_the_future?
+
+    after_publish :on_scheduled_publication, if: -> edition { edition.scheduled_publication.present? }
   end
 
   module ClassMethods
@@ -139,6 +141,10 @@ module Edition::ScheduledPublishing
 
     def scheduled_publication_must_be_in_the_future?
       draft? || submitted? || (state_was == 'rejected' && rejected?)
+    end
+
+    def on_scheduled_publication
+      Whitehall.cache_buster.purge(urls_on_which_edition_appears)
     end
   end
 end

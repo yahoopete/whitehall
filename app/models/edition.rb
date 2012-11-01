@@ -318,6 +318,10 @@ class Edition < ActiveRecord::Base
     update_attribute(:force_published, false)
   end
 
+  def urls_on_which_edition_appears
+    []
+  end
+
   class << self
     def format_name
       @format_name ||= model_name.human.downcase

@@ -90,6 +90,23 @@ class Edition::ScheduledPublishingTest < ActiveSupport::TestCase
     assert_equal true, edition.reload.force_published
   end
 
+  test "publishing a scheduled edition purges cache for pages on which edition appears" do
+    robot_user = create(:scheduled_publishing_robot)
+    edition = create(:scheduled_edition, scheduled_publication: 1.day.from_now)
+    edition.stubs(:urls_on_which_edition_appears).returns(["url-1", "url-2"])
+    Whitehall.cache_buster.expects(:purge).with(["url-1", "url-2"])
+    Timecop.freeze(edition.scheduled_publication) do
+      edition.publish_as(robot_user)
+    end
+  end
+
+  test "publishing a submitted edition does not purges cache for pages on which edition appears" do
+    editor = create(:departmental_editor)
+    edition = create(:submitted_edition)
+    Whitehall.cache_buster.expects(:purge).never
+    edition.publish_as(editor)
+  end
+
   test "is not schedulable if there is a reason to prevent approval" do
     edition = build(:submitted_edition, scheduled_publication: 1.day.from_now)
     arbitrary_reason = "Because I said so"
