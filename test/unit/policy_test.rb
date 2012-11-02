@@ -102,3 +102,83 @@ class PolicyTest < EditionTestCase
     assert_equal 0, policy.reload.published_related_publication_count
   end
 end
+
+class PolicyUrlsOnWhichEditionAppearsTest < ActiveSupport::TestCase
+  include Rails.application.routes.url_helpers
+
+  test "should indicate that it appears in the site atom feed" do
+    policy = create(:published_policy)
+
+    urls = policy.urls_on_which_edition_appears(host: "test.host")
+
+    assert urls.include?(atom_feed_url)
+  end
+
+  test "should indicate that it appears on the policies page and its atom feed" do
+    policy = create(:published_policy)
+
+    urls = policy.urls_on_which_edition_appears(host: "test.host")
+
+    assert urls.include?(policies_url)
+    assert urls.include?(policies_url(format: "atom"))
+  end
+
+  test "should indicate that it appears on associated organisation pages" do
+    organisation_1 = create(:organisation)
+    organisation_2 = create(:organisation)
+    policy = create(:published_policy, organisations: [organisation_1, organisation_2])
+
+    urls = policy.urls_on_which_edition_appears(host: "test.host")
+
+    assert urls.include?(organisation_url(organisation_1))
+    assert urls.include?(organisation_url(organisation_2))
+  end
+
+  test "should indicate that it appears its activity page and its atom feed" do
+    policy = create(:published_policy)
+
+    urls = policy.urls_on_which_edition_appears(host: "test.host")
+
+    assert urls.include?(activity_policy_url(policy.document))
+    assert urls.include?(activity_policy_url(policy.document, format: "atom"))
+  end
+
+  test "should indicate that it appears on associated topic pages and their atom feeds" do
+    topic_1, topic_2 = create(:topic), create(:topic)
+    policy = create(:published_policy, topics: [topic_1, topic_2])
+
+    urls = policy.urls_on_which_edition_appears(host: "test.host")
+
+    assert urls.include?(topic_url(topic_1))
+    assert urls.include?(topic_url(topic_2))
+
+    assert urls.include?(topic_url(topic_1, format: 'atom'))
+    assert urls.include?(topic_url(topic_2, format: 'atom'))
+  end
+
+  test "should indicate that it appears on associated minister pages" do
+    person_1, person_2 = create(:person), create(:person)
+    ministerial_role_1 = create(:ministerial_role)
+    ministerial_role_2 = create(:ministerial_role)
+    unoccupied_role = create(:ministerial_role)
+    create(:role_appointment, role: ministerial_role_1, person: person_1)
+    create(:role_appointment, role: ministerial_role_2, person: person_2)
+
+    policy = create(:published_policy, ministerial_roles: [ministerial_role_1, ministerial_role_2, unoccupied_role])
+
+    urls = policy.urls_on_which_edition_appears(host: "test.host")
+
+    assert urls.include?(ministerial_role_url(ministerial_role_1))
+    assert urls.include?(ministerial_role_url(ministerial_role_2))
+    assert urls.include?(ministerial_role_url(unoccupied_role))
+
+    assert urls.include?(person_url(person_1))
+    assert urls.include?(person_url(person_2))
+  end
+
+  private
+
+  def default_url_options
+    { host: "test.host" }
+  end
+end

@@ -48,13 +48,26 @@ class Policy < Edition
   def alternative_format_provider_required?
     true
   end
-  
+
   def can_have_summary?
     true
   end
 
   def update_published_related_publication_count
     update_attribute(:published_related_publication_count, published_related_publications.count)
+  end
+
+  def urls_on_which_edition_appears(options = {})
+    urls = [atom_feed_url(options)]
+    urls += [policies_url(options), policies_url(options.merge(format: "atom"))]
+    urls += organisations.map { |o| organisation_url(o, options) }
+    urls << activity_policy_url(document, options)
+    urls << activity_policy_url(document, options.merge(format: "atom"))
+    urls += topics.map { |t| topic_url(t, options) }
+    urls += topics.map { |t| topic_url(t, options.merge(format: "atom")) }
+    urls += ministerial_roles.map { |r| ministerial_role_url(r, options) }
+    urls += ministerial_roles.select(&:occupied?).map { |r| person_url(r.current_person, options) }
+    urls
   end
 
   private
