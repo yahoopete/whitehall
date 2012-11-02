@@ -1,7 +1,6 @@
 class Publication < Publicationesque
   include Edition::Images
   include Edition::NationalApplicability
-  include Edition::Ministers
   include Edition::FactCheckable
   include Edition::AlternativeFormatProvider
   include Edition::Countries

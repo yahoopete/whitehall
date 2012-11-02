@@ -1,8 +1,6 @@
 require "test_helper"
 
 class PublicationTest < EditionTestCase
-  include Rails.application.routes.url_helpers
-
   should_allow_image_attachments
   should_be_attachable
   should_not_allow_inline_attachments
@@ -65,95 +63,6 @@ class PublicationTest < EditionTestCase
     jan = create(:publication, publication_date: Date.parse("2011-01-01"))
     feb = create(:publication, publication_date: Date.parse("2011-02-01"))
     assert_equal [feb], Publication.published_after("2011-01-29").all
-  end
-
-  test "should indicate that it appears in the site atom feed" do
-    publication = build(:published_publication)
-
-    urls = publication.urls_on_which_edition_appears(host: "test.host")
-
-    assert urls.include?(atom_feed_url)
-  end
-
-  test "should indicate that it appears on the publications page and its atom feed" do
-    publication = build(:published_publication)
-
-    urls = publication.urls_on_which_edition_appears(host: "test.host")
-
-    assert urls.include?(publications_url)
-    assert urls.include?(publications_url(format: "atom"))
-  end
-
-  test "should indicate that it appears on associated organisation pages" do
-    organisation_1 = create(:organisation)
-    organisation_2 = create(:organisation)
-    publication = create(:published_publication, organisations: [organisation_1, organisation_2])
-
-    urls = publication.urls_on_which_edition_appears(host: "test.host")
-
-    assert urls.include?(organisation_url(organisation_1))
-    assert urls.include?(organisation_url(organisation_2))
-  end
-
-  test "should indicate that it appears on associated published policy activity pages and their atom feeds" do
-    policy_1 = create(:published_policy)
-    policy_2 = create(:published_policy)
-    policy_3 = create(:draft_policy)
-    publication = create(:published_publication, related_policies: [policy_1, policy_2])
-
-    urls = publication.urls_on_which_edition_appears(host: "test.host")
-
-    assert urls.include?(activity_policy_url(policy_1.document))
-    assert urls.include?(activity_policy_url(policy_2.document))
-    refute urls.include?(activity_policy_url(policy_3.document))
-
-    assert urls.include?(activity_policy_url(policy_1.document, format: "atom"))
-    assert urls.include?(activity_policy_url(policy_2.document, format: "atom"))
-    refute urls.include?(activity_policy_url(policy_3.document, format: "atom"))
-  end
-
-  test "should indicate that it appears on associated topic pages and their atom feeds" do
-    topic_1, topic_2, topic_3 = create(:topic), create(:topic), create(:topic)
-    policy_1 = create(:published_policy, topics: [topic_1])
-    policy_2 = create(:published_policy, topics: [topic_2])
-    policy_3 = create(:draft_policy, topics: [topic_3])
-    publication = create(:published_publication, related_policies: [policy_1, policy_2, policy_3])
-
-    urls = publication.urls_on_which_edition_appears(host: "test.host")
-
-    assert urls.include?(topic_url(topic_1))
-    assert urls.include?(topic_url(topic_2))
-    refute urls.include?(topic_url(topic_3))
-
-    assert urls.include?(topic_url(topic_1, format: 'atom'))
-    assert urls.include?(topic_url(topic_2, format: 'atom'))
-    refute urls.include?(topic_url(topic_3, format: 'atom'))
-  end
-
-  test "should indicate that it appears on associated minister pages" do
-    person_1, person_2 = create(:person), create(:person)
-    ministerial_role_1 = create(:ministerial_role)
-    ministerial_role_2 = create(:ministerial_role)
-    unoccupied_role = create(:ministerial_role)
-    create(:role_appointment, role: ministerial_role_1, person: person_1)
-    create(:role_appointment, role: ministerial_role_2, person: person_2)
-
-    publication = create(:published_publication, ministerial_roles: [ministerial_role_1, ministerial_role_2, unoccupied_role])
-
-    urls = publication.urls_on_which_edition_appears(host: "test.host")
-
-    assert urls.include?(ministerial_role_url(ministerial_role_1))
-    assert urls.include?(ministerial_role_url(ministerial_role_2))
-    assert urls.include?(ministerial_role_url(unoccupied_role))
-
-    assert urls.include?(person_url(person_1))
-    assert urls.include?(person_url(person_2))
-  end
-
-  private
-
-  def default_url_options
-    { host: "test.host" }
   end
 end
 

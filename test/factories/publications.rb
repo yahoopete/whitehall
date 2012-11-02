@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :publication, class: Publication, parent: :edition do
+  factory :publication, class: Publication, parent: :publicationesque do
     title "publication-title"
     body  "publication-body"
     summary "publication-summary"
