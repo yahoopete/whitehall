@@ -55,6 +55,19 @@ class Publication < Publicationesque
     statistics? && super
   end
 
+  def urls_on_which_edition_appears(options = {})
+    urls = [atom_feed_url(options)]
+    urls += [publications_url(options), publications_url(options.merge(format: "atom"))]
+    urls += organisations.map { |o| organisation_url(o, options) }
+    urls += published_related_policies.map { |p| activity_policy_url(p.document, options) }
+    urls += published_related_policies.map { |p| activity_policy_url(p.document, options.merge(format: "atom")) }
+    urls += topics.map { |t| topic_url(t, options) }
+    urls += topics.map { |t| topic_url(t, options.merge(format: "atom")) }
+    urls += ministerial_roles.map { |r| ministerial_role_url(r, options) }
+    urls += ministerial_roles.select(&:occupied?).map { |r| person_url(r.current_person, options) }
+    urls
+  end
+
   private
 
   def set_timestamp_for_sorting

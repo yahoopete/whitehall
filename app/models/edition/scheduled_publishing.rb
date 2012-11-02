@@ -144,7 +144,7 @@ module Edition::ScheduledPublishing
     end
 
     def on_scheduled_publication
-      Whitehall.cache_buster.purge(urls_on_which_edition_appears)
+      Whitehall.cache_buster.purge(urls_on_which_edition_appears(host: "test.host"))
     end
   end
 end

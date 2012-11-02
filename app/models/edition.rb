@@ -318,7 +318,7 @@ class Edition < ActiveRecord::Base
     update_attribute(:force_published, false)
   end
 
-  def urls_on_which_edition_appears
+  def urls_on_which_edition_appears(options = {})
     []
   end
 
