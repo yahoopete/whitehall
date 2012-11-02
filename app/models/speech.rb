@@ -24,6 +24,15 @@ class Speech < Announcement
     end
   end
 
+  def urls_on_which_edition_appears(options = {})
+    urls = super
+    if role.ministerial?
+      urls << ministerial_role_url(role, options)
+      urls << person_url(role.current_person, options)
+    end
+    urls
+  end
+
   private
 
   def populate_organisations_based_on_role_appointment

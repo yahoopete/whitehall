@@ -126,3 +126,37 @@ class SpeechTest < EditionTestCase
     assert_equal [mar, feb, jan], Speech.in_reverse_chronological_order.all
   end
 end
+
+class SpeechUrlsOnWhichEditionAppearsTest < ActiveSupport::TestCase
+  include Rails.application.routes.url_helpers
+
+  test "should indicate that it appears on associated minister pages" do
+    person = create(:person)
+    ministerial_role = create(:ministerial_role)
+    role_appointment = create(:role_appointment, role: ministerial_role, person: person)
+    speech = create(:published_speech, role_appointment: role_appointment)
+
+    urls = speech.urls_on_which_edition_appears(host: "test.host")
+
+    assert urls.include?(ministerial_role_url(ministerial_role))
+    assert urls.include?(person_url(person))
+  end
+
+  test "should indicate that it does not appear on associated pages when role is not ministerial" do
+    person = create(:person)
+    non_ministerial_role = create(:military_role)
+    role_appointment = create(:role_appointment, role: non_ministerial_role, person: person)
+    speech = create(:published_speech, role_appointment: role_appointment)
+
+    urls = speech.urls_on_which_edition_appears(host: "test.host")
+
+    refute urls.include?(ministerial_role_url(non_ministerial_role))
+    refute urls.include?(person_url(person))
+  end
+
+  private
+
+  def default_url_options
+    { host: "test.host" }
+  end
+end
