@@ -4,7 +4,7 @@ class AnnouncementTest < ActiveSupport::TestCase
   include Rails.application.routes.url_helpers
 
   test "should indicate that it appears in the site atom feed" do
-    announcement = build(:published_announcement)
+    announcement = create(:published_announcement)
 
     urls = announcement.urls_on_which_edition_appears(host: "test.host")
 
@@ -12,7 +12,7 @@ class AnnouncementTest < ActiveSupport::TestCase
   end
 
   test "should indicate that it appears on the announcements page and its atom feed" do
-    announcement = build(:published_announcement)
+    announcement = create(:published_announcement)
 
     urls = announcement.urls_on_which_edition_appears(host: "test.host")
 
