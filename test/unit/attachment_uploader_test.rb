@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'whitehall/quarantined_file_storage'
 
 class AttachmentUploaderTest < ActiveSupport::TestCase
   include ActionDispatch::TestProcess
@@ -6,12 +7,16 @@ class AttachmentUploaderTest < ActiveSupport::TestCase
   test 'should only allow PDF, CSV, RTF, PNG, JPG, DOC, DOCX, XLS, XLSX, PPT, PPTX, ZIP attachments' do
     uploader = AttachmentUploader.new
     assert_equal %w(pdf csv rtf png jpg doc docx xls xlsx ppt pptx zip), uploader.extension_white_list
+    CarrierWave.configure do |config|
+      config.storage Whitehall::QuarantinedFileStorage
+    end
   end
 
-  test "should store uploads in a directory that persists across deploys" do
+  test "should store uploads in a draft-incoming directory" do
     model = stub("AR Model", id: 1)
     uploader = AttachmentUploader.new(model, "mounted-as")
-    assert_match /^system/, uploader.store_dir
+    uploader.store!(fixture_file_upload('minister-of-funk.960x640.jpg'))
+    assert_match %r{/draft-incoming-uploads/system/uploads}, uploader.file.path
   end
 
   test "should not generate thumbnail versions of non pdf files" do

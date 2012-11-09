@@ -12,6 +12,8 @@ class AttachmentUploader < WhitehallUploader
   after :retrieve_from_cache, :set_content_type
   before :cache, :validate_zipfile_contents!
 
+  incoming_root Rails.root.join('draft-incoming-uploads')
+
   version :thumbnail, if: :pdf? do
     def full_filename(for_file)
       super + ".png"
