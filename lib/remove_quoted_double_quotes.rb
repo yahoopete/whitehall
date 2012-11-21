@@ -5,7 +5,7 @@ Edition.all.each do |edition|
   new_body = edition.body.lines.map do |line|
     if line.match(/^> /)
       if line.match(/[#{QUOTE}]/)
-        new_line = line.sub(/[#{QUOTE}]/, '')
+        new_line = line.sub(/^>\s+[#{QUOTE}]/, '> ').sub(/[#{QUOTE}]\s*$/, '')
         affected = true
         puts "#{line} => #{new_line}"
         new_line
