@@ -58,6 +58,14 @@ class PublicFacingControllerTest < ActionController::TestCase
     end
   end
 
+  test "public facing requests served by an admin server should require authentication" do
+    Whitehall.stubs(:admin_whitelist?).returns(true)
+    with_routing_to_test_action do
+      get :test
+      assert_redirected_to "/auth/gds"
+    end
+  end
+
   def with_routing_to_test_action(&block)
     with_routing do |map|
       map.draw do

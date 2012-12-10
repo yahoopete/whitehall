@@ -110,13 +110,37 @@ class ActionController::TestCase
 
   attr_reader :current_user
 
+  class UnauthenticatedWardenTestDouble
+    def initialize(request)
+      @request = request
+    end
+
+    def authenticate!
+      # redirect_to "/auth/gds"
+      GDS::SSO::FailureApp.call(@request.env)
+      false
+    end
+
+    def stub_request_env!
+      @request.env['warden'] = self
+      @request.env['warden.options'] = {attempted_path: "/"}
+      ENV['GDS_SSO_MOCK_INVALID'] = "1"
+    end
+
+    def authenticated?; false; end
+
+    def user; nil; end
+  end
+
   setup do
-    request.env['warden'] = stub(authenticate!: false, authenticated?: false, user: nil)
+    Whitehall.stubs(:admin_whitelist?).returns(false)
+    UnauthenticatedWardenTestDouble.new(request).stub_request_env!
   end
 
   def login_as(role_or_user)
     @current_user = role_or_user.is_a?(Symbol) ? create(role_or_user) : role_or_user
-    request.env['warden'] = stub(authenticate!: true, authenticated?: true, user: @current_user)
+    ENV['GDS_SSO_MOCK_INVALID'] = ""
+    request.env['warden'] = stub("warden", authenticated?: true, user: @current_user)
     @previous_papertrail_whodunnit ||= PaperTrail.whodunnit
     PaperTrail.whodunnit = @current_user
     @current_user

@@ -1,5 +1,10 @@
 class PublicFacingController < ApplicationController
   helper :all
+  prepend_before_filter do
+    if Whitehall.admin_whitelist?(request)
+      authenticate_user! && require_signin_permission!
+    end
+  end
   before_filter :set_cache_control_headers
   before_filter :set_search_index
   before_filter :restrict_request_formats
