@@ -63,7 +63,7 @@ class Api::GenericEditionPresenter < Draper::Base
   def as_json(options = {})
     data = {
       title: model.title,
-      id: detailed_guide_url(model),
+      id: other_edition_url(model),
       web_url: h.public_document_url(model),
       details: {
         body: h.bare_govspeak_edition_to_html(model),
@@ -97,8 +97,8 @@ class Api::GenericEditionPresenter < Draper::Base
 
   private
 
-  def detailed_guide_url(guide)
-    h.api_detailed_guide_url guide.document, host: h.public_host
+  def other_edition_url(guide)
+    h.api_other_edition_url guide.document, host: h.public_host
   end
 
   def organisations
