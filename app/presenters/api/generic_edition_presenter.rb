@@ -105,7 +105,7 @@ class Api::GenericEditionPresenter < Draper::Base
     model.organisations.map do |org|
       {
         id: org.id,
-        web_url: h.url_for(org),
+        web_url: h.organisation_url(org),
         title: org.name,
         type: 'organisation'
       }
@@ -116,7 +116,7 @@ class Api::GenericEditionPresenter < Draper::Base
     model.topics.map do |topic|
       {
         id: topic.id,
-        web_url: h.url_for(topic),
+        web_url: h.topic_url(topic),
         title: topic.name,
         type: 'topic'
       }
