@@ -93,7 +93,9 @@ class Api::GenericEditionPresenter < Draper::Base
         id: org.id,
         web_url: h.organisation_url(org),
         title: org.name,
-        type: 'organisation'
+        details: {
+          type: 'organisation'
+        }
       }
     end
   end
@@ -104,7 +106,9 @@ class Api::GenericEditionPresenter < Draper::Base
         id: topic.id,
         web_url: h.topic_url(topic),
         title: topic.name,
-        type: 'topic'
+        details: {
+          type: 'topic'
+        }
       }
     end
   end
