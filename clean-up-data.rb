@@ -15,3 +15,17 @@ end
 Attachment.where("title LIKE '%kb)'").each do |attachment|
   attachment.update_column('title', attachment.title.gsub(/(.*)\((Word|PDF|DOC|CSV)?[^\)]+kb\)/i, "\\1").strip)
 end
+
+user = User.where(name: "Automatic data importer").first
+PaperTrail.whodunnit = user
+FatalityNotice.where("body LIKE '%\\n> %'").each do |notice|
+  body = notice.body
+  new_body = body.lines.map(&:strip).collect { |line|
+    line.gsub /^>\s*$/, ''
+  }.join("\n")
+  if notice.latest_edition.published?
+    notice.create_draft(user)
+  end
+  notice.body = new_body
+  notice.save
+end.size
