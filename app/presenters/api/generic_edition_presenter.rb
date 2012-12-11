@@ -66,11 +66,33 @@ class Api::GenericEditionPresenter < Draper::Base
       id: detailed_guide_url(model),
       web_url: h.public_document_url(model),
       details: {
-        body: h.bare_govspeak_edition_to_html(model)
-      },
+        body: h.bare_govspeak_edition_to_html(model),
+        updated_at: model.updated_at.iso8859,
+        published_at: model.published_at.iso8859
+      }
       format: model.format_name,
       tags: organisations + topics
     }
+    keys = [:location, :delivered_on, :opening_on, :closing_on, :publication_date,
+      :first_published_at, :summary]
+    keys.each do |key|
+      data[:details][key] = model.send(key) if model.send(key).present?
+    end
+    data
+
+    # t.integer  "speech_type_id"
+    # t.integer  "policy_team_id"
+    # t.integer  "publication_type_id"
+    # t.string   "related_mainstream_content_url"
+    # t.string   "related_mainstream_content_title"
+    # t.string   "additional_related_mainstream_content_url"
+    # t.string   "additional_related_mainstream_content_title"
+    # t.integer  "alternative_format_provider_id"
+    # t.integer  "document_series_id"
+    # t.integer  "published_related_publication_count"
+    # t.datetime "timestamp_for_sorting"
+    # t.integer  "primary_mainstream_category_id"
+    # t.integer  "operational_field_id"
   end
 
   private
@@ -100,14 +122,4 @@ class Api::GenericEditionPresenter < Draper::Base
       }
     end
   end
-
-  # def related_json
-  #   model.published_related_detailed_guides.map do |guide|
-  #     {
-  #       id: detailed_guide_url(guide),
-  #       title: guide.title,
-  #       web_url: h.public_document_url(guide)
-  #     }
-  #   end
-  # end
 end
