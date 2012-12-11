@@ -79,20 +79,6 @@ class Api::GenericEditionPresenter < Draper::Base
       data[:details][key] = model.send(key) if model.send(key).present?
     end
     data
-
-    # t.integer  "speech_type_id"
-    # t.integer  "policy_team_id"
-    # t.integer  "publication_type_id"
-    # t.string   "related_mainstream_content_url"
-    # t.string   "related_mainstream_content_title"
-    # t.string   "additional_related_mainstream_content_url"
-    # t.string   "additional_related_mainstream_content_title"
-    # t.integer  "alternative_format_provider_id"
-    # t.integer  "document_series_id"
-    # t.integer  "published_related_publication_count"
-    # t.datetime "timestamp_for_sorting"
-    # t.integer  "primary_mainstream_category_id"
-    # t.integer  "operational_field_id"
   end
 
   private
