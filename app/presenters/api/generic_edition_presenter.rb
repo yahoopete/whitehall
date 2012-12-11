@@ -67,9 +67,9 @@ class Api::GenericEditionPresenter < Draper::Base
       web_url: h.public_document_url(model),
       details: {
         body: h.bare_govspeak_edition_to_html(model),
-        updated_at: model.updated_at.iso8859,
-        published_at: model.published_at.iso8859
-      }
+        updated_at: model.updated_at.iso8601,
+        published_at: model.published_at.iso8601
+      },
       format: model.format_name,
       tags: organisations + topics
     }

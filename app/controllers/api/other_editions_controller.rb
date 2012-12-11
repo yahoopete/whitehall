@@ -9,13 +9,14 @@ class Api::OtherEditionsController < PublicFacingController
     if @document
       respond_with Api::GenericEditionPresenter.new(@document)
     else
+      # TODO this should return JSON. govuk_content_api does this so that PJAX can access the response_info
       render text: "Not found", status: :not_found
     end
   end
 
   def index
-    respond_with Api::DetailedGuidePresenter.paginate(
-      DetailedGuide.published.alphabetical
+    respond_with Api::GenericEditionPresenter.paginate(
+      Edition.published.alphabetical
     )
   end
 

@@ -22,6 +22,7 @@ Whitehall::Application.routes.draw do
         get :tags
       end
     end
+    resources :other_editions, only: [:show, :index], defaults: { format: :json }
   end
 
   scope Whitehall.router_prefix, shallow_path: Whitehall.router_prefix do
