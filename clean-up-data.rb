@@ -1,7 +1,9 @@
 # Clean up orphaned editions - should allow editors to fix documents
 # with "--2" etc. slugs
 Document.where("NOT EXISTS (SELECT * FROM editions WHERE `editions`.`document_id` = `documents`.id AND `state` <> 'deleted')").each do |dead|
-  dead.update_column('slug', "#{dead.slug}-has-been-deleted")
+  # Note that we need to prepend any slug changes due to the way
+  # friendly_id finds matching slugs
+  dead.update_column('slug', "deleted-#{dead.id}-#{dead.slug}") unless dead.slug.match("^deleted-")
 end
 
 # Clean up attachments with "blah blah PDF [192 kb]" in the title
