@@ -3,7 +3,7 @@ source 'https://gems.gemfury.com/vo6ZrmjBQu5szyywDszE/'
 
 gem 'delayed_job_active_record'
 gem 'statsd-ruby', '1.0.0', require: "statsd"
-gem 'rails', '3.1.7'
+gem 'rails', '3.2.8'
 gem 'mysql2'
 gem 'jquery-rails'
 gem 'transitions', require: ['transitions', 'active_record/transitions']
@@ -39,9 +39,8 @@ gem 'mini_magick'
 
 group :assets do
   gem 'govuk_frontend_toolkit', '0.8.0'
-  gem 'sass', '3.2.1'
-  gem 'sass-rails', '3.1.4'
-  gem 'uglifier'
+  gem 'sass-rails', '~> 3.2.3'
+  gem 'uglifier', '>=1.0.3'
 end
 
 group :development, :staging, :test do
@@ -57,7 +56,7 @@ group :test do
   gem 'factory_girl'
   gem 'hash_syntax'
   gem 'mocha', '0.10.0', require: false
-  gem 'test_track'
+  gem 'test_track', github: "episko/test_track"
   gem 'timecop'
   gem 'webmock', require: false
   gem 'minitest', '2.5.1'
