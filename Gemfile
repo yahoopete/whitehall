@@ -7,7 +7,7 @@ gem 'rails', '3.2.8'
 gem 'mysql2'
 gem 'transaction_isolation'
 gem 'jquery-rails'
-gem 'transitions', require: ['transitions', 'active_record/transitions']
+gem "transitions", require: ["transitions", "active_model/transitions"]
 gem 'carrierwave'
 gem 'govspeak', '~> 1.2.3'
 gem 'kramdown', git: 'https://github.com/alphagov/kramdown.git', branch: "add-gemspec"
@@ -56,7 +56,7 @@ end
 group :test do
   gem 'factory_girl'
   gem 'hash_syntax'
-  gem 'mocha', '~> 0.13.1', require: false
+  gem 'mocha', '~> 0.11.0', require: false
   gem 'test_track', github: "episko/test_track"
   gem 'timecop'
   gem 'webmock', require: false

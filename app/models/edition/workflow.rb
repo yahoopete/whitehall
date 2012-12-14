@@ -9,7 +9,7 @@ module Edition::Workflow
 
   included do
     include ::Transitions
-    include ActiveRecord::Transitions
+    include ActiveModel::Transitions
 
     default_scope where(arel_table[:state].not_eq('deleted'))
 

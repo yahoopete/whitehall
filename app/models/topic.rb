@@ -1,5 +1,5 @@
 class Topic < ActiveRecord::Base
-  include ActiveRecord::Transitions
+  include ActiveModel::Transitions
   include Searchable
   include Rails.application.routes.url_helpers
 
