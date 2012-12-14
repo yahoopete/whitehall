@@ -55,7 +55,7 @@ end
 group :test do
   gem 'factory_girl'
   gem 'hash_syntax'
-  gem 'mocha', '0.10.0', require: false
+  gem 'mocha', '~> 0.13.1', require: false
   gem 'test_track', github: "episko/test_track"
   gem 'timecop'
   gem 'webmock', require: false

@@ -202,7 +202,7 @@ GEM
     mini_magick (3.4)
       subexec (~> 0.2.1)
     minitest (2.5.1)
-    mocha (0.10.0)
+    mocha (0.13.1)
       metaclass (~> 0.0.1)
     multi_json (1.5.0)
     multipart-post (1.1.5)
@@ -412,7 +412,7 @@ DEPENDENCIES
   lograge
   mini_magick
   minitest (= 2.5.1)
-  mocha (= 0.10.0)
+  mocha (~> 0.13.1)
   mysql2
   newrelic_rpm
   nokogiri
