@@ -46,8 +46,6 @@ end
 group :development, :staging, :test do
   gem 'faker'
   gem 'thin', '1.5.0'
-  gem 'quiet_assets'
-  gem 'rails-dev-boost', '~> 0.2.1'
   gem 'brakeman'
   gem 'parallel_tests'
   gem 'pry-rails'
@@ -62,7 +60,7 @@ group :test do
   gem 'webmock', require: false
   gem 'minitest', '2.5.1'
   gem 'ci_reporter'
-  gem 'database_cleaner', '~> 0.8.0'
+  gem 'database_cleaner'
 end
 
 group :test_coverage do

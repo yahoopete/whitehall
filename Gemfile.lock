@@ -101,7 +101,7 @@ GEM
       cucumber (>= 1.0.6)
       nokogiri (>= 1.5.0)
     daemons (1.1.9)
-    database_cleaner (0.8.0)
+    database_cleaner (0.9.1)
     delayed_job (3.0.4)
       activesupport (~> 3.0)
     delayed_job_active_record (0.3.3)
@@ -199,7 +199,7 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     metaclass (0.0.1)
-    method_source (0.8)
+    method_source (0.8.1)
     mime-types (1.19)
     mini_magick (3.4)
       subexec (~> 0.2.1)
@@ -249,8 +249,6 @@ GEM
       slop (~> 3.3.1)
     pry-rails (0.2.2)
       pry (>= 0.9.10)
-    quiet_assets (1.0.1)
-      railties (~> 3.1)
     rabl (0.7.9)
       activesupport (>= 2.3.14)
       multi_json (~> 1.0)
@@ -271,8 +269,6 @@ GEM
       activesupport (= 3.2.8)
       bundler (~> 1.0)
       railties (= 3.2.8)
-    rails-dev-boost (0.2.1)
-      rails (>= 3.0)
     railties (3.2.8)
       actionpack (= 3.2.8)
       activesupport (= 3.2.8)
@@ -402,7 +398,7 @@ DEPENDENCIES
   ci_reporter
   cucumber (~> 1.0.6)
   cucumber-rails (~> 1.0.5)
-  database_cleaner (~> 0.8.0)
+  database_cleaner
   delayed_job_active_record
   draper
   exception_notification
@@ -432,10 +428,8 @@ DEPENDENCIES
   pdf-reader
   plek (= 0.5.0)
   pry-rails
-  quiet_assets
   rabl
   rails (= 3.2.8)
-  rails-dev-boost (~> 0.2.1)
   router-client (~> 3.0.1)
   rummageable (= 0.6.1)
   sass-rails (~> 3.2.3)

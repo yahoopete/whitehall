@@ -79,7 +79,7 @@ class HomeControllerTest < ActionController::TestCase
   end
 
   test "progress bar does not show if you have suppressed it" do
-    @request.cookies['inside-gov-joining'] = '1'
+   cookies['inside-gov-joining'] = '1'
     org = create(:ministerial_department)
 
     get :home
