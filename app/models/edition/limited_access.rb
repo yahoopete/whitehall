@@ -27,17 +27,15 @@ module Edition::LimitedAccess
     end
   end
 
-  module InstanceMethods
-    def access_limited?
-      self.can_limit_access? && read_attribute(:access_limited)
-    end
+  def access_limited?
+    self.can_limit_access? && read_attribute(:access_limited)
+  end
 
-    def accessible_by?(user)
-      if access_limited?
-        organisations.include?(user.organisation) || authors.include?(user)
-      else
-        true
-      end
+  def accessible_by?(user)
+    if access_limited?
+      organisations.include?(user.organisation) || authors.include?(user)
+    else
+      true
     end
   end
 end
