@@ -5,6 +5,7 @@ gem 'delayed_job_active_record'
 gem 'statsd-ruby', '1.0.0', require: "statsd"
 gem 'rails', '3.2.8'
 gem 'mysql2'
+gem 'transaction_isolation'
 gem 'jquery-rails'
 gem 'transitions', require: ['transitions', 'active_record/transitions']
 gem 'carrierwave'
@@ -13,7 +14,6 @@ gem 'kramdown', git: 'https://github.com/alphagov/kramdown.git', branch: "add-ge
 gem 'validates_email_format_of'
 gem 'friendly_id', '4.0.0.beta14'
 gem 'nokogiri'
-gem 'rake', '0.9.2'
 gem 'boomerang-rails'
 gem 'slimmer', '3.9.4'
 gem 'plek', '0.5.0'
