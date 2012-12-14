@@ -1,7 +1,7 @@
 class DocumentsAreRelatedToPolicies < ActiveRecord::Migration
 
   class DocumentRelationTable < ActiveRecord::Base
-    set_table_name :document_relations
+    self.table_name = "document_relations"
   end
 
   def up

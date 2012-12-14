@@ -1,5 +1,5 @@
 class Document < ActiveRecord::Base
-  set_table_name :documents
+  self.table_name = "documents"
 
   extend FriendlyId
 
