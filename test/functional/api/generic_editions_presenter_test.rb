@@ -4,7 +4,7 @@ require 'shoulda'
 class Api::GenericEditionPresenterTest < PresenterTestCase
   setup do
     Whitehall.stubs(:public_host_for).returns('govuk.example.com')
-    @organisation = stub_record(:organisation, organisation_type: stub_record(:ministerial_organisation_type), slug: "an-org")
+    @organisation = stub_record(:organisation, organisation_type: stub_record(:ministerial_organisation_type), slug: "an-org", name: "An Org")
     stubs_helper_method(:params).returns(format: :json)
   end
 
@@ -49,7 +49,7 @@ class Api::GenericEditionPresenterTest < PresenterTestCase
       tag = {
         # id: "", # The API URL will go here, when we have one
         web_url: "http://govuk.example.com/government/organisations/an-org",
-        title: "organisation-11", 
+        title: "An Org", 
         details: { type: "organisation" }
       }
       assert_equal [tag], @presenter.as_json[:tags]
