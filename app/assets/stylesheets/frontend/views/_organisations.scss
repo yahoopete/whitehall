@@ -26,8 +26,8 @@
 
     .filter-list-form {
       label {
-        @include core-19;
-        color: $low-contrast;
+        @include ig-core-19;
+        color: $secondary-text-colour;
         display: inline-block;
       }
       input {
@@ -44,13 +44,17 @@
 
     h1 {
       padding-top: 0;
+      &#departments {
+        padding-top: 17px;
+        padding-top: 1.7rem;
+      }
     }
 
     .department {
       @extend %contain-floats;
       padding: $gutter-one-third 0;
       list-style: none;
-      border-bottom: 1px solid $light-keyline;
+      border-bottom: 1px solid $border-colour;
 
       h2 {
         padding: $gutter-one-third 0;
@@ -60,7 +64,7 @@
       .view-all {
         display: block;
         float: left;
-        @include core-16;
+        @include ig-core-16;
       }
       .works-with {
         @include media(desktop){
@@ -68,7 +72,7 @@
         }
       }
       .view-all {
-        background: $info-background;
+        background: $panel-colour;
         @include border-radius(3px);
         padding: 2px $gutter-one-sixth;
         margin: 3px $gutter-half 10px;
@@ -97,7 +101,7 @@
     .child-organisations {
       clear: both;
       margin: 0 (-15px);
-      background: $info-background;
+      background: $panel-colour;
       p{
         padding-bottom:$gutter-half;
 
@@ -106,14 +110,14 @@
         padding: $gutter-half;
       }
       h3 {
-        @include core-14;
-        border-bottom: 1px solid $light-keyline;
+        @include ig-core-14;
+        border-bottom: 1px solid $border-colour;
       }
       ol {
         overflow: hidden;
         margin: 0 (-$gutter-one-third) $gutter-one-third;
         li {
-          @include core-16;
+          @include ig-core-16;
           display: block;
           @include media(desktop){
             width: 33.33%;
@@ -134,8 +138,8 @@
     .index-list {
       li {
         list-style: none;
-        border-bottom: 1px solid $light-keyline;
-        @include core-19;
+        border-bottom: 1px solid $border-colour;
+        @include ig-core-19;
       }
     }
   }
@@ -185,7 +189,7 @@
 
   h1.label,
   .topic h2 {
-    @include core-27;
+    @include ig-core-27;
     margin-bottom: $gutter-two-thirds;
   }
 
@@ -193,6 +197,16 @@
     text-decoration: underline;
   }
 
+  .jobs-contracts {
+    padding-left: $gutter-one-third;
+  }
+  .corporate-information-block {
+    width: 65%;
+  }
+  .access-our-info {
+    width: 33.33%;
+  }
+  
   .page-header {
     padding: $gutter-two-thirds 0 $gutter-one-third;
     overflow: hidden;
@@ -213,10 +227,11 @@
         float: left;
         width: 33.33%;
         padding-top: 0;
+        margin-top: ($gutter-one-third * -1);
       }
 
       h4 {
-        @include core-19;
+        @include ig-core-19;
 
         @include media(tablet){
           position: absolute;
@@ -232,7 +247,10 @@
         }
 
         li {
-          @include core-16;
+          @include ig-core-16;
+          @include media(tablet){
+            padding-bottom: 0;
+          }
         }
       }
     }
@@ -249,7 +267,7 @@
       width: 66.66%;
 
       h2 {
-        @include core-48;
+        @include ig-core-48;
         padding-left: $gutter-one-third;
         margin-top: $gutter;
       }
@@ -280,34 +298,39 @@
 
         .img {
           display: block;
-          @include media(tablet){
-            padding-right: $gutter-half;
-          }
         }
         .meta {
-          @include core-14;
-          color: $low-contrast;
+          @include ig-core-14;
+          color: $secondary-text-colour;
           padding-bottom: 0;
         }
         h2 {
-          @include core-19;
+          @include ig-core-19;
           padding-top: 0;
         }
         .summary {
-          @include core-16;
+          @include ig-core-16;
         }
       }
 
       &.first {
+        width: 100%;
         .content {
+          padding: $gutter-half 0 $gutter-one-third 0;
           @extend %contain-floats;
           .img-holder {
             @include media(tablet){
               width: 66.66%;
               float: left;
             }
+            .img {
+              padding: 0 $gutter-half;
+            }
           }
           .text {
+            .meta, h2, .summary {
+              padding: 0 $gutter-half;
+            }
             @include media(tablet){
               width: 33.33%;
               float: left;
@@ -320,10 +343,10 @@
               }
             }
             h2 {
-              @include core-24;
+              @include ig-core-24;
             }
             .summary {
-              @include core-19;
+              @include ig-core-19;
             }
           }
         }
@@ -336,6 +359,7 @@
     &.items-4 {
       .latest-documents {
         @include media(tablet){
+          clear: both;
           width: 66.66%;
         }
       }
@@ -375,10 +399,10 @@
         }
       }
       h2 {
-        @include core-19;
+        @include ig-core-19;
       }
       .summary {
-        @include core-16;
+        @include ig-core-16;
       }
     }
 
@@ -399,12 +423,15 @@
         @include media(tablet){
           padding-top: $gutter-half;
         }
-        background: $info-background;
+        background: $panel-colour;
 
         h1 {
           margin-bottom: 0;
         }
 
+        table {
+          margin-top: $gutter-one-third;
+        }
         .subscribe {
           float: none;
         }
@@ -418,17 +445,20 @@
         width: 66.66%;
       }
     }
+    .what-we-do {
+      clear: both;
+    }
   }
 
   .document-list {
     margin: 0;
 
     .document-row {
-      @include core-14;
+      @include ig-core-14;
       border-bottom: none;
 
       th {
-        @include core-14;
+        @include ig-core-14;
         margin: $gutter-one-third 0 0 0;
         padding: 0;
       }
@@ -459,13 +489,13 @@
       padding: $gutter-half;
     }
     h2 {
-      @include core-24;
+      @include ig-core-24;
     }
   }
 
   .what-we-do {
     p {
-      @include core-19;
+      @include ig-core-19;
     }
 
     .parent_organisations {
@@ -474,7 +504,7 @@
 
     .body {
       h2 {
-        border-bottom: 1px solid $light-keyline;
+        border-bottom: 1px solid $border-colour;
 
         &:first-child {
           margin-top: $gutter;
@@ -524,8 +554,7 @@
           position: relative;
           float: left;
           width: 25%;
-          margin-right: -100%;
-          margin-left: 0;
+          margin: 0;
           li {
             width: 100%;
           }
@@ -534,18 +563,8 @@
           position: relative;
           float: left;
           width: 75%;
-          margin-right: -100%;
-          margin-left: 25%;
           li {
             width: 33.33%;
-
-            &:nth-child(4n+1) {
-              clear: none;
-            }
-
-            &:nth-child(3n+1) {
-              clear: both;
-            }
           }
         }
       }
@@ -563,7 +582,7 @@
   #org-contacts {
 
     h2 {
-      @include core-24;
+      @include ig-core-24;
     }
 
     .organisation_contact h2 {
@@ -671,46 +690,6 @@
     }
   }
 
-  .social-media-accounts {
-    li {
-      list-style: none;
-      clear: both;
-      overflow: hidden;
-      margin: $gutter-half 0;
-      @include core-16;
-      padding: 0;
-      line-height: ($gutter-two-thirds+$gutter-one-sixth);
-    }
-
-    .connect {
-      float: left;
-      display: inline;
-      width: ($gutter-two-thirds+$gutter-one-sixth);
-      height: ($gutter-two-thirds+$gutter-one-sixth);
-      text-indent: -5000%;
-      overflow: hidden;
-      margin-right: $gutter-one-third;
-      background-color: $inside-gov-brand;
-      background-image: image-url("social-icons-white.png");
-      background-repeat: no-repeat;
-    }
-
-    .facebook .connect {
-      background-position: -2px -2px;
-    }
-
-    .twitter .connect {
-      background-position: -2px -32px;
-    }
-
-    .youtube .connect {
-      background-position: -2px -62px;
-    }
-
-    .flickr .connect {
-      background-position: -2px -92px;
-    }
-  }
 
 
 
@@ -740,7 +719,7 @@
       width: 66.66%;
       float: right;
       .inner-block {
-        padding-left: $gutter-one-sixth;
+        padding-left: $gutter-one-third;
       }
     }
     .block-3 {
@@ -762,16 +741,47 @@
     display: block;
     word-wrap: break-word;
   }
+
   .page-header {
-    padding: $gutter-half 0 $gutter 0;
+    @include media(tablet) {
+      padding: $gutter-half 0 $gutter 0;
+    }
+
+    h1 {
+      @include media(desktop){
+        float: left;
+        padding-top: 0;
+        width: 33.33%;
+      }
+    }
+
+    .sub-organisation-name {
+      h2 {
+        @include ig-core-36;
+        padding-left: 0;
+        margin-top: $gutter-half;
+        a {
+          color: #000;
+        }
+        @include media(desktop) {
+          @include ig-core-48;
+        }
+      }
+      @include media(desktop) {
+        float: left;
+        margin-bottom: $gutter;
+        width: 66.66%;
+      }
+    }
 
     @include media(desktop) {
       padding-bottom: $gutter*2;
     }
   }
+
   .description {
     p {
-      @include core-19;
+      @include ig-core-19;
     }
 
     margin-bottom: $gutter;
@@ -790,7 +800,7 @@
     }
   }
   .information-block {
-    @include core-19;
+    @include ig-core-19;
     padding: $gutter-two-thirds 33.33% $gutter-two-thirds 0;
     margin-top: 0;
     margin-bottom: $gutter;
@@ -826,20 +836,15 @@
     }
   }
 
-  #recently-updated table {
-    margin-top: $gutter-one-third;
-  }
-
 }
 
 
 // Used on:
 // organisations#about, corporate_information_page#show
 .organisation-page {
-  @include department-colours('nav a', color);
-  @include department-colours('.body a', color);
-  @include department-colours('.body .attachment .accessibility-warning h3 .toggler', color);
-  @include department-colours('.corporate-info a', color);
+  @include websafe-department-colours('nav a', color);
+  @include websafe-department-colours('.block-2 a', color);
+  @include websafe-department-colours('.body .attachment .accessibility-warning h3 .toggler', color);
 
   @include media(desktop){
     .block-1 {
@@ -857,7 +862,7 @@
 
     .sub-organisation-name {
       h2 {
-        @include core-36;
+        @include ig-core-36;
         padding-top: $gutter;
         a {
           color: #000;
@@ -867,7 +872,7 @@
   }
 
   nav {
-    @include core-16;
+    @include ig-core-16;
     padding: ($gutter - $gutter-one-third) 0 $gutter;
     h1 {
       @include bold;
@@ -892,48 +897,41 @@
     }
   }
   .main {
-    @include core-48;
+    @include ig-core-48;
 
     @include media(desktop){
       margin: ($gutter*3 + $gutter-half) 0 $gutter-half;
     }
   }
   .description {
-    @include core-27;
+    @include ig-core-27;
   }
   .body {
     h2 {
-      border-bottom: 1px solid $light-keyline;
+      border-bottom: 1px solid $border-colour;
 
       &:first-child {
         margin-top: $gutter;
       }
     }
   }
-  .corporate-info {
-    padding-top: $gutter-half;
-
+  .corporate-publications {
     h1 {
-      @include core-27;
-      border-bottom: 4px solid;
+      @include ig-core-27;
+      margin: $gutter 0 $gutter-half 0;
     }
-    h2 {
-      @include core-16;
-      padding-top: $gutter-two-thirds;
-    }
-
     ul {
       li {
         list-style: none;
-        border-bottom: 1px solid $light-keyline;
+        border-bottom: 1px solid $border-colour;
         padding: $gutter-one-sixth 0;
 
         h3 {
-          @include core-19;
+          @include ig-core-19;
           padding: 0;
         }
         .metadata {
-          @include core-14;
+          @include ig-core-14;
           padding: 0;
         }
         a {
@@ -943,35 +941,10 @@
     }
     .transparency {
       a {
-        @include core-19;
+        @include ig-core-19;
         @include bold;
       }
     }
   }
   @include department-colours('.corporate-info h1', border-color);
 }
-
-.organisation-page, .organisations-show {
-  .block-2 h1.label {
-    @include core-27;
-    margin: $gutter 0 $gutter-half 0;
-  }
-  .corporate-information {
-    float: left;
-    width: 50%;
-    nav {
-      display: block;
-      padding-top: 0;
-      width: 100%;
-    }
-    h2 {
-      @include core-19;
-      @include bold;
-    }
-    &+ aside, p {
-      clear: both;
-      padding-top: $gutter-half;
-    }
-  }
-}
-

@@ -40,9 +40,20 @@
     <section>
       <h2>Topics</h2>
       <% if edition.topics.any? %>
-        <%= render partial: "topics/list", locals: {topics: edition.topics} %>
+        <%= render partial: "classifications/list", locals: {topics: edition.topics} %>
       <% else %>
         <p>This document isn't assigned to any topics.</p>
+      <% end %>
+    </section>
+  <% end %>
+
+  <% if edition.can_be_associated_with_topical_events? %>
+    <section>
+      <h2>Topical events</h2>
+      <% if edition.topical_events.any? %>
+        <%= render partial: "classifications/list", locals: {topics: edition.topical_events} %>
+      <% else %>
+        <p>This document isn't assigned to any topical events.</p>
       <% end %>
     </section>
   <% end %>
@@ -96,13 +107,13 @@
     </section>
   <% end %>
 
-  <% if edition.can_be_associated_with_countries? %>
+  <% if edition.can_be_associated_with_world_locations? %>
     <section>
-      <h2>Countries</h2>
-      <% if edition.countries.any? %>
-        <%= render partial: "admin/countries/list", locals: {countries: edition.countries} %>
+      <h2>World locations</h2>
+      <% if edition.world_locations.any? %>
+        <%= render partial: "admin/world_locations/list", locals: {world_locations: edition.world_locations} %>
       <% else %>
-        <p>This document isn't assigned to any countries.</p>
+        <p>This document isn't assigned to any world locations.</p>
       <% end %>
     </section>
   <% end %>

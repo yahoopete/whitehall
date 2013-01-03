@@ -1,0 +1,58 @@
+<%= form_for [:admin, classification] do |classification_form| %>
+  <%= classification_form.errors %>
+
+  <fieldset>
+    <%= classification_form.text_field :name %>
+    <%= classification_form.text_area :description %>
+  </fieldset>
+
+  <%= render partial: 'related_topics', locals: {classification_form: classification_form} %>
+  <%= render partial: 'logo', locals: {classification_form: classification_form} %>
+
+  <%= render partial: 'social_media', locals: {classification_form: classification_form} %>
+
+  <fieldset id="policy_order" class="named sortable">
+    <legend>Policy ordering</legend>
+    <%= classification_form.fields_for :classification_memberships, classification.classification_memberships.for_type(Policy).published do |classification_membership_form| %>
+      <% policy = classification_membership_form.object.policy %>
+      <div id="<%= dom_id(policy) %>" class="well">
+        <%= classification_membership_form.text_field :ordering, label_text: link_to(policy.title, admin_edition_path(policy)), class: "ordering" %>
+        <p>
+          <%= [pluralize(Publication.published.related_to(policy).count, "publication"),
+               pluralize(NewsArticle.published.related_to(policy).count, "news article")].to_sentence %>
+        </p>
+      </div>
+    <% end %>
+  </fieldset>
+
+  <div class="row-fluid">
+    <fieldset id="organisations" class="named span4">
+      <legend>Organisations</legend>
+
+      <div id="organisation_sortable">
+        <%= classification_form.fields_for :organisation_classifications, classification.organisation_classifications.where(lead: false) do |organisation_form| %>
+          <% organisation = organisation_form.object.organisation %>
+          <div id="<%= dom_id(organisation) %>" class="well">
+            <%= organisation_form.text_field :lead_ordering, label_text: link_to(organisation.name, admin_organisation_path(organisation)), class: "ordering" %>
+            <%= organisation_form.text_field :lead, label_text: "#{organisation.name} is lead?", class: "lead" %>
+          </div>
+        <% end %>
+      </div>
+    </fieldset>
+
+    <fieldset id="lead_organisation_order" class="named span4">
+      <legend>Lead organisations</legend>
+
+      <div id="lead_organisation_sortable">
+        <%= classification_form.fields_for :organisation_classifications, classification.lead_organisation_classifications do |lead_organisation_form| %>
+          <% lead_organisation = lead_organisation_form.object.organisation %>
+          <div id="<%= dom_id(lead_organisation) %>" class="well">
+            <%= lead_organisation_form.text_field :lead_ordering, label_text: link_to(lead_organisation.name, admin_organisation_path(lead_organisation)), class: "ordering" %>
+            <%= lead_organisation_form.text_field :lead, label_text: "#{lead_organisation.name} is lead?", class: "lead" %>
+          </div>
+        <% end %>
+      </div>
+    </fieldset>
+  </div>
+  <%= classification_form.save_or_cancel cancel: [:admin, model_class] %>
+<% end %>

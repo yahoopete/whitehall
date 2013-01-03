@@ -14,22 +14,7 @@ $inside-gov-nav: #0B0C0C;
 $inside-gov-nav-dropdown: #888;
 
 $coalition-green: #85994b;
-
-// Text colours
-$body-text: #0B0C0C;
-$low-contrast: lighten($body-text, 50%);
-$link-text: $inside-gov-brand;
-$detailed-guidance-link-text: $detailed-guidance-brand;
-
-// Keyline colours
-$light-keyline: $light-blue-grey;
-
-// Background colours
-$info-background: $light-warm-grey;
-$info-background-hover: darken($light-warm-grey, 5%);
-
-
-
+$g8-brand: #c10019;
 
 
 // Web safe department colours
@@ -84,11 +69,11 @@ $treasury-websafe: #832322;
   .department-for-communities-and-local-government #{$selector} { #{$property}: $department-for-communities-and-local-government; }
   .department-for-work-and-pensions #{$selector} { #{$property}: $department-for-work-and-pensions; }
   .department-for-energy-and-climate-change #{$selector} { #{$property}: $department-for-energy-and-climate-change; }
-  .department-for-business-innovation-and-skills #{$selector} { #{$property}: $department-for-business-innovation-and-skills; }
+  .department-for-business-innovation-skills #{$selector} { #{$property}: $department-for-business-innovation-and-skills; }
   .cabinet-office #{$selector} { #{$property}: $cabinet-office; }
   .hm-government #{$selector} { #{$property}: $hm-government; }
   .department-for-education #{$selector} { #{$property}: $department-for-education; }
-  .foreign-and-commonwealth-office #{$selector} { #{$property}: $foreign-and-commonwealth-office; }
+  .foreign-commonwealth-office #{$selector} { #{$property}: $foreign-and-commonwealth-office; }
   .scotland-office #{$selector} { #{$property}: $scotland-office; }
   .department-for-international-development #{$selector} { #{$property}: $department-for-international-development; }
   .home-office #{$selector} { #{$property}: $home-office; }
@@ -111,11 +96,11 @@ $treasury-websafe: #832322;
   .department-for-communities-and-local-government #{$selector} { #{$property}: $department-for-communities-and-local-government-websafe; }
   .department-for-work-and-pensions #{$selector} { #{$property}: $department-for-work-and-pensions-websafe; }
   .department-for-energy-and-climate-change #{$selector} { #{$property}: $department-for-energy-and-climate-change-websafe; }
-  .department-for-business-innovation-and-skills #{$selector} { #{$property}: $department-for-business-innovation-and-skills-websafe; }
+  .department-for-business-innovation-skills #{$selector} { #{$property}: $department-for-business-innovation-and-skills-websafe; }
   .cabinet-office #{$selector} { #{$property}: $cabinet-office-websafe; }
   .hm-government #{$selector} { #{$property}: $hm-government-websafe; }
   .department-for-education #{$selector} { #{$property}: $department-for-education-websafe; }
-  .foreign-and-commonwealth-office #{$selector} { #{$property}: $foreign-and-commonwealth-office-websafe; }
+  .foreign-commonwealth-office #{$selector} { #{$property}: $foreign-and-commonwealth-office-websafe; }
   .scotland-office #{$selector} { #{$property}: $scotland-office-websafe; }
   .department-for-international-development #{$selector} { #{$property}: $department-for-international-development-websafe; }
   .home-office #{$selector} { #{$property}: $home-office-websafe; }

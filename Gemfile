@@ -3,7 +3,7 @@ source 'https://gems.gemfury.com/vo6ZrmjBQu5szyywDszE/'
 
 gem 'delayed_job_active_record'
 gem 'statsd-ruby', '1.0.0', require: "statsd"
-gem 'rails', '3.1.7'
+gem 'rails', '3.1.9'
 gem 'mysql2'
 gem 'jquery-rails'
 gem 'transitions', require: ['transitions', 'active_record/transitions']
@@ -15,7 +15,7 @@ gem 'friendly_id', '4.0.0.beta14'
 gem 'nokogiri'
 gem 'rake', '0.9.2'
 gem 'boomerang-rails'
-gem 'slimmer', '3.9.4'
+gem 'slimmer', '3.10.0'
 gem 'plek', '0.5.0'
 gem 'fog'
 gem 'pdf-reader'
@@ -28,7 +28,7 @@ gem 'rabl'
 gem "paper_trail"
 gem 'aws-ses', require: 'aws/ses'
 gem 'draper'
-gem 'newrelic_rpm'
+gem 'newrelic_rpm', '3.5.3.25'
 gem 'lograge'
 gem 'unicorn'
 gem 'kaminari'
@@ -38,7 +38,7 @@ gem 'whenever', '0.7.3', require: false
 gem 'mini_magick'
 
 group :assets do
-  gem 'govuk_frontend_toolkit', '0.8.0'
+  gem 'govuk_frontend_toolkit', '0.9.0'
   gem 'sass', '3.2.1'
   gem 'sass-rails', '3.1.4'
   gem 'uglifier'
@@ -50,6 +50,7 @@ group :development, :staging, :test do
   gem 'quiet_assets'
   gem 'rails-dev-boost', '~> 0.2.1'
   gem 'brakeman'
+  gem 'parallel_tests'
 end
 
 group :test do

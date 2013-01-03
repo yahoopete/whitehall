@@ -1,15 +1,22 @@
 .govspeak {
+  h2:first-child,
+  h3:first-child,
+  h4:first-child,
+  p:first-child {
+    margin-top: 0;
+  }
+
   h2 {
-    @include core-27;
-    color: lighten($body-text, 20%);
+    @include ig-core-27;
+    color: lighten($text-colour, 20%);
     margin-top: $gutter;
     @media (max-width: 640px) {
       margin-top: $gutter-half;
     }
   }
   h3 {
-    @include core-24;
-    color: lighten($body-text, 20%);
+    @include ig-core-24;
+    color: lighten($text-colour, 20%);
     margin-top: $gutter;
     @media (max-width: 640px) {
       margin-top: $gutter-half;
@@ -18,8 +25,8 @@
   h4,
   h5,
   h6 {
-    @include core-19;
-    color: lighten($body-text, 20%);
+    @include ig-core-19;
+    color: lighten($text-colour, 20%);
     margin-top: $gutter;
     @media (max-width: 640px) {
       margin-top: $gutter-half;
@@ -29,12 +36,8 @@
     margin: 0;
   }
 
-  h2:first-child {
-    margin-top: 0;
-  }
-
   p {
-    @include core-19;
+    @include ig-core-19;
     margin: $gutter-half 0;
     @media (max-width: 640px) {
       margin: $gutter-one-sixth 0;
@@ -54,11 +57,11 @@
     list-style: disc;
     list-style-position: outside;
     padding: 0;
-    margin: 0 0 $gutter-half;
+    margin: 0 0 $gutter-half 1.25em;
   }
 
   li {
-    @include core-19;
+    @include ig-core-19;
     margin-left: $gutter*1.2;
 
     li {
@@ -88,12 +91,13 @@
     padding: 0;
     margin: 0;
     border: 0;
-    color: lighten($body-text, 33.333%);
+    color: lighten($text-colour, 33.333%);
 
     &:before {
       content: "\201C";
       float: left;
-      @include core-48;
+      clear: both;
+      @include ig-core-48;
       padding-top: 0;
     }
     p {
@@ -132,14 +136,14 @@
     }
 
     figcaption {
-      @include core-14;
+      @include ig-core-14;
     }
   }
 
   .information-block,
   .call-to-action {
     margin: $gutter 0 $gutter $gutter-half*-1;
-    background: $info-background none no-repeat 98% $gutter-two-thirds;
+    background: $panel-colour none no-repeat 98% $gutter-two-thirds;
     padding: $gutter-one-third ($gutter*2) $gutter-one-third $gutter-half;
     position: relative;
     p {
@@ -174,7 +178,7 @@
     border-spacing: 0;
     margin: $gutter -1em $gutter -1em;
     width: 100%;
-    @include core-19;
+    @include ig-core-19;
 
     caption {
       text-align:left;
@@ -239,7 +243,7 @@
   }
 
   .address {
-    border-left: 1px solid $light-keyline;
+    border-left: 1px solid $border-colour;
     padding-left: $gutter-half;
   }
 }

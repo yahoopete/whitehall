@@ -8,6 +8,18 @@ Given /^the topic "([^"]*)" contains some policies$/ do |topic_name|
   2.times do create(:draft_policy,     topics: [topic]); end
 end
 
+Given /^the topic "([^"]*)" is associated with organisation "([^"]*)"$/ do |topic_name, organisation_name|
+  topic = Topic.find_by_name(topic_name) || create(:topic, name: topic_name)
+  organisation = Organisation.find_by_name(organisation_name) || create(:ministerial_department, name: organisation_name)
+  organisation.topics << topic
+end
+
+Given /^the topic "([^"]*)" has "([^"]*)" as a lead organisation$/ do |topic_name, organisation_name|
+  topic = Topic.find_by_name(topic_name) || create(:topic, name: topic_name)
+  organisation = Organisation.find_by_name(organisation_name) || create(:ministerial_department, name: organisation_name)
+  OrganisationClassification.create(topic: topic, organisation: organisation, lead: true)
+end
+
 Given /^the topic "([^"]*)" contains a published and a draft detailed guide$/ do |topic_name|
   detailed_guides = [build(:published_detailed_guide), build(:draft_detailed_guide)]
   create(:topic, name: topic_name, detailed_guides: detailed_guides)
@@ -26,7 +38,7 @@ end
 Given /^the topic "([^"]*)" is related to the topic "([^"]*)"$/ do |name, related_name|
   related_topic = create(:topic, name: related_name)
   topic = Topic.find_by_name(name)
-  topic.update_attributes!(related_topics: [related_topic])
+  topic.update_attributes!(related_classifications: [related_topic])
 end
 
 When /^I create a new topic "([^"]*)" with description "([^"]*)"$/ do |name, description|
@@ -35,7 +47,7 @@ end
 
 When /^I create a new topic "([^"]*)" related to topic "([^"]*)"$/ do |name, related_name|
   create_topic(name: related_name)
-  create_topic(name: name, related_topics: [related_name])
+  create_topic(name: name, related_classifications: [related_name])
 end
 
 When /^I edit the topic "([^"]*)" to have description "([^"]*)"$/ do |name, description|
@@ -64,6 +76,23 @@ When /^I set the order of the policies in the "([^"]*)" topic to:$/ do |name, ta
   click_button "Save"
 end
 
+When /^I set the order of the lead organisations in the "([^"]*)" topic to:$/ do |topic_name, table|
+  topic = Topic.find_by_name!(topic_name)
+  visit edit_admin_topic_path(topic)
+
+  lead_organisations = table.rows.map { |(organisation_name)| organisation_name }
+  lead_organisations.each_with_index do |organisation_name, index|
+    fill_in organisation_name, with: index
+    fill_in organisation_name+' is lead?', with: '1'
+  end
+  other_organisations = topic.organisations.map(&:name) - lead_organisations
+  other_organisations.each do |organisation_name|
+    fill_in organisation_name, with: ''
+    fill_in organisation_name+' is lead?', with: '0'
+  end
+  click_button "Save"
+end
+
 Then /^I should see in the admin the "([^"]*)" topic description is "([^"]*)"$/ do |name, description|
   visit admin_topics_path
   assert page.has_css?(".name", text: name)
@@ -87,6 +116,22 @@ Then /^I should see the order of the policies in the "([^"]*)" topic is:$/ do |n
   topic = Topic.find_by_name!(name)
   visit topic_path(topic)
   rows = find("#policies").all('h2')
+  table = rows.map { |r| r.all('a').map { |c| c.text.strip } }
+  expected_table.diff!(table)
+end
+
+Then /^I should see the order of the lead organisations in the "([^"]*)" topic is:$/ do |topic_name, expected_table|
+  topic = Topic.find_by_name!(topic_name)
+  visit edit_admin_topic_path(topic)
+  rows = find("#lead_organisation_order").all(:xpath, './/label[./a]')
+  table = rows.map { |r| r.all('a').map { |c| c.text.strip } }
+  expected_table.diff!(table)
+end
+
+Then /^I should see the following organisations for the "([^"]*)" topic:$/ do |topic_name, expected_table|
+  topic = Topic.find_by_name!(topic_name)
+  visit edit_admin_topic_path(topic)
+  rows = find("#organisations").all(:xpath, './/label[./a]')
   table = rows.map { |r| r.all('a').map { |c| c.text.strip } }
   expected_table.diff!(table)
 end
@@ -130,7 +175,7 @@ def create_topic(options = {})
   click_link "Create topic"
   fill_in "Name", with: options[:name] || "topic-name"
   fill_in "Description", with: options[:description] || "topic-description"
-  (options[:related_topics] || []).each do |related_name|
+  (options[:related_classifications] || []).each do |related_name|
     select related_name, from: "Related topics"
   end
   click_button "Save"

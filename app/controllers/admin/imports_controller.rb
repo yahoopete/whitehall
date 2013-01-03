@@ -12,7 +12,7 @@ class Admin::ImportsController < Admin::BaseController
 
   def create
     csv_file = params[:import].delete(:file)
-    @import = Import.create_from_file(current_user, csv_file, params[:import][:data_type])
+    @import = Import.create_from_file(current_user, csv_file, params[:import][:data_type], params[:import][:organisation_id])
     if @import.valid?
       redirect_to admin_import_path(@import)
     else
@@ -47,9 +47,6 @@ class Admin::ImportsController < Admin::BaseController
   end
 
 private
-  def require_import_permission!
-    authorise_user!(GDS::SSO::Config.default_scope, User::Permissions::IMPORT)
-  end
 
   def find_import
     @import = Import.find(params[:id])

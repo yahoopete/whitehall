@@ -4,7 +4,7 @@ $thumbnail-width: 99px;
   position: relative;
   margin: $gutter ($gutter-half*-1);
   padding: $gutter-half 0 0 ($thumbnail-width + $gutter);
-  background: $info-background;
+  background: $panel-colour;
   @extend %contain-floats;
   
   @include media(tablet){
@@ -42,17 +42,17 @@ $thumbnail-width: 99px;
   
   .attachment-details {
     h1, h2, h3 {
-      @include core-27;
+      @include ig-core-27;
       margin: 0;
     }
     
     .extra-description {
-      @include core-19;
+      @include ig-core-19;
       margin: 0;
     }
     
     .metadata {
-      @include core-14;
+      @include ig-core-14;
       margin: 0;
       .changed,
       .references {
@@ -63,12 +63,12 @@ $thumbnail-width: 99px;
   
   .accessibility-warning {
     h3 {
-      @include core-14;
+      @include ig-core-14;
       margin: 0;
-      color: $body-text;
+      color: $text-colour;
     }
     .toggler {
-      color: $link-text;
+      color: $link-colour;
       cursor: pointer;
       &:hover,
       &:focus {
@@ -82,7 +82,7 @@ $thumbnail-width: 99px;
 .attachment-full-width {
   margin: $gutter ($gutter-half*-1);
   padding: $gutter-two-thirds $gutter-half $gutter-half;
-  background: $info-background;
+  background: $panel-colour;
   @extend %contain-floats;
   
   .attachment {
@@ -92,9 +92,9 @@ $thumbnail-width: 99px;
   }
   
   h2.supporting-documents-title {
-    @include core-16;
+    @include ig-core-16;
     margin-top: $gutter;
-    color: $body-text;
+    color: $text-colour;
   }
   
   .attachment-without-thumbnail {

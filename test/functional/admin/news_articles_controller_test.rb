@@ -17,10 +17,11 @@ class Admin::NewsArticlesControllerTest < ActionController::TestCase
   should_allow_related_policies_for :news_article
   should_allow_organisations_for :news_article
   should_allow_role_appointments_for :news_article
-  should_allow_association_between_countries_and :news_article
+  should_allow_association_between_world_locations_and :news_article
   should_allow_attached_images_for :news_article
   should_be_rejectable :news_article
   should_be_publishable :news_article
+  should_allow_unpublishing_for :news_article
   should_be_force_publishable :news_article
   should_be_able_to_delete_an_edition :news_article
   should_link_to_public_version_when_published :news_article

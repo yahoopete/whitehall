@@ -72,20 +72,20 @@ class Edition::WorkflowTest < ActiveSupport::TestCase
     assert_equal published_edition.first_published_at, draft_edition.first_published_at
   end
 
-  test "should build a draft copy with references to topics, organisations, ministerial roles & countries" do
+  test "should build a draft copy with references to topics, organisations, ministerial roles & world locations" do
     topic = create(:topic)
     organisation = create(:organisation)
     ministerial_role = create(:ministerial_role)
     country = create(:country)
 
-    published_policy = create(:published_policy, topics: [topic], organisations: [organisation], ministerial_roles: [ministerial_role], countries: [country])
+    published_policy = create(:published_policy, topics: [topic], organisations: [organisation], ministerial_roles: [ministerial_role], world_locations: [country])
 
     draft_policy = published_policy.create_draft(create(:policy_writer))
 
     assert_equal [topic], draft_policy.topics
     assert_equal [organisation], draft_policy.organisations
     assert_equal [ministerial_role], draft_policy.ministerial_roles
-    assert_equal [country], draft_policy.countries
+    assert_equal [country], draft_policy.world_locations
   end
 
   test "should build a draft copy with copies of supporting pages" do
@@ -131,12 +131,12 @@ class Edition::WorkflowTest < ActiveSupport::TestCase
   test "should build a draft copy preserving ordering with topic" do
     topic = create(:topic)
     published_policy = create(:published_policy, topics: [topic])
-    association = topic.topic_memberships.where(edition_id: published_policy.id).first
+    association = topic.classification_memberships.where(edition_id: published_policy.id).first
     association.update_attributes(ordering: 31)
 
     draft_policy = published_policy.create_draft(create(:policy_writer))
 
-    new_association = topic.topic_memberships.where(edition_id: draft_policy.id).first
+    new_association = topic.classification_memberships.where(edition_id: draft_policy.id).first
     assert_equal 31, new_association.ordering
   end
 

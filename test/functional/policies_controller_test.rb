@@ -5,7 +5,7 @@ class PoliciesControllerTest < ActionController::TestCase
 
   should_be_a_public_facing_controller
 
-  should_show_the_countries_associated_with :policy
+  should_show_the_world_locations_associated_with :policy
   should_display_inline_images_for :policy
   should_show_inapplicable_nations :policy
   should_be_previewable :policy
@@ -13,6 +13,10 @@ class PoliciesControllerTest < ActionController::TestCase
     get :show, id: policy.document
   end
   should_return_json_suitable_for_the_document_filter :policy
+
+  test "index should handle badly formatted params for topics and departments" do
+    get :index, departments: {'0' => "all"}, topics: {'0' => "all"}
+  end
 
   test "show displays the date that the policy was updated" do
     policy = create(:published_policy)
@@ -419,13 +423,47 @@ That's all
     assert_select_atom_feed do
       assert_select 'feed > id', 1
       assert_select 'feed > title', 1
-      assert_select 'feed > updated', 1.week.ago.iso8601
+      assert_select 'feed > updated', consultation.timestamp_for_update.iso8601
       assert_select 'feed > link[rel=?][type=?][href=?]', 'alternate', 'text/html', activity_policy_url(policy.document), 1
 
       assert_select 'feed > entry' do |entries|
         entries.zip([consultation, speech, news_article, publication]).each do |entry, document|
-          assert_select entry, 'entry > title', text: document.title
           assert_select entry, 'entry > published', text: document.timestamp_for_sorting.iso8601
+          assert_select entry, 'entry > updated', text: document.timestamp_for_update.iso8601
+          assert_select entry, 'entry > title', text: document.title
+          assert_select entry, 'entry > summary', text: document.summary
+          assert_select entry, 'entry > category', text: document.display_type
+          assert_select entry, 'entry > published', text: document.timestamp_for_sorting.iso8601
+          assert_select entry, 'entry > content', text: Builder::XChar.encode(@controller.view_context.govspeak_edition_to_html(document))
+        end
+      end
+    end
+  end
+
+  test 'activity atom feed shows activity documents with summaries and prefixed titles instead of full content when requested' do
+    policy = create(:published_policy)
+    publication = create(:published_publication, publication_date: 4.weeks.ago, related_policies: [policy])
+    consultation = create(:published_consultation, opening_on: 1.weeks.ago, related_policies: [policy])
+    news_article = create(:published_news_article, published_at: 3.weeks.ago, related_policies: [policy])
+    speech = create(:published_speech, delivered_on: 2.weeks.ago, related_policies: [policy])
+
+    get :activity, id: policy.document, format: "atom", govdelivery_version: '1'
+
+    assert_select_atom_feed do
+      assert_select 'feed > id', 1
+      assert_select 'feed > title', 1
+      assert_select 'feed > updated', consultation.timestamp_for_update.iso8601
+      assert_select 'feed > link[rel=?][type=?][href=?]', 'alternate', 'text/html', activity_policy_url(policy.document), 1
+
+      assert_select 'feed > entry' do |entries|
+        entries.zip([consultation, speech, news_article, publication]).each do |entry, document|
+          assert_select entry, 'entry > published', text: document.timestamp_for_sorting.iso8601
+          assert_select entry, 'entry > updated', text: document.timestamp_for_update.iso8601
+          assert_select entry, 'entry > title', text: "#{document.display_type}: #{document.title}"
+          assert_select entry, 'entry > summary', text: document.summary
+          assert_select entry, 'entry > category', text: document.display_type
+          assert_select entry, 'entry > published', text: document.timestamp_for_sorting.iso8601
+          assert_select entry, 'entry > content', text: document.summary
         end
       end
     end

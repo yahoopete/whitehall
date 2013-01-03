@@ -11,13 +11,17 @@ class PoliciesController < DocumentsController
   def index
     params[:page] ||= 1
     params[:direction] ||= "alphabetical"
+
+    clean_malformed_params_array(:topics)
+    clean_malformed_params_array(:departments)
+
     @filter = Whitehall::DocumentFilter.new(policies, params)
     respond_with PolicyFilterJsonPresenter.new(@filter)
   end
 
   def show
     @policy = @document
-    @countries = @policy.countries
+    @world_locations = @policy.world_locations
     @recently_changed_documents = Edition.published.related_to(@policy).in_reverse_chronological_order
     @show_navigation = (@policy.supporting_pages.any? or @recently_changed_documents.any?)
     set_slimmer_organisations_header(@policy.organisations)
@@ -34,7 +38,6 @@ class PoliciesController < DocumentsController
   end
 
   private
-
   def document_class
     Policy
   end

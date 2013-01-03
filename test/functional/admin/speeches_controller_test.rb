@@ -16,10 +16,11 @@ class Admin::SpeechesControllerTest < ActionController::TestCase
   should_show_document_audit_trail_for :speech, :edit
 
   should_allow_related_policies_for :speech
-  should_allow_association_between_countries_and :speech
+  should_allow_association_between_world_locations_and :speech
   should_allow_attached_images_for :speech
   should_be_rejectable :speech
   should_be_publishable :speech
+  should_allow_unpublishing_for :speech
   should_be_force_publishable :speech
   should_be_able_to_delete_an_edition :speech
   should_link_to_public_version_when_published :speech

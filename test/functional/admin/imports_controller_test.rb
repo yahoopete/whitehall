@@ -4,6 +4,10 @@ require 'support/consultation_csv_sample_helpers'
 class Admin::ImportsControllerTest < ActionController::TestCase
   include ConsultationCsvSampleHelpers
 
+  def organisation_id
+    "1"
+  end
+
   setup do
     login_as :importer
   end
@@ -22,13 +26,13 @@ class Admin::ImportsControllerTest < ActionController::TestCase
 
   test "be able to upload a tagged CSV file" do
     csv_file = fixture_file_upload("dft_publication_import_with_json_test.csv")
-    Import.expects(:create_from_file).with(anything, csv_file, "consultation").returns(new_import)
-    post :create, import: {file: csv_file, data_type: "consultation"}
+    Import.expects(:create_from_file).with(anything, csv_file, "consultation", organisation_id).returns(new_import)
+    post :create, import: {file: csv_file, data_type: "consultation", organisation_id: organisation_id}
   end
 
   test "record the person who uploaded a CSV file" do
     csv_file = fixture_file_upload("dft_publication_import_with_json_test.csv")
-    Import.expects(:create_from_file).with(current_user, anything, anything).returns(new_import)
+    Import.expects(:create_from_file).with(current_user, anything, anything, anything).returns(new_import)
     post :create, import: {file: csv_file}
   end
 
@@ -85,7 +89,7 @@ class Admin::ImportsControllerTest < ActionController::TestCase
       assert_select ".summary", /Import failed with 1 error/
       assert_select ".import_error" do
         assert_select ".row_number", "2"
-        assert_select ".message", "Policy 'blah' does not exist"
+        assert_select ".message", "Policy &#x27;blah&#x27; does not exist"
       end
     end
   end
@@ -97,7 +101,7 @@ class Admin::ImportsControllerTest < ActionController::TestCase
       import_enqueued_at: Time.zone.now,
       import_started_at: Time.zone.parse("2011-01-01 12:13:14"),
       import_finished_at: Time.zone.now)
-    import.import_errors.create(row_number: 2, message: "Policy 'blah' does not exist")
+    import.import_errors.create(row_number: 2, message: "Policy &#x27;blah&#x27; does not exist")
 
     get :annotated, id: import
 
@@ -107,7 +111,7 @@ class Admin::ImportsControllerTest < ActionController::TestCase
     parsed_response = CSV.parse(response.body)
     assert_equal original_upload.size, parsed_response.size
     assert_equal ["Errors"] + original_upload[0].map(&:downcase), parsed_response[0]
-    assert_equal ["Policy 'blah' does not exist"] + original_upload[1], parsed_response[1]
+    assert_equal ["Policy &#x27;blah&#x27; does not exist"] + original_upload[1], parsed_response[1]
   end
 
   def new_import

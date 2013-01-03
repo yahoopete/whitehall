@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121206120659) do
+ActiveRecord::Schema.define(:version => 20121224115459) do
 
   create_table "attachment_data", :force => true do |t|
     t.string   "carrierwave_file"
@@ -43,6 +43,63 @@ ActiveRecord::Schema.define(:version => 20121206120659) do
   end
 
   add_index "attachments", ["attachment_data_id"], :name => "index_attachments_on_attachment_data_id"
+
+  create_table "classification_featuring_image_data", :force => true do |t|
+    t.string   "carrierwave_image"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "classification_featurings", :force => true do |t|
+    t.integer  "edition_id"
+    t.integer  "classification_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "ordering"
+    t.integer  "classification_featuring_image_data_id"
+    t.string   "alt_text"
+  end
+
+  add_index "classification_featurings", ["classification_featuring_image_data_id"], :name => "index_cl_feat_on_edition_org_image_data_id"
+  add_index "classification_featurings", ["classification_id"], :name => "index_cl_feat_on_classification_id"
+  add_index "classification_featurings", ["edition_id", "classification_id"], :name => "index_cl_feat_on_edition_id_and_classification_id", :unique => true
+
+  create_table "classification_memberships", :force => true do |t|
+    t.integer  "classification_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "edition_id"
+    t.integer  "ordering"
+  end
+
+  add_index "classification_memberships", ["classification_id"], :name => "index_classification_memberships_on_classification_id"
+  add_index "classification_memberships", ["edition_id"], :name => "index_classification_memberships_on_edition_id"
+
+  create_table "classification_relations", :force => true do |t|
+    t.integer  "classification_id",         :null => false
+    t.integer  "related_classification_id", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "classification_relations", ["classification_id"], :name => "index_classification_relations_on_classification_id"
+  add_index "classification_relations", ["related_classification_id"], :name => "index_classification_relations_on_related_classification_id"
+
+  create_table "classifications", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.text     "description"
+    t.string   "slug"
+    t.string   "state"
+    t.integer  "published_edition_count",  :default => 0, :null => false
+    t.integer  "published_policies_count", :default => 0, :null => false
+    t.string   "type"
+    t.string   "carrierwave_image"
+    t.string   "logo_alt_text"
+  end
+
+  add_index "classifications", ["slug"], :name => "index_classifications_on_slug"
 
   create_table "consultation_participations", :force => true do |t|
     t.integer  "edition_id"
@@ -119,21 +176,6 @@ ActiveRecord::Schema.define(:version => 20121206120659) do
 
   add_index "corporate_information_pages", ["organisation_id", "type_id"], :name => "index_corporate_information_pages_on_organisation_id_and_type_id", :unique => true
 
-  create_table "countries", :force => true do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.text     "embassy_address"
-    t.string   "embassy_telephone"
-    t.string   "embassy_email"
-    t.string   "slug"
-    t.text     "description"
-    t.text     "about"
-    t.boolean  "active",            :default => false, :null => false
-  end
-
-  add_index "countries", ["slug"], :name => "index_countries_on_slug"
-
   create_table "data_migration_records", :force => true do |t|
     t.string "version"
   end
@@ -170,12 +212,13 @@ ActiveRecord::Schema.define(:version => 20121206120659) do
 
   create_table "document_sources", :force => true do |t|
     t.integer "document_id"
-    t.string  "url"
+    t.string  "url",         :null => false
     t.integer "import_id"
     t.integer "row_number"
   end
 
   add_index "document_sources", ["document_id"], :name => "index_document_sources_on_document_id"
+  add_index "document_sources", ["url"], :name => "index_document_sources_on_url", :unique => true
 
   create_table "documents", :force => true do |t|
     t.datetime "created_at"
@@ -205,17 +248,6 @@ ActiveRecord::Schema.define(:version => 20121206120659) do
 
   add_index "edition_authors", ["edition_id"], :name => "index_edition_authors_on_edition_id"
   add_index "edition_authors", ["user_id"], :name => "index_edition_authors_on_user_id"
-
-  create_table "edition_countries", :force => true do |t|
-    t.integer  "edition_id"
-    t.integer  "country_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.boolean  "featured",   :default => false
-  end
-
-  add_index "edition_countries", ["country_id"], :name => "index_edition_countries_on_country_id"
-  add_index "edition_countries", ["edition_id"], :name => "index_edition_countries_on_edition_id"
 
   create_table "edition_mainstream_categories", :force => true do |t|
     t.integer  "edition_id"
@@ -283,6 +315,17 @@ ActiveRecord::Schema.define(:version => 20121206120659) do
 
   add_index "edition_statistical_data_sets", ["document_id"], :name => "index_edition_statistical_data_sets_on_document_id"
   add_index "edition_statistical_data_sets", ["edition_id"], :name => "index_edition_statistical_data_sets_on_edition_id"
+
+  create_table "edition_world_locations", :force => true do |t|
+    t.integer  "edition_id"
+    t.integer  "world_location_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "featured",          :default => false
+  end
+
+  add_index "edition_world_locations", ["edition_id"], :name => "index_edition_world_locations_on_edition_id"
+  add_index "edition_world_locations", ["world_location_id"], :name => "index_edition_world_locations_on_world_location_id"
 
   create_table "editions", :force => true do |t|
     t.string   "title"
@@ -437,6 +480,7 @@ ActiveRecord::Schema.define(:version => 20121206120659) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "import_enqueued_at"
+    t.integer  "organisation_id"
   end
 
   create_table "mainstream_categories", :force => true do |t|
@@ -472,6 +516,20 @@ ActiveRecord::Schema.define(:version => 20121206120659) do
 
   add_index "operational_fields", ["slug"], :name => "index_operational_fields_on_slug"
 
+  create_table "organisation_classifications", :force => true do |t|
+    t.integer  "organisation_id",                      :null => false
+    t.integer  "classification_id",                    :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "ordering"
+    t.boolean  "lead",              :default => false, :null => false
+    t.integer  "lead_ordering"
+  end
+
+  add_index "organisation_classifications", ["classification_id"], :name => "index_org_classifications_on_classification_id"
+  add_index "organisation_classifications", ["organisation_id", "ordering"], :name => "index_org_classifications_on_organisation_id_and_ordering", :unique => true
+  add_index "organisation_classifications", ["organisation_id"], :name => "index_org_classifications_on_organisation_id"
+
   create_table "organisation_mainstream_links", :force => true do |t|
     t.integer  "organisation_id"
     t.string   "url"
@@ -490,18 +548,6 @@ ActiveRecord::Schema.define(:version => 20121206120659) do
 
   add_index "organisation_roles", ["organisation_id"], :name => "index_organisation_roles_on_organisation_id"
   add_index "organisation_roles", ["role_id"], :name => "index_organisation_roles_on_role_id"
-
-  create_table "organisation_topics", :force => true do |t|
-    t.integer  "organisation_id", :null => false
-    t.integer  "topic_id",        :null => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "ordering"
-  end
-
-  add_index "organisation_topics", ["organisation_id", "ordering"], :name => "index_organisation_topics_on_organisation_id_and_ordering", :unique => true
-  add_index "organisation_topics", ["organisation_id"], :name => "index_organisation_policy_topics_on_organisation_id"
-  add_index "organisation_topics", ["topic_id"], :name => "index_organisation_policy_topics_on_policy_topic_id"
 
   create_table "organisation_types", :force => true do |t|
     t.string   "name"
@@ -610,15 +656,16 @@ ActiveRecord::Schema.define(:version => 20121206120659) do
   add_index "roles", ["slug"], :name => "index_roles_on_slug"
 
   create_table "social_media_accounts", :force => true do |t|
-    t.integer  "organisation_id"
+    t.integer  "socialable_id"
     t.integer  "social_media_service_id"
     t.string   "url"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "socialable_type"
   end
 
-  add_index "social_media_accounts", ["organisation_id"], :name => "index_social_media_accounts_on_organisation_id"
   add_index "social_media_accounts", ["social_media_service_id"], :name => "index_social_media_accounts_on_social_media_service_id"
+  add_index "social_media_accounts", ["socialable_id"], :name => "index_social_media_accounts_on_organisation_id"
 
   create_table "social_media_services", :force => true do |t|
     t.string   "name"
@@ -649,40 +696,6 @@ ActiveRecord::Schema.define(:version => 20121206120659) do
   add_index "supporting_pages", ["edition_id"], :name => "index_supporting_pages_on_edition_id"
   add_index "supporting_pages", ["slug"], :name => "index_supporting_documents_on_slug"
 
-  create_table "topic_memberships", :force => true do |t|
-    t.integer  "topic_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "edition_id"
-    t.integer  "ordering"
-  end
-
-  add_index "topic_memberships", ["edition_id"], :name => "index_topic_memberships_on_edition_id"
-  add_index "topic_memberships", ["topic_id"], :name => "index_topic_memberships_on_topic_id"
-
-  create_table "topic_relations", :force => true do |t|
-    t.integer  "topic_id",         :null => false
-    t.integer  "related_topic_id", :null => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "topic_relations", ["related_topic_id"], :name => "index_policy_topic_relations_on_related_policy_topic_id"
-  add_index "topic_relations", ["topic_id"], :name => "index_policy_topic_relations_on_policy_topic_id"
-
-  create_table "topics", :force => true do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.text     "description"
-    t.string   "slug"
-    t.string   "state"
-    t.integer  "published_edition_count",  :default => 0, :null => false
-    t.integer  "published_policies_count", :default => 0, :null => false
-  end
-
-  add_index "topics", ["slug"], :name => "index_policy_areas_on_slug"
-
   create_table "users", :force => true do |t|
     t.string   "name"
     t.datetime "created_at"
@@ -708,5 +721,22 @@ ActiveRecord::Schema.define(:version => 20121206120659) do
   end
 
   add_index "versions", ["item_type", "item_id"], :name => "index_versions_on_item_type_and_item_id"
+
+  create_table "world_locations", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.text     "embassy_address"
+    t.string   "embassy_telephone"
+    t.string   "embassy_email"
+    t.string   "slug"
+    t.text     "description"
+    t.text     "about"
+    t.boolean  "active",                 :default => false, :null => false
+    t.integer  "world_location_type_id",                    :null => false
+  end
+
+  add_index "world_locations", ["slug"], :name => "index_world_locations_on_slug"
+  add_index "world_locations", ["world_location_type_id"], :name => "index_world_locations_on_world_location_type_id"
 
 end

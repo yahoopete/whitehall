@@ -1,7 +1,7 @@
 .detailed-guides-index,
 .detailed-guides-show {
   a {
-    color: $detailed-guidance-link-text;
+    color: $link-colour;
   }
 }
 .detailed-guides-index {
@@ -20,7 +20,7 @@
     }
     .button {
       @include button($detailed-guidance-brand);
-      @include core-19;
+      @include ig-core-19;
       padding-bottom: 7px;
       padding-bottom: 0.7rem;
     }
@@ -48,6 +48,7 @@
   }
 
   .change-notes {
+    left: 0;
     .toggle {
       color: $detailed-guidance-brand;
 
@@ -56,7 +57,7 @@
         text-decoration: underline;
       }
     }
-    @include media(desktop) {
+    @include media(tablet) {
       &.toggleable .overlay {
         left: -100%;
       }
@@ -86,7 +87,7 @@
 
       li {
         list-style: none;
-        color: $body-text;
+        color: $text-colour;
         margin-bottom: $gutter-one-sixth;
         @include media (640px) {
           margin-bottom: $gutter-one-third;
@@ -100,12 +101,12 @@
         float: left;
         padding-left: $gutter-one-third;
         padding-right: $gutter-one-third;
-        @include core-14;
+        @include ig-core-14;
       }
     }
 
     .label {
-      @include core-14;
+      @include ig-core-14;
       margin-bottom: 0;
       max-width: 33em;
       a {
@@ -117,7 +118,7 @@
       padding-top: 0;
     }
     .page-meta {
-      @include core-19;
+      @include ig-core-19;
       max-width: 33em;
       p {
         display: inline;
@@ -137,14 +138,14 @@
     }
 
     .replaces-businesslink {
-      @include core-16;
+      @include ig-core-16;
       padding-top: 10px;
 
       @include media(desktop){
         float: right;
       }
       p {
-        color: $body-text;
+        color: $text-colour;
       }
       .businesslink-logo {
         display: block;
@@ -156,7 +157,7 @@
   }
 
   .meta {
-    @include core-14;
+    @include ig-core-14;
     @include media(desktop) {
       float: right;
     }
@@ -166,12 +167,12 @@
     padding-top: $gutter-one-sixth;
 
     h1 {
-      @include core-19;
+      @include ig-core-19;
     }
 
     ol {
-      border-top: 1px solid $light-keyline;
-      @include core-16;
+      border-top: 1px solid $border-colour;
+      @include ig-core-16;
       padding: 0;
       margin: 0;
 
@@ -199,7 +200,7 @@
       a {
         display: block;
         padding: $gutter-one-sixth 0;
-        border-bottom: 1px solid $light-keyline;
+        border-bottom: 1px solid $border-colour;
       }
     }
   }
@@ -214,10 +215,10 @@
 
   .in-page-navigation {
     h3 {
-      @include core-16;
+      @include ig-core-16;
     }
     li {
-      @include core-16;
+      @include ig-core-16;
       padding: 0;
       list-style: disc;
     }
@@ -235,7 +236,7 @@
 
     .inner {
       padding: $gutter-one-third;
-      background: $info-background none no-repeat 98% $gutter-two-thirds;
+      background: $panel-colour none no-repeat 98% $gutter-two-thirds;
 
       h4 {
         margin-bottom: $gutter-one-sixth;
@@ -259,7 +260,7 @@
     margin: 0 -$gutter;
 
     h1 {
-      @include core-27;
+      @include ig-core-27;
       background: $detailed-guidance-brand;
       color: $white;
       margin: $gutter;
@@ -277,11 +278,11 @@
       }
 
       h2 {
-        @include core-27;
+        @include ig-core-27;
       }
 
       ul {
-        @include core-19;
+        @include ig-core-19;
         color: $detailed-guidance-brand;
 
         li {
@@ -296,17 +297,17 @@
       }
 
       .inner {
-        background: $info-background;
+        background: $panel-colour;
         padding: 0 $gutter-one-third $gutter-one-third;
       }
 
       h2 {
-        @include core-19;
-        color: $body-text;
+        @include ig-core-19;
+        color: $text-colour;
       }
 
       ul {
-        @include core-16;
+        @include ig-core-16;
       }
     }
 
@@ -318,10 +319,12 @@
     }
   }
 
+  @include ie(8) {
+    padding-top: $gutter-half; // to fix margin-top floating sibling bug
+  }
+
+
   @include media(desktop) {
-    @include ie(8){
-      padding-top: $gutter-half; // to fix margin-top floating sibling bug
-    }
     .meta {
       position: relative;
       z-index: 49;
@@ -349,154 +352,6 @@
     }
     .document_page .block-3 {
       width: 75%;
-    }
-  }
-}
-
-.detailed-guides-search {
-  width: 100%;
-  padding-bottom: $gutter*4;
-  overflow: hidden;
-
-  @include media(desktop){
-    .block-1 .inner-block {
-      padding: 0;
-    }
-    .block-3 {
-      width: 30%;
-      float: left;
-      display: inline;
-      min-height: 100px;
-    }
-    .block-4 {
-      width: 70%;
-      float: left;
-      display: inline;
-    }
-  }
-  .search-form {
-    padding: $gutter*2 0;
-    label {
-      width: 30%;
-      display: block;
-      float: left;
-      text-align: right;
-      padding: 0.25em 0 0.25em $gutter-two-thirds;
-      line-height: 1.25;
-    }
-    .search-box {
-      width: 300px;
-    }
-    .button {
-      top: 0;
-    }
-  }
-
-  .filters {
-    li a {
-      @include core-16;
-      display: block;
-      padding: 3px 3px 3px 6px;
-      width: 100%;
-      overflow: hidden;
-      line-height: $gutter-two-thirds+6px;
-
-      &.active {
-        background: darken($info-background, 5%);
-      }
-      &:hover,
-      &:focus {
-        background: $info-background;
-      }
-      span {
-        display: block;
-        padding: 3px;
-        float: right;
-        line-height: $gutter-two-thirds;
-        background: $detailed-guidance-background;
-      }
-    }
-  }
-  .result-block {
-    h2 {
-      @include core-24;
-      padding-top: 0;
-      margin-bottom: $gutter-half;
-    }
-    .more-results {
-      text-align: right;
-    }
-  }
-  .search-results {
-    .result {
-      margin-bottom: $gutter;
-      list-style: none;
-
-      h3 {
-        margin-bottom: $gutter-one-sixth;
-      }
-      .highlight, .description {
-        margin-bottom: $gutter-one-third;
-      }
-      .meta {
-        @include core-16;
-      }
-      .meta {
-        display: block;
-        padding: 0;
-        .section {
-          margin-left: $gutter-half;
-        }
-      }
-
-      &.guide {
-        background-image: image-url('mainstream/icon-guide-s.png');
-      }
-      &.answer,
-      &.calendar,
-      &.smart_answer,
-      &.calculator,
-      &.custom-application {
-        background-image: image-url('mainstream/icon-answer-s.png');
-      }
-      &.local_transaction,
-      &.transaction,
-      &.place,
-      &.nearest,
-      &.service {
-        background-image: image-url('mainstream/icon-service-s.png');
-      }
-      &.programme {
-        background-image: image-url('mainstream/icon-programme-s.png');
-      }
-      &.licence {
-        background-image: image-url('mainstream/icon-licence-s.png');
-      }
-      &.guide,
-      &.answer,
-      &.calendar,
-      &.licence,
-      &.smart_answer,
-      &.calculator,
-      &.custom-application,
-      &.local_transaction,
-      &.transaction,
-      &.place,
-      &.nearest,
-      &.service,
-      &.programme {
-        background-repeat: no-repeat;
-        background-position: 0 100%;
-        .meta {
-          text-indent: 30px;
-        }
-      }
-      &.detailed_guidance {
-        .meta {
-          border-left: 3px solid $detailed-guidance-brand;
-          padding-left: 10px;
-        }
-      }
     }
   }
 }

@@ -4,11 +4,12 @@ module Whitehall::Uploader
   class SpeechRow < Row
     attr_reader :row
 
-    def initialize(row, line_number, attachment_cache, logger = Logger.new($stdout))
+    def initialize(row, line_number, attachment_cache, default_organisation, logger = Logger.new($stdout))
       @row = row
       @line_number = line_number
       @logger = logger
       @attachment_cache = attachment_cache
+      @default_organisation = default_organisation
     end
 
     def self.validator
@@ -37,6 +38,10 @@ module Whitehall::Uploader
       row['summary']
     end
 
+    def organisations
+      Finders::OrganisationFinder.find(row['organisation'], @logger, @line_number, @default_organisation)
+    end
+
     def speech_type
       Finders::SpeechTypeFinder.find(row['type'], @logger, @line_number)
     end
@@ -63,15 +68,15 @@ module Whitehall::Uploader
 
     def attributes
       [:title, :summary, :body, :speech_type,
-       :role_appointment, :delivered_on, :location,
+       :role_appointment, :delivered_on, :location, :organisations,
        :related_policies, :first_published_at,
-        :countries].map.with_object({}) do |name, result|
+       :world_locations].map.with_object({}) do |name, result|
         result[name] = __send__(name)
       end
     end
 
-    def countries
-      Finders::CountriesFinder.find(row['country_1'], row['country_2'], row['country_3'], row['country_4'], @logger, @line_number)
+    def world_locations
+      Finders::WorldLocationsFinder.find(row['country_1'], row['country_2'], row['country_3'], row['country_4'], @logger, @line_number)
     end
 
   end

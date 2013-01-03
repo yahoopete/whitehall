@@ -1,0 +1,29 @@
+<% page_title "Topics" %>
+<% page_class "topics-index index-list-page" %>
+
+
+<div class="block-1">
+  <div class="inner-block">
+    <header class="page-header">
+        <h1 class="title">Topics</h1>
+        <h2 class="label">What&nbsp;is the&nbsp;government doing&nbsp;about&hellip;</h2>
+    </header>
+  </div>
+</div>
+
+<div class="block-2">
+  <div class="inner-block">
+    <div class="all-topical_events index-list-container">
+      <% if @topical_events.any? %>
+        <%= render partial: "list", locals: { topics: @topical_events } %>
+      <% end %>
+    </div>
+    <div class="all-topics index-list-container">
+      <% if @topics.any? %>
+        <%= render partial: "list", locals: { topics: @topics } %>
+      <% else %>
+        <p>We don't have any topics with published documents at present.</p>
+      <% end %>
+    </div>
+  </div>
+</div>

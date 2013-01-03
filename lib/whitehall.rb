@@ -127,7 +127,7 @@ module Whitehall
     end
 
     def government_search_index
-      (government_edition_classes + [MinisterialRole, Organisation, SupportingPage, Topic]).map(&:search_index).sum([])
+      (government_edition_classes + [MinisterialRole, Organisation, SupportingPage, Topic, TopicalEvent]).map(&:search_index).sum([])
     end
 
     def detailed_guidance_search_index
@@ -135,11 +135,11 @@ module Whitehall
     end
 
     def edition_classes
-      [NewsArticle, Speech, Policy, Publication, Consultation, InternationalPriority, DetailedGuide, CaseStudy, StatisticalDataSet]
+      [NewsArticle, Speech, Policy, Publication, Consultation, InternationalPriority, DetailedGuide, CaseStudy, StatisticalDataSet, FatalityNotice]
     end
 
     def edition_route_path_segments
-      %w(news speeches policies publications consultations international-priorities detailed-guides case-studies statistical-data-sets)
+      %w(news speeches policies publications consultations international-priorities detailed-guides case-studies statistical-data-sets fatalities)
     end
 
     def government_edition_classes

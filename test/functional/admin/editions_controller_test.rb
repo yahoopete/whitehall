@@ -163,26 +163,6 @@ class Admin::EditionsControllerTest < ActionController::TestCase
 
   should_be_an_admin_controller
 
-  test "should display unpublish button" do
-    edition = create(:edition)
-    edition.stubs(:unpublishable_by?).returns(true)
-    Edition.stubs(:find).returns(edition)
-
-    get :show, id: edition
-
-    assert_select "form[action=?]", unpublish_admin_edition_path(edition, lock_version: edition.lock_version)
-  end
-
-  test "should not display unpublish button if edition is not unpublishable" do
-    edition = create(:edition)
-    edition.stubs(:unpublishable_by?).returns(false)
-    Edition.stubs(:find).returns(edition)
-
-    get :show, id: edition
-
-    refute_select "form[action=?]", unpublish_admin_edition_path(edition)
-  end
-
   test 'should pass filter parameters to an edition filter' do
     stub_filter = stub_edition_filter
     Admin::EditionsController::EditionFilter.expects(:new).with(anything, anything, {"state" => "draft", "type" => "policy"}).returns(stub_filter)
@@ -357,6 +337,7 @@ class Admin::EditionsControllerTest < ActionController::TestCase
 
   test "should display state information when viewing all active editions" do
     draft_edition = create(:draft_policy)
+    imported_edition = create(:imported_edition)
     submitted_edition = create(:submitted_publication)
     rejected_edition = create(:rejected_news_article)
     published_edition = create(:published_consultation)
@@ -364,6 +345,7 @@ class Admin::EditionsControllerTest < ActionController::TestCase
     get :index, state: :active
 
     assert_select_object(draft_edition) { assert_select ".state", "Draft" }
+    assert_select_object(imported_edition) { assert_select ".state", "Imported" }
     assert_select_object(submitted_edition) { assert_select ".state", "Submitted" }
     assert_select_object(rejected_edition) { assert_select ".state", "Rejected" }
     assert_select_object(published_edition) { assert_select ".state", "Published" }

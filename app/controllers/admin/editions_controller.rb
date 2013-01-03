@@ -7,6 +7,7 @@ class Admin::EditionsController < Admin::BaseController
   before_filter :default_arrays_of_ids_to_empty, only: [:update]
   before_filter :build_edition, only: [:new, :create]
   before_filter :detect_other_active_editors, only: [:edit]
+  before_filter :redirect_to_controller_for_type, only: [:show]
 
   def index
     if filter && filter.valid?
@@ -116,8 +117,8 @@ class Admin::EditionsController < Admin::BaseController
     if @edition.can_be_related_to_policies?
       params[:edition][:related_document_ids] ||= []
     end
-    if @edition.can_be_associated_with_countries?
-      params[:edition][:country_ids] ||= []
+    if @edition.can_be_associated_with_world_locations?
+      params[:edition][:world_location_ids] ||= []
     end
     if @edition.can_be_associated_with_mainstream_categories?
       params[:edition][:other_mainstream_category_ids] ||= []
@@ -154,7 +155,7 @@ class Admin::EditionsController < Admin::BaseController
   end
 
   def sanitized_filters(filters)
-    valid_states = %w[ active draft submitted rejected published scheduled ]
+    valid_states = %w[ active imported draft submitted rejected published scheduled ]
     filters.delete(:state) unless filters[:state].nil? || valid_states.include?(filters[:state].to_s)
     filters
   end
@@ -182,6 +183,12 @@ class Admin::EditionsController < Admin::BaseController
         end
       end
       params[:edition][:scheduled_publication] = nil
+    end
+  end
+
+  def redirect_to_controller_for_type
+    if params[:controller] == 'admin/editions'
+      redirect_to admin_edition_path(@edition)
     end
   end
 

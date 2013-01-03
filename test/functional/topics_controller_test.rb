@@ -9,7 +9,7 @@ class TopicsControllerTest < ActionController::TestCase
   test "shows topic title and description" do
     topic = create(:topic)
     get :show, id: topic
-    assert_select ".topic", text: topic.name
+    assert_select "span.topic", text: topic.name
     assert_select ".govspeak", text: topic.description
   end
 
@@ -183,7 +183,7 @@ class TopicsControllerTest < ActionController::TestCase
     related_topic_1 = create(:topic)
     related_topic_2 = create(:topic)
     unrelated_topic = create(:topic)
-    topic = create(:topic, related_topics: [related_topic_1, related_topic_2])
+    topic = create(:topic, related_classifications: [related_topic_1, related_topic_2])
 
     get :show, id: topic
 
@@ -199,7 +199,7 @@ class TopicsControllerTest < ActionController::TestCase
   end
 
   test "show does not display empty related topics section" do
-    topic = create(:topic, related_topics: [])
+    topic = create(:topic, related_classifications: [])
 
     get :show, id: topic
 
@@ -312,14 +312,14 @@ class TopicsControllerTest < ActionController::TestCase
 
   test 'show has Atom feed autodiscovery link' do
     topic = build(:topic, id: 1)
-    Topic.stubs(:find).returns(topic)
+    Classification.stubs(:find).returns(topic)
     get :show, id: topic
     assert_select_autodiscovery_link topic_url(topic, format: 'atom')
   end
 
   test 'show links to the atom feed' do
     topic = build(:topic, id: 1)
-    Topic.stubs(:find).returns(topic)
+    Classification.stubs(:find).returns(topic)
     get :show, id: topic
     assert_select "a.feed[href=?]", topic_url(topic, format: 'atom')
   end
@@ -327,7 +327,7 @@ class TopicsControllerTest < ActionController::TestCase
   test 'atom feed has the right elements' do
     topic = build(:topic, id: 1)
     topic.stubs(:recently_changed_documents).returns([create(:published_policy)])
-    Topic.stubs(:find).returns(topic)
+    Classification.stubs(:find).returns(topic)
 
     get :show, id: topic, format: :atom
 
@@ -360,31 +360,62 @@ class TopicsControllerTest < ActionController::TestCase
     ]
     topic = build(:topic, id: 1)
     topic.stubs(:recently_changed_documents).returns(recent_documents)
-    Topic.stubs(:find).returns(topic)
+    Classification.stubs(:find).returns(topic)
 
     get :show, id: topic, format: :atom
 
     assert_select_atom_feed do
-      assert_select 'feed > updated', text: newer_edition.first_published_at.iso8601
+      assert_select 'feed > updated', text: newer_edition.timestamp_for_update.iso8601
 
       assert_select 'feed > entry' do |entries|
         entries.zip(recent_documents) do |entry, document|
-          assert_select entry, 'entry > published', text: document.first_published_at.iso8601
-          assert_select entry, 'entry > updated', text: document.published_at.iso8601
+          assert_select entry, 'entry > published', text: document.timestamp_for_sorting.iso8601
+          assert_select entry, 'entry > updated', text: document.timestamp_for_update.iso8601
           assert_select entry, 'entry > link[rel=?][type=?][href=?]', 'alternate', 'text/html', public_document_url(document)
           assert_select entry, 'entry > title', text: document.title
           assert_select entry, 'entry > summary', text: document.summary
+          assert_select entry, 'entry > category', text: document.display_type
           assert_select entry, 'entry > content', text: /#{document.body}/
         end
       end
     end
   end
 
+  test 'atom feed shows a list of summarised and title prefixed documents when asked' do
+    document = create(:document)
+    recent_documents = [
+      newer_edition = create(:published_policy, document: document, first_published_at: 1.month.ago, published_at: 1.day.ago),
+      older_edition = create(:archived_policy, document: document, first_published_at: 1.month.ago, published_at: 1.month.ago)
+    ]
+    topic = build(:topic, id: 1)
+    topic.stubs(:recently_changed_documents).returns(recent_documents)
+    Classification.stubs(:find).returns(topic)
+
+    get :show, id: topic, format: :atom, govdelivery_version: 'yes'
+
+    assert_select_atom_feed do
+      assert_select 'feed > updated', text: newer_edition.timestamp_for_update.iso8601
+
+      assert_select 'feed > entry' do |entries|
+        entries.zip(recent_documents) do |entry, document|
+          assert_select entry, 'entry > published', text: document.timestamp_for_sorting.iso8601
+          assert_select entry, 'entry > updated', text: document.timestamp_for_update.iso8601
+          assert_select entry, 'entry > link[rel=?][type=?][href=?]', 'alternate', 'text/html', public_document_url(document)
+          assert_select entry, 'entry > title', text: "#{document.display_type}: #{document.title}"
+          assert_select entry, 'entry > summary', text: document.summary
+          assert_select entry, 'entry > category', text: document.display_type
+          assert_select entry, 'entry > content', text: document.summary
+        end
+      end
+    end
+  end
+
+
   test 'atom feed only shows the last 10 recently changed documents' do
     recent_documents = Array.new(20) { create(:published_policy) }
     topic = build(:topic, id: 1)
     topic.stubs(:recently_changed_documents).returns(recent_documents)
-    Topic.stubs(:find).returns(topic)
+    Classification.stubs(:find).returns(topic)
 
     get :show, id: topic, format: :atom
 
@@ -396,7 +427,7 @@ class TopicsControllerTest < ActionController::TestCase
   test 'atom feed shows topic creation time if no recent publications' do
     topic = build(:topic, id: 1, created_at: 1.day.ago)
     topic.stubs(:recently_changed_documents).returns([])
-    Topic.stubs(:find).returns(topic)
+    Classification.stubs(:find).returns(topic)
 
     get :show, id: topic, format: :atom
     assert_select_atom_feed do

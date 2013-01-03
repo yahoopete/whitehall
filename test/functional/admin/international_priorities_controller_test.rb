@@ -16,12 +16,13 @@ class Admin::InternationalPrioritiesControllerTest < ActionController::TestCase
   should_show_document_audit_trail_for :international_priority, :show
   should_show_document_audit_trail_for :international_priority, :edit
 
-  should_allow_association_between_countries_and :international_priority
+  should_allow_association_between_world_locations_and :international_priority
   should_allow_attached_images_for :international_priority
   should_allow_organisations_for :international_priority
 
   should_be_rejectable :international_priority
   should_be_publishable :international_priority
+  should_allow_unpublishing_for :international_priority
   should_be_force_publishable :international_priority
   should_be_able_to_delete_an_edition :international_priority
   should_link_to_public_version_when_published :international_priority

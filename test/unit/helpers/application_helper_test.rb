@@ -26,7 +26,7 @@ class ApplicationHelperTest < ActionView::TestCase
     philip_hammond_appointment = appoint_minister(forename: "Philip", surname: "Hammond", role: "Secretary of State", organisation: "Ministry of Defence", started_at: Date.parse('2011-01-01'))
     philip_hammond_home_secretary_appointment = appoint_minister(forename: "Philip", surname: "Hammond", role: "Secretary of State", organisation: "Home Office", started_at: Date.parse('2010-01-01'), ended_at: Date.parse('2011-01-01'))
 
-    options = ministerial_appointment_options
+    options = role_appointment_options
 
     assert_equal 3, options.length
     assert options.include? [philip_hammond_appointment.id, "Philip Hammond, Secretary of State, in Ministry of Defence"]
@@ -47,9 +47,20 @@ class ApplicationHelperTest < ActionView::TestCase
     assert options.include? [home_secretary.id, "Secretary of State, in Home Office (Theresa May)"]
   end
 
-  test "should not include non-ministerial appointments" do
-    create(:board_member_role_appointment)
-    assert_equal [], ministerial_appointment_options
+  test "ministerial_appointment_options should not include non-ministerial appointments" do
+    appointment = create(:board_member_role_appointment)
+    assert_equal 0, ministerial_appointment_options.length
+  end
+
+  test "role_appointment_options should all appointments" do
+    organisation = create(:organisation, name: "Org")
+    role = create(:role, organisations: [organisation], name: "Role")
+    person = create(:person, forename: "Joe", surname: "Bloggs")
+    appointment = create(:board_member_role_appointment, role: role, person: person)
+
+    options = role_appointment_options
+    assert_equal 1, options.length
+    assert options.include? [appointment.id, "Joe Bloggs, Role, in Org"]
   end
 
   test '#link_to_attachment returns nil when attachment is nil' do
@@ -145,11 +156,11 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_equal organisations_path, current_main_navigation_path(controller: "organisations", action: "news")
   end
 
-  test "country-related pages should be related to uk and the world main navigation" do
-    assert_equal countries_path, current_main_navigation_path(controller: "countries", action: "index")
-    assert_equal countries_path, current_main_navigation_path(controller: "countries", action: "show")
-    assert_equal countries_path, current_main_navigation_path(controller: "international_priorities", action: "index")
-    assert_equal countries_path, current_main_navigation_path(controller: "international_priorities", action: "show")
+  test "world-location-related pages should be related to uk and the world main navigation" do
+    assert_equal world_locations_path, current_main_navigation_path(controller: "world_locations", action: "index")
+    assert_equal world_locations_path, current_main_navigation_path(controller: "world_locations", action: "show")
+    assert_equal world_locations_path, current_main_navigation_path(controller: "international_priorities", action: "index")
+    assert_equal world_locations_path, current_main_navigation_path(controller: "international_priorities", action: "show")
   end
 
   test "policy pages should be related to policy main navigation" do
@@ -234,6 +245,26 @@ class ApplicationHelperTest < ActionView::TestCase
     view = TestView.new
     view.stubs(:user_signed_in?).returns(false)
     assert_equal 'assets.example.com/government/uploads/path/to/my/image', view.path_to_image('/government/uploads/path/to/my/image')
+  end
+
+  test "role appointment should show the role name" do
+    ra = build(:role_appointment, role: build(:role, name: "my role"))
+    assert_equal "my role", role_appointment(ra)
+  end
+
+  test "past role appointment should be reflected in the text" do
+    ra = build(:role_appointment, role: build(:role, name: "my role"), ended_at: 1.day.ago)
+    assert_equal "as my role (10 November 2011 to 10 November 2011)", role_appointment(ra)
+  end
+
+  test "should link to role page" do
+    ra = build(:ministerial_role_appointment)
+    assert_match %r{<a href=.*ministers.*>#{ra.role.name}</a>}, role_appointment(ra, true)
+  end
+
+  test "non-ministerial role appointments should never link to page (as pages don't exist)" do
+    ra = build(:board_member_role_appointment)
+    assert_equal ra.role.name, role_appointment(ra, true)
   end
 
   private

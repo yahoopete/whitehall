@@ -1,13 +1,13 @@
 .change-notes {
   display: inline-block;
   position: relative;
-  // @include core-14;
+  // @include ig-core-14;
   min-width: 160px;
   padding: 0;
 
   .toggle {
     display: inline-block;
-    color: $link-text;
+    color: $link-colour;
     white-space: nowrap;
 
     &:focus,
@@ -43,11 +43,11 @@
     margin-left: -2px;
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
-    border-bottom: 5px solid $charcoal-grey;
+    border-bottom: 5px solid $black;
   }
   #change-notes {
     color: $white;
-    background: $charcoal-grey;
+    background: $black;
     box-shadow: 0 1px 4px rgba(0,0,0,0.8);
     padding: $gutter-one-third 0;
     text-align: left;
@@ -55,7 +55,7 @@
     dt, dd {
       width: auto;
       float: none;
-      @include core-14;
+      @include ig-core-14;
       padding: 0 $gutter-one-third;
     }
     dd {

@@ -16,11 +16,12 @@ class Admin::PoliciesControllerTest < ActionController::TestCase
 
   should_allow_organisations_for :policy
   should_allow_ministerial_roles_for :policy
-  should_allow_association_between_countries_and :policy
+  should_allow_association_between_world_locations_and :policy
   should_allow_association_with_topics :policy
   should_allow_attached_images_for :policy
   should_be_rejectable :policy
   should_be_publishable :policy
+  should_allow_unpublishing_for :policy
   should_be_force_publishable :policy
   should_be_able_to_delete_an_edition :policy
   should_link_to_public_version_when_published :policy

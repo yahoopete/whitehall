@@ -58,6 +58,8 @@ Whitehall::Application.routes.draw do
     end
 
     resources :topics, path: "topics", only: [:index, :show]
+    resources :topical_events, path: "topical-events", only: [:index, :show]
+
     resources :organisations, only: [:index, :show] do
       resources :document_series, only: [:index, :show], path: 'series'
       member do
@@ -72,7 +74,7 @@ Whitehall::Application.routes.draw do
 
     resources :ministerial_roles, path: 'ministers', only: [:index, :show]
     resources :people, only: [:index, :show]
-    resources :countries, path: 'world', only: [:index, :show] do
+    resources :world_locations, path: 'world', only: [:index, :show] do
       member do
         get :about
       end
@@ -96,8 +98,11 @@ Whitehall::Application.routes.draw do
         resources :policy_teams, except: [:show]
         resources :operational_fields, except: [:show]
         resources :edition_organisations, only: [:edit, :update]
-        resources :edition_countries, only: [:update]
+        resources :edition_world_locations, only: [:update]
         resources :topics, path: "topics", except: [:show]
+        resources :topical_events, path: "topical-events", except: [:show] do
+          resources :classification_featurings, path: "featurings"
+        end
 
         resources :editions, only: [:index] do
           member do
@@ -109,11 +114,15 @@ Whitehall::Application.routes.draw do
             post :unpublish, to: 'edition_workflow#unpublish'
             post :schedule, to: 'edition_workflow#schedule'
             post :unschedule, to: 'edition_workflow#unschedule'
+            post :convert_to_draft, to: 'edition_workflow#convert_to_draft'
           end
           resources :supporting_pages, path: "supporting-pages", except: [:index]
           resources :editorial_remarks, only: [:new, :create], shallow: true
           resources :fact_check_requests, only: [:show, :create, :edit, :update], shallow: true
+          resource :document_sources, path: "document-sources", except: [:show]
         end
+
+        match "/editions/:id" => "editions#show", via: :get
 
         resources :publications, except: [:index]
 
@@ -129,7 +138,7 @@ Whitehall::Application.routes.draw do
         resources :roles, except: [:show] do
           resources :role_appointments, only: [:new, :create, :edit, :update, :destroy], shallow: true
         end
-        resources :countries, only: [:index, :edit, :update]
+        resources :world_locations, only: [:index, :edit, :update]
         resources :case_studies, path: "case-studies", except: [:index]
 
         resources :imports do

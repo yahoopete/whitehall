@@ -39,6 +39,12 @@ class EditionCollectionPresenter
       NewsArticlePresenter
     when DetailedGuide
       DetailedGuidePresenter
+    when InternationalPriority
+      InternationalPriorityPresenter
+    when CaseStudy
+      CaseStudyPresenter
+    when FatalityNotice
+      FatalityNoticePresenter
     end
   end
 end

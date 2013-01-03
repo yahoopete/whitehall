@@ -1,7 +1,7 @@
 .index-list-page {
 
   .page-header {
-    @include core-48;
+    @include ig-core-48;
     padding: $gutter-half 0;
 
     .title {
@@ -27,14 +27,14 @@
   margin-left: 33.333%;
   
   h3 {
-    @include core-19;
+    @include ig-core-19;
   }
 }
 
 .index-list {
   li {
     list-style: none;
-    border-bottom: 1px solid $light-keyline;
-    @include core-19;
+    border-bottom: 1px solid $border-colour;
+    @include ig-core-19;
   }
 }

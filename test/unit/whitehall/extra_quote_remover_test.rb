@@ -81,5 +81,16 @@ module Whitehall
         %{> Here is a block quote using 2 lines and two of the arrows.\n> I am not sure how this will render.  I think it will mash them together.}
       )
     end
+
+    test "preserves multiline blockquotes with plain newlines quotes" do
+      assert_remover_transforms(
+        %{> "line 1\n> \n> "line 2\n> \n> "line 3"} =>
+        %{> line 1\n> \n> line 2\n> \n> line 3}
+        )
+    end
+
+    test "preserve newlines when there's a blockquote with additional text after" do
+      assert_leaves_untouched(%{> \n> blah})
+    end
   end
 end

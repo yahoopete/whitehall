@@ -4,13 +4,12 @@
   @extend %contain-floats;
 
   h1 {
-    @include core-27;
+    @include ig-core-27;
 
     @include media(tablet){
       float: left;
       clear: both;
       width: 33.3%;
-      margin-top: $gutter-half;
     }
   }
   .content {
@@ -27,23 +26,22 @@
 
     .documents-list {
       @include media(tablet){
-        margin-top: $gutter-half;
         padding-left: $gutter-half;
       }
 
       .document {
         list-style: none;
         padding: 0 0 $gutter-one-sixth;
-        border-bottom: 1px solid $light-keyline;
+        border-bottom: 1px solid $border-colour;
 
         h2 a {
           display: block;
-          @include core-19;
+          @include ig-core-19;
           @include bold;
         }
 
         p, .metadata {
-          @include core-14;
+          @include ig-core-14;
           padding-top: 1px;
         }
 
@@ -54,7 +52,7 @@
       }
     }
     .see-all {
-      @include core-19;
+      @include ig-core-19;
 
       @include media(desktop) {
         padding-left: $gutter-half;

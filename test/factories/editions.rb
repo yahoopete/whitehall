@@ -32,11 +32,13 @@ FactoryGirl.define do
     title "edition-title"
     body "edition-body"
     change_note "change-note"
+    summary 'edition-summary'
 
     after :build do |edition, evaluator|
       edition.organisations = FactoryGirl.build_list(:organisation, 1) unless evaluator.organisations.any?
     end
 
+    trait(:imported) { state "imported" }
     trait(:draft) { state "draft" }
     trait(:submitted) { state "submitted" }
     trait(:rejected) { state "rejected" }
@@ -71,6 +73,7 @@ FactoryGirl.define do
     end
   end
 
+  factory :imported_edition, parent: :edition, traits: [:imported]
   factory :draft_edition, parent: :edition, traits: [:draft]
   factory :submitted_edition, parent: :edition, traits: [:submitted]
   factory :rejected_edition, parent: :edition, traits: [:rejected]

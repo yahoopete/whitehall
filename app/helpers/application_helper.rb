@@ -46,6 +46,7 @@ module ApplicationHelper
   end
 
   def role_appointment(appointment, link=false)
+    link = false unless appointment.role.ministerial?
     role_text = (link ? link_to(appointment.role.name, appointment.role) : appointment.role.name)
     if appointment.current?
       role_text.html_safe
@@ -56,7 +57,11 @@ module ApplicationHelper
   end
 
   def ministerial_appointment_options
-    RoleAppointment.for_ministerial_roles.alphabetical_by_person.map do |appointment|
+    role_appointment_options(RoleAppointment.for_ministerial_roles)
+  end
+
+  def role_appointment_options(filter = RoleAppointment)
+    filter.alphabetical_by_person.map do |appointment|
       [appointment.id, "#{appointment.person.name}, #{role_appointment(appointment)}, in #{appointment.role.organisations.collect(&:name).to_sentence}"]
     end
   end
@@ -204,8 +209,8 @@ module ApplicationHelper
       ministerial_roles_path
     when "organisations", "corporate_information_pages"
       organisations_path
-    when "countries", "international_priorities"
-      countries_path
+    when "world_locations", "international_priorities"
+      world_locations_path
     when "policies", "supporting_pages"
       policies_path
     end

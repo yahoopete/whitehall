@@ -9,7 +9,7 @@ class StatisticalDataSetImportTest < ActiveSupport::TestCase
 
     filename = Rails.root.join("test/fixtures/dft_statistical_data_set_sample.csv")
     file = stub("uploaded file", read: File.read(filename), original_filename: filename)
-    import = Import.create_from_file(creator, file, "statistical_data_set")
+    import = Import.create_from_file(creator, file, "statistical_data_set", organisation.id)
     assert import.valid?, import.errors.full_messages.join(", ")
     import.perform
     assert_equal [], import.import_errors
@@ -20,7 +20,7 @@ class StatisticalDataSetImportTest < ActiveSupport::TestCase
     assert_equal creator, statistical_data_set.creator
     assert_equal [organisation], statistical_data_set.organisations
     assert_equal statistical_data_series, statistical_data_set.document_series
-    assert_equal "http://example.com/legacy-url", statistical_data_set.document.document_source.url
+    assert_equal "http://example.com/legacy-url", statistical_data_set.document.document_sources.first.url
 
     assert_equal "!@1 !@2", statistical_data_set.body
 

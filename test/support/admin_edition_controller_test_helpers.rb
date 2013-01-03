@@ -79,6 +79,30 @@ module AdminEditionControllerTestHelpers
       end
     end
 
+    def should_allow_unpublishing_for(edition_type)
+      edition_class = edition_class_for(edition_type)
+
+      test "should display unpublish button" do
+        edition = create(edition_type)
+        edition.stubs(:unpublishable_by?).returns(true)
+        edition_class.stubs(:find).returns(edition)
+
+        get :show, id: edition
+
+        assert_select "form[action=?]", unpublish_admin_edition_path(edition, lock_version: edition.lock_version)
+      end
+
+      test "should not display unpublish button if edition is not unpublishable" do
+        edition = create(edition_type)
+        edition.stubs(:unpublishable_by?).returns(false)
+        edition_class.stubs(:find).returns(edition)
+
+        get :show, id: edition
+
+        refute_select "form[action=?]", unpublish_admin_edition_path(edition)
+      end
+    end
+
     def should_allow_creating_of(edition_type)
       edition_class = edition_class_for(edition_type)
 
@@ -532,7 +556,7 @@ module AdminEditionControllerTestHelpers
           }
         )
 
-        assert_select ".errors", text: "Images image data file can't be blank"
+        assert_select ".errors", text: "Images image data file can&#x27;t be blank"
 
         edition.reload
         assert_equal 0, edition.images.length
@@ -1057,7 +1081,7 @@ module AdminEditionControllerTestHelpers
         )
 
         edition = edition_class.last
-        assert_equal [first_organisation, second_organisation], edition.organisations
+        assert_equal [first_organisation, second_organisation], edition.organisations.sort
       end
 
       test "edit should display edition organisations field" do
