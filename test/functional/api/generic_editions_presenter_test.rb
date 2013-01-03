@@ -3,7 +3,8 @@ require 'shoulda'
 
 class Api::GenericEditionPresenterTest < PresenterTestCase
   setup do
-    @organisation = stub_record(:organisation, organisation_type: stub_record(:ministerial_organisation_type))
+    Whitehall.stubs(:public_host_for).returns('govuk.example.com')
+    @organisation = stub_record(:organisation, organisation_type: stub_record(:ministerial_organisation_type), slug: "an-org")
     stubs_helper_method(:params).returns(format: :json)
   end
 
@@ -22,12 +23,10 @@ class Api::GenericEditionPresenterTest < PresenterTestCase
     end
 
     should "include the public API url as id" do
-      Whitehall.stubs(:public_host_for).returns('govuk.example.com')
       assert_equal "http://govuk.example.com/api/other_editions/#{@guide.slug}", @presenter.as_json[:id]
     end
 
     should "include public guide url as web_url" do
-      Whitehall.stubs(:public_host_for).returns('govuk.example.com')
       assert_equal detailed_guide_url(@guide.document, host: 'govuk.example.com'), @presenter.as_json[:web_url]
     end
 
@@ -46,7 +45,15 @@ class Api::GenericEditionPresenterTest < PresenterTestCase
       assert_equal "This is the summary", @presenter.as_json[:details][:summary]
     end
 
-    should "include tags for organisations"
+    should "include tags for organisations" do
+      tag = {
+        # id: "", # The API URL will go here, when we have one
+        web_url: "http://govuk.example.com/government/organisations/an-org",
+        title: "organisation-11", 
+        details: { type: "organisation" }
+      }
+      assert_equal [tag], @presenter.as_json[:tags]
+    end
 
     should "include tags for topics"
   end
@@ -60,7 +67,6 @@ class Api::GenericEditionPresenterTest < PresenterTestCase
     end
 
     should "json includes related detailed guides as related" do
-      Whitehall.stubs(:public_host_for).returns('govuk.example.com')
       related_guide = stub_edition(:detailed_guide, organisations: [@organisation])
       @guide.stubs(:published_related_detailed_guides).returns([related_guide])
       related_guide_json = {
@@ -78,7 +84,7 @@ class Api::GenericEditionPresenterTest < PresenterTestCase
 
   context "Speech" do
     setup do
-      home_office = build(:organisation, name: "Home Office", organisation_type: build(:ministerial_organisation_type))
+      home_office = build(:organisation, name: "Home Office", organisation_type: build(:ministerial_organisation_type), slug: "an-org")
       home_secretary = build(:ministerial_role, name: "Secretary of State", organisations: [home_office])
       theresa_may = build(:person, forename: "Theresa", surname: "May", image: fixture_file_upload('minister-of-funk.960x640.jpg'))
       theresa_may_appointment = build(:role_appointment, role: home_secretary, person: theresa_may)

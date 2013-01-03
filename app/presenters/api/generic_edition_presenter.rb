@@ -71,8 +71,8 @@ class Api::GenericEditionPresenter < Draper::Base
         published_at: (model.published_at.present? ? model.published_at.iso8601 : nil)
       },
       format: model.format_name,
-      related: related_json
-      # tags: organisations + topics
+      related: related_json,
+      tags: organisations# + topics
     }
 
     keys = [:location, :summary, :delivered_on, :opening_on, :closing_on, :publication_date,
@@ -99,7 +99,7 @@ class Api::GenericEditionPresenter < Draper::Base
     model.organisations.map do |org|
       {
         # id: org.id, TODO reinstate when we have API URLs for tags
-        web_url: h.organisation_url(org),
+        web_url: h.organisation_url(org.slug, host: h.public_host),
         title: org.name,
         details: {
           type: 'organisation'
