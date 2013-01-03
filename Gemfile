@@ -54,6 +54,7 @@ end
 
 group :test do
   gem 'factory_girl'
+  gem 'shoulda'
   gem 'hash_syntax'
   gem 'mocha', '0.10.0', require: false
   gem 'test_track'
