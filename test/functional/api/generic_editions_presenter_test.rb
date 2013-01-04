@@ -90,6 +90,7 @@ class Api::GenericEditionPresenterTest < PresenterTestCase
       theresa_may_appointment = build(:role_appointment, role: home_secretary, person: theresa_may)
       speech_type = SpeechType::Transcript
       speech = stub_edition(:speech, speech_type: speech_type, role_appointment: theresa_may_appointment, delivered_on: Date.parse("2011-06-01"), location: "The Guidhall", organisations: [home_office], images: [build(:image)])
+      speech.stubs(:published_related_policies).returns([])
       @presenter = Api::GenericEditionPresenter.decorate(speech)
     end
 
@@ -105,10 +106,11 @@ class Api::GenericEditionPresenterTest < PresenterTestCase
   context "Consultation" do
     setup do
       consultation = stub_edition(:consultation, organisations: [@organisation], document: build(:document), images: [build(:image)])
+      consultation.stubs(:published_related_policies).returns([])
       @presenter = Api::GenericEditionPresenter.decorate(consultation)
     end
 
-    should "include openening_on and closing_on" do
+    should "include opening_on and closing_on" do
       assert_equal "2011-11-10T11:11:11+00:00", @presenter.as_json[:details][:opening_on]
       assert_equal "2011-12-23T11:11:11+00:00", @presenter.as_json[:details][:closing_on]
     end
@@ -117,6 +119,7 @@ class Api::GenericEditionPresenterTest < PresenterTestCase
   context "Publication" do
     setup do
       publication = stub_edition(:publication, organisations: [@organisation], document: build(:document), images: [build(:image)])
+      publication.stubs(:published_related_policies).returns([])
       @presenter = Api::GenericEditionPresenter.decorate(publication)
     end
 
@@ -128,11 +131,11 @@ class Api::GenericEditionPresenterTest < PresenterTestCase
   context "Policy" do
     setup do
       @policy = stub_edition(:policy, organisations: [@organisation], alternative_format_provider: @organisation, images: [build(:image)])
+      @policy.stubs(:published_related_editions).returns([])
       supporting_page = stub_record(:supporting_page, title: "A Supporting Page", slug: "a-supporting-page", body: "## Some govspeak", edition: @policy)
       @presenter = Api::GenericEditionPresenter.decorate(@policy)
       @policy.stubs(:supporting_pages).returns([supporting_page])
     end
-
 
     should "include Govspoken supporting_pages" do
       detail_page = {
@@ -143,6 +146,24 @@ class Api::GenericEditionPresenterTest < PresenterTestCase
         body: '<h2 id="some-govspeak">Some govspeak</h2>'
       }
       assert_equal [detail_page], @presenter.as_json[:details][:supporting_pages]
+    end
+  end
+
+  context "an edition type that has related policies" do
+    setup do
+      @publication = stub_edition(:publication, organisations: [@organisation], document: build(:document), images: [build(:image)])
+      @related_policy = stub_edition(:policy, organisations: [@organisation], alternative_format_provider: @organisation, images: [build(:image)])
+      @publication.stubs(:published_related_policies).returns([@related_policy])
+      @presenter = Api::GenericEditionPresenter.decorate(@publication)
+    end
+
+    should "json includes related policies as related" do
+      related_policy_json = {
+        id: "http://govuk.example.com/api/other_editions/#{@related_policy.slug}",
+        title: @related_policy.title,
+        web_url: "http://govuk.example.com/government/policies/#{@related_policy.slug}"
+      }
+      assert_equal [related_policy_json], @presenter.as_json[:related]
     end
   end
 end

@@ -126,7 +126,7 @@ class Api::GenericEditionPresenter < Draper::Base
   end
 
   def related_json
-    if model.is_a?(DetailedGuide)
+    if model.respond_to?(:published_related_detailed_guides)
       model.published_related_detailed_guides.map do |guide|
         {
           id: other_edition_url(guide),
@@ -134,8 +134,23 @@ class Api::GenericEditionPresenter < Draper::Base
           web_url: h.public_document_url(guide)
         }
       end
+    elsif model.respond_to?(:published_related_editions)
+      model.published_related_editions.map do |edition|
+        {
+          id: other_edition_url(edition),
+          title: edition.title,
+          web_url: h.public_document_url(edition)
+        }
+      end
+    elsif model.respond_to?(:published_related_policies)
+      model.published_related_policies.map do |edition|
+        {
+          id: other_edition_url(edition),
+          title: edition.title,
+          web_url: h.public_document_url(edition)
+        }
+      end
     else
-      # Not sure if anything but DetailedGuides has related items?
       []
     end
   end
