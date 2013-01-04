@@ -126,33 +126,20 @@ class Api::GenericEditionPresenter < Draper::Base
   end
 
   def related_json
-    if model.respond_to?(:published_related_detailed_guides)
-      model.published_related_detailed_guides.map do |guide|
-        {
-          id: other_edition_url(guide),
-          title: guide.title,
-          web_url: h.public_document_url(guide)
-        }
+    data = []
+    related_methods = [:published_related_detailed_guides, :published_related_editions, :published_related_policies]
+    related_methods.each do |method|
+      if model.respond_to?(method)
+        data += model.send(method).map do |related_edition|
+          {
+            id: other_edition_url(related_edition),
+            title: related_edition.title,
+            web_url: h.public_document_url(related_edition)
+          }
+        end
       end
-    elsif model.respond_to?(:published_related_editions)
-      model.published_related_editions.map do |edition|
-        {
-          id: other_edition_url(edition),
-          title: edition.title,
-          web_url: h.public_document_url(edition)
-        }
-      end
-    elsif model.respond_to?(:published_related_policies)
-      model.published_related_policies.map do |edition|
-        {
-          id: other_edition_url(edition),
-          title: edition.title,
-          web_url: h.public_document_url(edition)
-        }
-      end
-    else
-      []
     end
+    data
   end
 
   def supporting_pages_json
