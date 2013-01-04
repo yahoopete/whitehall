@@ -86,6 +86,10 @@ class Api::GenericEditionPresenter < Draper::Base
         end
       end
     end
+
+    if model.allows_supporting_pages?
+      data[:details][:supporting_pages] = supporting_pages_json
+    end
     data
   end
 
@@ -133,6 +137,18 @@ class Api::GenericEditionPresenter < Draper::Base
     else
       # Not sure if anything but DetailedGuides has related items?
       []
+    end
+  end
+
+  def supporting_pages_json
+    model.supporting_pages.map.with_index do |supporting_page, index|
+      {
+        web_url: policy_supporting_page_url(model.slug, supporting_page.slug, host: h.public_host),
+        slug: supporting_page.slug,
+        order: index + 1,
+        title: supporting_page.title,
+        body: h.bare_govspeak_edition_to_html(supporting_page)
+      }
     end
   end
 end

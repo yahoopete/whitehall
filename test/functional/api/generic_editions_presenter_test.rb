@@ -124,4 +124,25 @@ class Api::GenericEditionPresenterTest < PresenterTestCase
       assert_equal "2011-11-01", @presenter.as_json[:details][:publication_date]
     end
   end
+
+  context "Policy" do
+    setup do
+      @policy = stub_edition(:policy, organisations: [@organisation], alternative_format_provider: @organisation, images: [build(:image)])
+      supporting_page = stub_record(:supporting_page, title: "A Supporting Page", slug: "a-supporting-page", body: "## Some govspeak", edition: @policy)
+      @presenter = Api::GenericEditionPresenter.decorate(@policy)
+      @policy.stubs(:supporting_pages).returns([supporting_page])
+    end
+
+
+    should "include Govspoken supporting_pages" do
+      detail_page = {
+        web_url: "http://govuk.example.com/government/policies/#{@policy.slug}/supporting-pages/a-supporting-page",
+        slug: 'a-supporting-page', # Included for consistency with mainstream. Possibly undesirable.
+        order: 1,
+        title: 'A Supporting Page',
+        body: '<h2 id="some-govspeak">Some govspeak</h2>'
+      }
+      assert_equal [detail_page], @presenter.as_json[:details][:supporting_pages]
+    end
+  end
 end
