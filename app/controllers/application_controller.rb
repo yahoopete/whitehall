@@ -7,10 +7,19 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   before_filter :set_proposition
+  before_filter :set_locale
 
   layout 'frontend'
 
+  def locale
+    @locale
+  end
+
   private
+
+  def set_locale
+    @locale = params[:locale] || "en-GB"
+  end
 
   def skip_slimmer
     response.headers[Slimmer::Headers::SKIP_HEADER] = "true"

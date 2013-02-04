@@ -10,6 +10,7 @@ class Admin::EditionsController < Admin::BaseController
   before_filter :redirect_to_controller_for_type, only: [:show]
   before_filter :build_edition_organisations, only: [:new, :edit]
   before_filter :delete_absent_edition_organisations, only: [:create, :update]
+  # before_filter :build_translated_attributes, only: [:new, :edit]
 
   def index
     if filter && filter.valid?
@@ -191,6 +192,12 @@ class Admin::EditionsController < Admin::BaseController
     unless @edition.images.any?(&:new_record?)
       image = @edition.images.build
       image.build_image_data
+    end
+  end
+
+  def build_translated_attributes
+    @edition.translateable_attributes.each do |a|
+      @edition.translated_attributes.build(attribute_name: a)
     end
   end
 

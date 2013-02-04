@@ -8,5 +8,16 @@
     <%= render partial: 'topical_event_fields', locals: { form: form, edition: edition } %>
   </fieldset>
 
+  <fieldset class="translations">
+    <legend>Translations</legend>
+    <%= form.fields_for :translated_attributes do |ta| %>
+      <div class="<%= ta.object.attribute_name %> translation">
+        <%= ta.select :locale, [["Spanish", "es-ES"], ["French", "fr-FR"]] %>
+        <%= ta.text_field :attribute_name %>
+        <%= ta.text_area :translation %>
+      </div>
+    <% end %>
+  </fieldset>
+
   <%= render partial: 'first_published_at', locals: { form: form, edition: edition } %>
 <% end %>

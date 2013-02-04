@@ -12,6 +12,9 @@ class Edition < ActiveRecord::Base
   include Edition::ScheduledPublishing
   include Edition::AuditTrail
   include Edition::ActiveEditors
+  include Edition::TranslatedAttributes
+
+  translate_attributes :title, :body, :summary
 
   include Rails.application.routes.url_helpers
   include PublicDocumentRoutesHelper

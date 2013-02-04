@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130128155925) do
+ActiveRecord::Schema.define(:version => 20130204155344) do
 
   create_table "attachment_data", :force => true do |t|
     t.string   "carrierwave_file"
@@ -741,6 +741,14 @@ ActiveRecord::Schema.define(:version => 20130128155925) do
 
   add_index "supporting_pages", ["edition_id"], :name => "index_supporting_pages_on_edition_id"
   add_index "supporting_pages", ["slug"], :name => "index_supporting_documents_on_slug"
+
+  create_table "translated_attributes", :force => true do |t|
+    t.integer "owner_id"
+    t.string  "owner_type"
+    t.string  "attribute_name"
+    t.string  "locale"
+    t.text    "translation"
+  end
 
   create_table "users", :force => true do |t|
     t.string   "name"
