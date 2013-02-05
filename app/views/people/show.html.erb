@@ -41,6 +41,7 @@
             <% if @person.announcements.any? %>
               <li><%= link_to "Announcements", "#announcements" %></li>
             <% end %>
+            <li><%= link_to "Memberships", "#memberships" %></li>
           </ul>
         </nav>
       </section>
@@ -116,6 +117,15 @@
 
       <%= render partial: 'people/announcment_list',
                   locals: { person: @person } %>
+
+      <section id="memberships">
+        <h1 class="label">Memberships</h1>
+        <ul>
+          <li><a href="/government/organisations/ministry-of-defence/groups/defence-board">Defence Board</a></li>
+          <li><a href="/government/organisations/ministry-of-defence/groups/defence-council">Defence Council</a></li>
+        </ul>
+      </section>
+
     </div>
   </div>
 <% end %>
