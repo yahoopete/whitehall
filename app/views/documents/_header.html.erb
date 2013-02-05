@@ -52,6 +52,11 @@
         <dt><%= document.world_locations.length == 1 ? "World location" : "World locations" %>:</dt>
         <dd class="document-world-locations js-hide-other-links"><%= list_of_links_to_world_locations_once_world_goes_live(document.world_locations) %></dd>
       <% end %>
+      <% if document.available_locales.count > 1 %>
+        <% document.available_locales.each do |locale| %>
+          <%= link_to locale, {locale: locale} %>
+        <% end %>
+      <% end %>
       <% if document.respond_to?(:inapplicable_nations) && document.inapplicable_nations.any? %>
         <dt>Applies to:</dt>
         <dd><%= only_applies_to_nations_list(document) %></dd>

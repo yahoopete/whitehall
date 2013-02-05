@@ -40,6 +40,14 @@ module Edition::TranslatedAttributes
     self
   end
 
+  def available_locales
+    ["en-GB"] + translated_attribute_cache.keys.select { |locale| complete_translation?(locale) }
+  end
+
+  def complete_translation?(locale)
+    translated_attribute_cache[locale].keys.sort == translateable_attributes.sort
+  end
+
   private
 
   def current_locale
