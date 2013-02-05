@@ -41,7 +41,7 @@
             <% if @person.announcements.any? %>
               <li><%= link_to "Announcements", "#announcements" %></li>
             <% end %>
-            <li><%= link_to "Memberships", "#memberships" %></li>
+            <li><%= link_to "Governance group memberships", "#memberships" %></li>
           </ul>
         </nav>
       </section>
@@ -119,7 +119,7 @@
                   locals: { person: @person } %>
 
       <section id="memberships">
-        <h1 class="label">Memberships</h1>
+        <h1 class="label">Governance group memberships</h1>
         <ul>
           <li><a href="/government/organisations/ministry-of-defence/groups/defence-board">Defence Board</a></li>
           <li><a href="/government/organisations/ministry-of-defence/groups/defence-council">Defence Council</a></li>
