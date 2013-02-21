@@ -17,7 +17,7 @@ module OrganisationHelper
     relationship = ERB::Util.h(add_indefinite_article(type_name))
     parents = organisation.parent_organisations.map {|parent| organisation_relationship_html(parent) }
     if parents.any?
-      if type_name == 'other'
+      if type_name == 'other' || type_name == 'public corporation'
         "%s works with %s" % [name, parents.to_sentence]
       else
         "%s is %s of %s" % ([name, relationship, parents.to_sentence])
