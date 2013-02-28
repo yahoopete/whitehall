@@ -11,6 +11,27 @@ class AttachmentDataTest < ActiveSupport::TestCase
     AttachmentUploader.enable_processing = false
   end
 
+  test 'has a skip_whitelist_verification attribute with a boolean method' do
+    attachment = AttachmentData.new
+    assert_nil attachment.skip_whitelist_verification
+    refute attachment.skip_whitelist_verification?
+
+    attachment.skip_whitelist_verification = true
+    assert attachment.skip_whitelist_verification?
+  end
+
+  test 'does not save zipped exe by default' do
+    zipped_exe = fixture_file_upload('sample_attachment_containing_exe.zip')
+    attachment = build(:attachment_data, file: zipped_exe)
+    refute attachment.save
+  end
+
+  test 'saves zipped exe when whitelisting is skipped' do
+    zipped_exe = fixture_file_upload('sample_attachment_containing_exe.zip')
+    attachment = build(:attachment_data, file: zipped_exe, skip_whitelist_verification: true)
+    assert attachment.save
+  end
+
   test 'should be invalid without a file' do
     attachment = build(:attachment_data, file: nil)
     refute attachment.valid?

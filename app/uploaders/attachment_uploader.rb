@@ -48,7 +48,7 @@ class AttachmentUploader < WhitehallUploader
   end
 
   def extension_white_list
-    EXTENSION_WHITE_LIST
+    model.skip_whitelist_verification? ? nil : EXTENSION_WHITE_LIST
   end
 
   class ZipFile
@@ -199,17 +199,18 @@ class AttachmentUploader < WhitehallUploader
     return unless extension == 'zip'
 
     zip_file = ZipFile.new(new_file.path)
-    examiners = [
-      ZipFile::UTF8FilenamesExaminer.new(zip_file),
-      ZipFile::AnyValidExaminer.new(zip_file, [
-        ZipFile::WhitelistedExtensionsExaminer.new(zip_file, extension_white_list - ['zip']),
-        ZipFile::ArcGISShapefileExaminer.new(zip_file)
-      ])
-    ]
+    examiners = [ZipFile::UTF8FilenamesExaminer.new(zip_file)]
+
+    unless model.skip_whitelist_verification?
+      examiners <<  ZipFile::UTF8FilenamesExaminer.new(zip_file)
+      examiners <<  ZipFile::AnyValidExaminer.new(zip_file, [
+                      ZipFile::WhitelistedExtensionsExaminer.new(zip_file, extension_white_list - ['zip']),
+                      ZipFile::ArcGISShapefileExaminer.new(zip_file)
+                    ])
+    end
     problem = examiners.detect { |examiner| !examiner.valid? }
     if problem
       raise CarrierWave::IntegrityError, problem.failure_message
     end
   end
-
 end

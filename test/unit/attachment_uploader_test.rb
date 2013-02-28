@@ -9,6 +9,11 @@ class AttachmentUploaderTest < ActiveSupport::TestCase
     assert_equal allowed.sort, uploader.extension_white_list.sort
   end
 
+  test 'should not whitelist files if the model says to skip whitelist verification' do
+    uploader = AttachmentUploader.new(AttachmentData.new(skip_whitelist_verification: true))
+    assert_nil uploader.extension_white_list
+  end
+
   test "should store uploads in a directory that persists across deploys" do
     model = stub("AR Model", id: 1)
     uploader = AttachmentUploader.new(model, "mounted-as")
@@ -99,11 +104,17 @@ class AttachmentUploaderTest < ActiveSupport::TestCase
   end
 
   test 'zip file that looks like an ArcGIS file with multiple sets of shapes is not allowed if one set of shapes is incomplete' do
-    uploader = AttachmentUploader.new(stub("AR Model", id: 1), 'mounted-as')
+    uploader = AttachmentUploader.new(AttachmentData.new)
     AttachmentUploader::ZipFile.any_instance.stubs(:filenames).returns(complete_and_broken_shape_arcgis_file_list)
     assert_raises CarrierWave::IntegrityError do
       uploader.store!(fixture_file_upload('sample_attachment.zip'))
     end
+  end
+
+  test 'zip file containing non-whitelisted format is not rejected when model allows override' do
+    uploader = AttachmentUploader.new(AttachmentData.new(skip_whitelist_verification: true))
+    uploader.store!(fixture_file_upload('sample_attachment_containing_exe.zip'))
+    assert uploader.file.present?
   end
 
   def required_arcgis_file_list
