@@ -110,6 +110,46 @@ module AdminEditionAttachableControllerTestHelpers
         post :create, edition_base_class_name => attributes
       end
 
+      test "creating an edition with non-whitelisted file does not create the edition or attach the file" do
+        zipped_exe = fixture_file_upload('sample_attachment_containing_exe.zip')
+        attributes = controller_attributes_for(edition_type)
+        attributes[attachment_join_attributes] = {
+          "0" => {
+            attachment_attributes: attributes_for(:attachment).merge(attachment_data_attributes: {
+              file: zipped_exe
+            })
+          }
+        }
+        assert_no_difference "#{edition_class}.count" do
+          post :create, edition_base_class_name => attributes
+        end
+        assert_template :new
+      end
+
+      test "creating an edition with non-whitelisted file as a tech lead creates the edition and attaches the file" do
+        login_as :gds_tech_lead
+        zipped_exe = fixture_file_upload('sample_attachment_containing_exe.zip')
+        attributes = controller_attributes_for(edition_type)
+        attributes[attachment_join_attributes] = {
+          "0" => {
+            attachment_attributes: attributes_for(:attachment, title: "attachment-title").merge(attachment_data_attributes: {
+              file: zipped_exe
+            })
+          }
+        }
+
+        assert_difference "#{edition_class}.count", 1 do
+          post :create, edition_base_class_name => attributes
+        end
+        edition = edition_class.last
+        assert_equal 1, edition.attachments.length
+        attachment = edition.attachments.first
+        assert_equal "attachment-title", attachment.title
+        assert_equal "sample_attachment_containing_exe.zip", attachment.attachment_data.carrierwave_file
+        assert_equal zipped_exe.size, attachment.file_size
+        assert_redirected_to [:admin, edition]
+      end
+
       view_test "creating an edition with invalid data should still show attachment fields" do
         post :create, edition_base_class_name => make_invalid(controller_attributes_for(edition_type))
 
