@@ -1,4 +1,10 @@
 GIT
+  remote: git://github.com/norman/friendly_id.git
+  revision: cb0c987be9cc36fea581ba56b321f8790f0b1c50
+  specs:
+    friendly_id (4.1.0.beta.2)
+
+GIT
   remote: https://github.com/alphagov/rack-test.git
   revision: c98433f5f6a45842520913c31968cde5cd782d55
   specs:
@@ -130,7 +136,6 @@ GEM
       nokogiri (~> 1.5.0)
       ruby-hmac
     formatador (0.2.1)
-    friendly_id (4.0.0.beta14)
     gds-api-adapters (4.8.0)
       link_header
       lrucache (~> 0.1.1)
@@ -396,7 +401,7 @@ DEPENDENCIES
   factory_girl
   faker
   fog
-  friendly_id (= 4.0.0.beta14)
+  friendly_id (= 4.1.0.beta.2)!
   gds-api-adapters (~> 4.8.0)
   gds-sso (= 3.0.0)
   globalize3

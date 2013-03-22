@@ -11,7 +11,7 @@ gem 'carrierwave'
 gem 'govspeak', '~> 1.2.3'
 gem 'kramdown', '~> 0.13.8'
 gem 'validates_email_format_of'
-gem 'friendly_id', '4.0.0.beta14'
+gem 'friendly_id', '4.1.0.beta.2', github: "norman/friendly_id"
 gem 'nokogiri'
 gem 'rake', '0.9.2'
 gem 'boomerang-rails'
