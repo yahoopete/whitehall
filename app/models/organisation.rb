@@ -189,7 +189,7 @@ class Organisation < ActiveRecord::Base
              boost_phrases: :acronym
 
   extend FriendlyId
-  friendly_id
+  friendly_id :name, use: :history
 
   before_destroy { |r| r.destroyable? }
   after_save :ensure_analytics_identifier

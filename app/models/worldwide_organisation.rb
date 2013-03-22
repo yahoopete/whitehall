@@ -22,7 +22,7 @@ class WorldwideOrganisation < ActiveRecord::Base
   validates :name, :summary, :description, presence: true
 
   extend FriendlyId
-  friendly_id
+  friendly_id :name, use: :history
 
   delegate :analytics_identifier, :alternative_format_contact_email, to: :sponsoring_organisation, allow_nil: true
   def sponsoring_organisation

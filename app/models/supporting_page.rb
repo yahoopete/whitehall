@@ -21,7 +21,7 @@ class SupportingPage < ActiveRecord::Base
              unindex_after: false
 
   extend FriendlyId
-  friendly_id :title, use: :scoped, scope: :edition
+  friendly_id :title, use: [:scoped, :history], scope: :edition
 
   def alternative_format_contact_email
     edition && edition.alternative_format_contact_email

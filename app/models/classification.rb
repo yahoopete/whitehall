@@ -91,7 +91,7 @@ class Classification < ActiveRecord::Base
   scope :randomized, order('RAND()')
 
   extend FriendlyId
-  friendly_id
+  friendly_id :name, use: :history
 
   def lead_organisations
     organisations.where(organisation_classifications: {lead: true}).reorder("organisation_classifications.lead_ordering")

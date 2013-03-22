@@ -34,7 +34,7 @@ class Role < ActiveRecord::Base
   before_destroy :prevent_destruction_unless_destroyable
 
   extend FriendlyId
-  friendly_id
+  friendly_id :name, use: :history
 
   include TranslatableModel
   translates :name, :responsibilities

@@ -39,7 +39,7 @@ class Person < ActiveRecord::Base
              only: :without_a_current_ministerial_role #Already covered by MinisterialRole
 
   extend FriendlyId
-  friendly_id :slug_name
+  friendly_id :slug_name, use: :history
 
   include TranslatableModel
   translates :biography

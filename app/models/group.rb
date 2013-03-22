@@ -19,7 +19,7 @@ class Group < ActiveRecord::Base
   validates_with Validator
 
   extend FriendlyId
-  friendly_id
+  friendly_id :name, use: :history
 
   before_destroy :prevent_destruction_unless_destroyable
 

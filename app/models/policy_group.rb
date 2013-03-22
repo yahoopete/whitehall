@@ -17,7 +17,7 @@ class PolicyGroup < ActiveRecord::Base
              content: :summary_or_name
 
   extend FriendlyId
-  friendly_id
+  friendly_id :name, use: :history
 
   def summary_or_name
     summary.present? ? summary : name

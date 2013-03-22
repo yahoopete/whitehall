@@ -11,7 +11,7 @@ class OperationalField < ActiveRecord::Base
              content: :description
 
   extend FriendlyId
-  friendly_id
+  friendly_id :name, use: :history
 
   def search_link
     operational_field_path(slug)

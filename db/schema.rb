@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130320174658) do
+ActiveRecord::Schema.define(:version => 20130322140833) do
 
   create_table "attachment_data", :force => true do |t|
     t.string   "carrierwave_file"
@@ -505,6 +505,19 @@ ActiveRecord::Schema.define(:version => 20130320174658) do
 
   add_index "force_publication_attempts", ["import_id"], :name => "index_force_publication_attempts_on_import_id"
 
+  create_table "friendly_id_slugs", :force => true do |t|
+    t.string   "slug",                         :null => false
+    t.integer  "sluggable_id",                 :null => false
+    t.string   "sluggable_type", :limit => 40
+    t.string   "scope"
+    t.datetime "created_at"
+  end
+
+  add_index "friendly_id_slugs", ["slug", "sluggable_type", "scope"], :name => "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", :unique => true
+  add_index "friendly_id_slugs", ["slug", "sluggable_type"], :name => "index_friendly_id_slugs_on_slug_and_sluggable_type"
+  add_index "friendly_id_slugs", ["sluggable_id"], :name => "index_friendly_id_slugs_on_sluggable_id"
+  add_index "friendly_id_slugs", ["sluggable_type"], :name => "index_friendly_id_slugs_on_sluggable_type"
+
   create_table "group_memberships", :force => true do |t|
     t.integer  "group_id"
     t.integer  "person_id"
@@ -815,6 +828,7 @@ ActiveRecord::Schema.define(:version => 20130320174658) do
     t.text     "responsibilities"
     t.boolean  "chief_of_the_defence_staff", :default => false,             :null => false
     t.integer  "whip_organisation_id"
+    t.boolean  "chief_professional_officer", :default => false,             :null => false
   end
 
   add_index "roles", ["slug"], :name => "index_roles_on_slug"

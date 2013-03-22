@@ -18,7 +18,7 @@ class DocumentSeries < ActiveRecord::Base
              content: :description
 
   extend FriendlyId
-  friendly_id
+  friendly_id :name, use: :history
 
   def search_link
     organisation_document_series_path(organisation, slug)

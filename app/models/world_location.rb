@@ -27,6 +27,12 @@ class WorldLocation < ActiveRecord::Base
   accepts_nested_attributes_for :edition_world_locations
   accepts_nested_attributes_for :mainstream_links, allow_destroy: true, reject_if: :all_blank
 
+  validates_with SafeHtmlValidator
+  validates :name, :world_location_type_id, presence: true
+
+  extend FriendlyId
+  friendly_id :name, use: :history
+
   include TranslatableModel
   translates :name, :title, :mission_statement
 
@@ -71,10 +77,4 @@ class WorldLocation < ActiveRecord::Base
   def self.geographical
     where(world_location_type_id: WorldLocationType.geographic.map(&:id)).ordered_by_name
   end
-
-  validates_with SafeHtmlValidator
-  validates :name, :world_location_type_id, presence: true
-
-  extend FriendlyId
-  friendly_id
 end
