@@ -22,12 +22,6 @@ class HtmlVersionsControllerTest < ActionController::TestCase
     assert_equal publication, assigns(:publication)
   end
 
-  test "#show 404s if the slug is wrong" do
-    publication = create(:published_publication, :with_html_version)
-    get :show, publication_id: publication.document, id: 'not-the-real-slug'
-    assert_response :not_found
-  end
-
   test "#show 404s if no HTML version" do
     publication = create(:published_publication)
     get :show, publication_id: publication.document, id: 'slug'
