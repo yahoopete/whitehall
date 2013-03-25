@@ -59,6 +59,9 @@ Feature: Importing new editions
   - policy_1..4: 1 column required, data optional
   - minister_1..2: optional
   - country_1..4: 1 column required, data optional
+  - attachment_url_0..Row::ATTACHMENT_LIMIT: optional
+  - attachment_title_0..Row::ATTACHMENT_LIMIT: optional
+  - json_attachments: optional (allows attachments to be supplied as a json array)
 
   Speeches:
 
