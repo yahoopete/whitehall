@@ -8,6 +8,9 @@ class DocumentSeriesController < PublicFacingController
 
   def show
     @document_series = @organisation.document_series.find(params[:id])
+    if request.path != organisation_document_series_path(@organisation, @document_series)
+      return redirect_to organisation_document_series_path(@organisation, @document_series), :status => :moved_permanently
+    end
     @published_publications = PublicationesquePresenter.decorate(@document_series.published_publications.in_reverse_chronological_order)
     @published_consultations = PublicationesquePresenter.decorate(@document_series.published_consultations.in_reverse_chronological_order)
     @published_statistical_data_sets = StatisticalDataSetPresenter.decorate(@document_series.published_statistical_data_sets.in_reverse_chronological_order)

@@ -20,6 +20,9 @@ class Admin::DocumentSeriesController < Admin::BaseController
   end
 
   def show
+    if request.path != admin_organisation_document_series_path(@organisation, @document_series)
+      return redirect_to admin_organisation_document_series_path(@organisation, @document_series), :status => :moved_permanently
+    end
   end
 
   def edit
