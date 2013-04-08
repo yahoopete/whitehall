@@ -5,11 +5,14 @@ require 'erb'
 require 'gds_api/exceptions'
 
 module Edition::GovUkDelivery
-  include Rails.application.routes.url_helpers
   extend ActiveSupport::Concern
 
   included do
     set_callback(:publish, :after) { notify_govuk_delivery }
+  end
+
+  def notify_govuk_delivery
+    Notifier.new(self).notify
   end
 
   def govuk_delivery_tags
@@ -77,19 +80,23 @@ module Edition::GovUkDelivery
     tag_paths.flatten
   end
 
-  def notify_govuk_delivery
-    if (tags = govuk_delivery_tags).any? && !minor_change?
-      # Swallow all errors for the time being
-      begin
-        response = Whitehall.govuk_delivery_client.notify(tags, title, govuk_delivery_email_body(public_document_path(self), title, summary, public_timestamp))
-      rescue GdsApi::HTTPErrorResponse
-        nil
+  class Notifier < Struct.new(:edition)
+    include Rails.application.routes.url_helpers
+    include PublicDocumentRoutesHelper
+
+    def notify
+      if (tags = edition.govuk_delivery_tags).any? && !edition.minor_change?
+        # Swallow all errors for the time being
+        begin
+          response = Whitehall.govuk_delivery_client.notify(tags, edition.title, govuk_delivery_email_body(public_document_url(edition), edition.title, edition.summary, edition.public_timestamp))
+        rescue GdsApi::HTTPErrorResponse
+          nil
+        end
       end
     end
-  end
 
-  def govuk_delivery_email_body(url, title, summary, published_on)
-    ERB.new(%q{
+    def govuk_delivery_email_body(url, title, summary, published_on)
+      ERB.new(%q{
 <div class="rss_item" style="margin-bottom: 2em;">
   <div class="rss_title" style="font-weight: bold; font-size: 120%; margin: 0 0 0.3em; padding: 0;">
     <a href="<%= url %>"><%= title %></a>
@@ -99,5 +106,6 @@ module Edition::GovUkDelivery
   <div class="rss_description" style="margin: 0 0 0.3em; padding: 0;"><%= summary %></div>
 </div>
 }.encode("UTF-8")).result(binding)
+    end
   end
 end

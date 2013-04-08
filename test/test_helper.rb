@@ -31,6 +31,7 @@ class ActiveSupport::TestCase
     Timecop.freeze(2011, 11, 11, 11, 11, 11)
     Whitehall.search_backend = Whitehall::DocumentFilter::FakeSearch
     ImageSizeChecker.any_instance.stubs(:size_is?).returns true
+    Edition::GovUkDelivery::Notifier.any_instance.stubs(:notify)
   end
 
   teardown do

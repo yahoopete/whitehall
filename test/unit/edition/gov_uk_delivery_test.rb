@@ -3,6 +3,10 @@
 require "test_helper"
 
 class Edition::GovUkDeliveryTest < ActiveSupport::TestCase
+  setup do
+    Edition::GovUkDelivery::Notifier.any_instance.unstub(:notify)
+  end
+
   test "#govuk_delivery_tags returns a feed for 'all' by default" do
     assert_equal ["https://#{Whitehall.public_host}/government/feed"], build(:policy).govuk_delivery_tags
   end
@@ -47,14 +51,14 @@ class Edition::GovUkDeliveryTest < ActiveSupport::TestCase
     publication = create(:news_article)
 
     title = "Café".encode("UTF-8")
-    body = publication.govuk_delivery_email_body("http://example.com", title, "My Summary", Time.zone.now)
+    body = Edition::GovUkDelivery::Notifier.new(publication).govuk_delivery_email_body("http://example.com", title, "My Summary", Time.zone.now)
     assert_includes body, title
     assert_equal 'UTF-8', body.encoding.name
   end
 
   test '#notify_govuk_delivery sends a notification via the govuk delivery client when there are topics' do
     policy = create(:policy, topics: [create(:topic)])
-    policy.stubs(:govuk_delivery_email_body).returns('email body')
+    Edition::GovUkDelivery::Notifier.any_instance.stubs(:govuk_delivery_email_body).returns('email body')
     Whitehall.govuk_delivery_client.expects(:notify).with(policy.govuk_delivery_tags, policy.title, 'email body')
 
     policy.notify_govuk_delivery
