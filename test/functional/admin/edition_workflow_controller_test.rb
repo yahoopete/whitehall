@@ -2,6 +2,9 @@ require 'test_helper'
 
 class Admin::EditionWorkflowControllerTest < ActionController::TestCase
   should_be_an_admin_controller
+  include Rails.application.routes.url_helpers
+  default_url_options[:host] = 'test.host'
+
 
   setup do
     @edition = build(:submitted_policy, document: build(:document))
@@ -9,6 +12,7 @@ class Admin::EditionWorkflowControllerTest < ActionController::TestCase
     @edition.stubs(id: 1234, new_record?: false)
     @user = login_as(:departmental_editor)
     Edition.stubs(:find).with(@edition.to_param).returns(@edition)
+    Whitehall.stubs(:public_host).returns 'test.host'
   end
 
   test 'publish publishes the given edition on behalf of the current user' do

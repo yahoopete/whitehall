@@ -121,6 +121,7 @@ class ActionController::TestCase
 
   setup do
     request.env['warden'] = stub(authenticate!: false, authenticated?: false, user: nil)
+    Whitehall.stubs(:public_host).returns 'www.test.alphagov.co.uk'
   end
 
   def login_as(role_or_user)
