@@ -4,7 +4,7 @@ require 'test_helper'
 class Admin::EditionTranslationsControllerTest < ActionController::TestCase
   include Admin::EditionRoutesHelper
   include Rails.application.routes.url_helpers
-  default_url_options[:host] = 'test.host'
+  default_url_options[:host] = Whitehall.public_host
 
   setup do
     @policy_writer = login_as(:policy_writer)

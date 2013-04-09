@@ -33,9 +33,9 @@ module Whitehall
       organisation = publication.organisations.first
       assert_extraction <<-EOT
 Old Url,New Url,Status,Slug,Admin Url,State
-"",https://www.preview.alphagov.co.uk/government/publications/publication-title,301,publication-title,https://whitehall-admin.test.alphagov.co.uk/government/admin/publications/#{publication.id},published
-"",https://www.preview.alphagov.co.uk/government/organisations/#{organisation.slug},"","",https://whitehall-admin.test.alphagov.co.uk/government/admin/organisations/#{organisation.slug},""
-"",https://www.preview.alphagov.co.uk/government/organisations/#{organisation.slug},"","",https://whitehall-admin.test.alphagov.co.uk/government/admin/organisations/#{organisation.slug}/edit,""
+"",https://www.test.alphagov.co.uk/government/publications/publication-title,301,publication-title,https://whitehall-admin.test.alphagov.co.uk/government/admin/publications/#{publication.id},published
+"",https://www.test.alphagov.co.uk/government/organisations/#{organisation.slug},"","",https://whitehall-admin.test.alphagov.co.uk/government/admin/organisations/#{organisation.slug},""
+"",https://www.test.alphagov.co.uk/government/organisations/#{organisation.slug},"","",https://whitehall-admin.test.alphagov.co.uk/government/admin/organisations/#{organisation.slug}/edit,""
       EOT
     end
 
@@ -44,7 +44,7 @@ Old Url,New Url,Status,Slug,Admin Url,State
       source = create(:document_source, document: article.document)
 
       assert_extraction_contains <<-EOT
-#{source.url},https://www.preview.alphagov.co.uk/government/consultations/consultation-title,301,consultation-title,https://whitehall-admin.test.alphagov.co.uk/government/admin/consultations/#{article.id},published
+#{source.url},https://www.test.alphagov.co.uk/government/consultations/consultation-title,301,consultation-title,https://whitehall-admin.test.alphagov.co.uk/government/admin/consultations/#{article.id},published
       EOT
     end
 
@@ -53,9 +53,9 @@ Old Url,New Url,Status,Slug,Admin Url,State
       organisation = Organisation.last
       assert_extraction <<-EOT
 Old Url,New Url,Status,Slug,Admin Url,State
-"",https://www.preview.alphagov.co.uk/government/organisations/#{organisation.slug},"","",https://whitehall-admin.test.alphagov.co.uk/government/admin/organisations/#{organisation.slug},""
-"",https://www.preview.alphagov.co.uk/government/organisations/#{organisation.slug},"","",https://whitehall-admin.test.alphagov.co.uk/government/admin/organisations/#{organisation.slug}/edit,""
-"",https://www.preview.alphagov.co.uk/government/organisations/#{organisation.slug}/about/publication-scheme,"","",https://whitehall-admin.test.alphagov.co.uk/government/admin/organisations/#{organisation.slug}/corporate_information_pages/publication-scheme/edit,""
+"",https://www.test.alphagov.co.uk/government/organisations/#{organisation.slug},"","",https://whitehall-admin.test.alphagov.co.uk/government/admin/organisations/#{organisation.slug},""
+"",https://www.test.alphagov.co.uk/government/organisations/#{organisation.slug},"","",https://whitehall-admin.test.alphagov.co.uk/government/admin/organisations/#{organisation.slug}/edit,""
+"",https://www.test.alphagov.co.uk/government/organisations/#{organisation.slug}/about/publication-scheme,"","",https://whitehall-admin.test.alphagov.co.uk/government/admin/organisations/#{organisation.slug}/corporate_information_pages/publication-scheme/edit,""
       EOT
     end
 
@@ -63,9 +63,9 @@ Old Url,New Url,Status,Slug,Admin Url,State
       supporting_page = create(:supporting_page)
       edition = supporting_page.edition
       assert_extraction_contains <<-EOT
-"",https://www.preview.alphagov.co.uk/government/policies/#{edition.slug},418,#{edition.slug},https://whitehall-admin.test.alphagov.co.uk/government/admin/policies/#{edition.id},draft
-"",https://www.preview.alphagov.co.uk/government/policies/#{edition.slug}/supporting-pages/#{supporting_page.slug},"","",https://whitehall-admin.test.alphagov.co.uk/government/admin/editions/#{supporting_page.edition_id}/supporting-pages/#{supporting_page.id},""
-"",https://www.preview.alphagov.co.uk/government/policies/#{edition.slug}/supporting-pages/#{supporting_page.slug},"","",https://whitehall-admin.test.alphagov.co.uk/government/admin/editions/#{supporting_page.edition_id}/supporting-pages/#{supporting_page.id}/edit,""
+"",https://www.test.alphagov.co.uk/government/policies/#{edition.slug},418,#{edition.slug},https://whitehall-admin.test.alphagov.co.uk/government/admin/policies/#{edition.id},draft
+"",https://www.test.alphagov.co.uk/government/policies/#{edition.slug}/supporting-pages/#{supporting_page.slug},"","",https://whitehall-admin.test.alphagov.co.uk/government/admin/editions/#{supporting_page.edition_id}/supporting-pages/#{supporting_page.id},""
+"",https://www.test.alphagov.co.uk/government/policies/#{edition.slug}/supporting-pages/#{supporting_page.slug},"","",https://whitehall-admin.test.alphagov.co.uk/government/admin/editions/#{supporting_page.edition_id}/supporting-pages/#{supporting_page.id}/edit,""
       EOT
     end
 
@@ -94,7 +94,7 @@ Old Url,New Url,Status,Slug,Admin Url,State
     private
 
     def news_article_url(article)
-      Rails.application.routes.url_helpers.news_article_url(article.slug, host: "www.preview.alphagov.co.uk", protocol: 'https')
+      Rails.application.routes.url_helpers.news_article_url(article.slug, host: "www.test.alphagov.co.uk", protocol: 'https')
     end
 
     def news_article_admin_url(article)

@@ -9,6 +9,6 @@ class PublicationFilterJsonPresenterTest < PresenterTestCase
 
   test 'json provides the atom feed url' do
     json = JSON.parse(PublicationFilterJsonPresenter.new(@filter).to_json)
-    assert_equal "http://test.host/government/publications.atom", json['atom_feed_url']
+    assert_equal "http://www.test.alphagov.co.uk/government/publications.atom", json['atom_feed_url']
   end
 end

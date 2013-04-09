@@ -32,6 +32,7 @@ class ActiveSupport::TestCase
     Whitehall.search_backend = Whitehall::DocumentFilter::FakeSearch
     ImageSizeChecker.any_instance.stubs(:size_is?).returns true
     Edition::GovUkDelivery::Notifier.any_instance.stubs(:notify)
+    Whitehall.stubs(:public_host).returns 'www.test.alphagov.co.uk'
   end
 
   teardown do

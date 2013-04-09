@@ -21,7 +21,7 @@ class Whitehall::Exporters::DocumentMappings < Struct.new(:platform)
   end
 
   def host_name
-    platform == 'production' ? 'www.gov.uk' : 'www.preview.alphagov.co.uk'
+    Whitehall.public_host
   end
 
   def edition_values(edition, document, document_source=nil)

@@ -25,7 +25,7 @@ module ApplicationHelper
   end
 
   def filter_atom_feed_url
-    url_for(params.except(:utf8, :_, :date, :direction, :page).merge(format: "atom", only_path: false))
+    url_for(params.except(:utf8, :_, :date, :direction, :page).merge(format: "atom", only_path: false, host: Whitehall.public_host))
   end
 
   def filter_json_url(args={})

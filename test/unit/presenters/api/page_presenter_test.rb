@@ -18,7 +18,7 @@ class Api::PagePresenterTest < PresenterTestCase
 
   test "json includes next page url if next page available" do
     @page.stubs(:last_page?).returns(false)
-    assert_equal api_detailed_guides_url(page: 3), @presenter.as_json[:next_page_url]
+    assert_equal api_detailed_guides_url(page: 3, host: Whitehall.public_host), @presenter.as_json[:next_page_url]
   end
 
   test "json excludes next page url if no next page" do
@@ -28,7 +28,7 @@ class Api::PagePresenterTest < PresenterTestCase
 
   test "json includes previous page url if next page available" do
     @page.stubs(:first_page?).returns(false)
-    assert_equal api_detailed_guides_url(page: 1), @presenter.as_json[:previous_page_url]
+    assert_equal api_detailed_guides_url(page: 1, host: Whitehall.public_host), @presenter.as_json[:previous_page_url]
   end
 
   test "json excludes previous page url if no next page" do
@@ -62,7 +62,7 @@ class Api::PagePresenterTest < PresenterTestCase
     self_link = @presenter.links.detect {|(url, attrs)| attrs['rel'] == 'self' }
     assert self_link
     self_url, _ = *self_link
-    assert_equal api_detailed_guides_url(page: 2), self_url
+    assert_equal api_detailed_guides_url(page: 2, host: Whitehall.public_host), self_url
   end
 
   test 'links include a rel=next url pointing to the next page if it has a next page' do
@@ -70,7 +70,7 @@ class Api::PagePresenterTest < PresenterTestCase
     next_link = @presenter.links.detect {|(url, attrs)| attrs['rel'] == 'next'}
     assert next_link
     next_url, _ = *next_link
-    assert_equal api_detailed_guides_url(page: 3), next_url
+    assert_equal api_detailed_guides_url(page: 3, host: Whitehall.public_host), next_url
   end
 
   test 'links do not include a rel=next url if it is the last page' do
@@ -84,7 +84,7 @@ class Api::PagePresenterTest < PresenterTestCase
     previous_link = @presenter.links.detect {|(url, attrs)| attrs['rel'] == 'previous'}
     assert previous_link
     previous_url, _ = *previous_link
-    assert_equal api_detailed_guides_url(page: 1), previous_url
+    assert_equal api_detailed_guides_url(page: 1, host: Whitehall.public_host), previous_url
   end
 
   test 'links do not include a rel=previous url if it is the first page' do
