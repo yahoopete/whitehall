@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130423150642) do
+ActiveRecord::Schema.define(:version => 20130425152818) do
 
   create_table "access_and_opening_times", :force => true do |t|
     t.text     "body"
@@ -628,6 +628,29 @@ ActiveRecord::Schema.define(:version => 20130423150642) do
 
   add_index "historical_accounts", ["person_id"], :name => "index_historical_accounts_on_person_id"
   add_index "historical_accounts", ["political_party_id"], :name => "index_historical_accounts_on_political_party_id"
+
+  create_table "home_page_list_items", :force => true do |t|
+    t.integer  "home_page_list_id", :null => false
+    t.integer  "item_id",           :null => false
+    t.string   "item_type",         :null => false
+    t.integer  "ordering"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "home_page_list_items", ["home_page_list_id", "ordering"], :name => "index_home_page_list_items_on_home_page_list_id_and_ordering"
+  add_index "home_page_list_items", ["home_page_list_id"], :name => "index_home_page_list_items_on_home_page_list_id"
+  add_index "home_page_list_items", ["item_id", "item_type"], :name => "index_home_page_list_items_on_item_id_and_item_type"
+
+  create_table "home_page_lists", :force => true do |t|
+    t.integer  "owner_id",   :null => false
+    t.string   "owner_type", :null => false
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "home_page_lists", ["owner_id", "owner_type", "name"], :name => "index_home_page_lists_on_owner_id_and_owner_type_and_name", :unique => true
 
   create_table "html_versions", :force => true do |t|
     t.integer  "edition_id"
