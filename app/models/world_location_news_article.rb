@@ -29,4 +29,8 @@ class WorldLocationNewsArticle < Newsesque
   def display_type_key
     'news_article'
   end
+
+  def available_in_multiple_languages?
+    translated_locales.length > 1
+  end
 end

@@ -26,4 +26,8 @@ module Edition::Translatable
   def translatable?
     false
   end
+
+  def primary_locale
+    available_in_locale?(I18n.default_locale) ? I18n.default_locale : translations.first.locale
+  end
 end

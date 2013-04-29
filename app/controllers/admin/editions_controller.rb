@@ -131,7 +131,7 @@ class Admin::EditionsController < Admin::BaseController
   end
 
   def find_edition
-    @edition = edition_class.find(params[:id])
+    @edition = LocalisedEdition.find(params[:id])
   end
 
   def extract_edition_information_from_errors

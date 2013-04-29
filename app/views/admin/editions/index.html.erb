@@ -31,11 +31,14 @@
               <td colspan="5">No documents have been found.</td>
             </tr>
           <% end %>
-          <% @filter.editions.each do |edition| %>
+          <% @filter.editions.collect { |edition| LocalisedEdition.new(edition) }.each do |edition| %>
             <%= content_tag_for(:tr, edition, class: ('force_published' if edition.force_published?)) do %>
               <td class="type"><%= edition.type.titleize %></td>
               <td class="title">
-                <span class="title"><%= link_to edition.title, admin_edition_path(edition), title: "View document #{edition.title}" %></span>
+                <span class="title">
+                  <%= link_to edition.title, admin_edition_path(edition), title: "View document #{edition.title}" %>
+                  <%= "[#{edition.primary_locale}]" if edition.primary_locale != I18n.default_locale %>
+                </span>
                 <% if edition.force_published? %>
                   <span class="force_published label label-important">not reviewed</span>
                 <% end %>
